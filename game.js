@@ -3,7 +3,7 @@
 // Jan 2015
 
 // TODO expert mode where you can color the ship outside the lines
-
+// TODO get rid of address bar in browser on mobile devices
 
 // the base width and height of game that graphics are designed for (pre-resizing for android screens)
 var BASE_WIDTH = 960;

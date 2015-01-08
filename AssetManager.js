@@ -82,6 +82,10 @@ var AssetManager = function() {
         return sprite;
     };
 
+	this.getSpriteSheet = function(id) {
+		return spriteSheets[id];
+	};
+
     this.getProgress = function() {
         return (counter/total);
     };
