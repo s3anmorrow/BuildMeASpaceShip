@@ -2,9 +2,17 @@
 // Sean Morrow
 // Jan 2015
 
-// mobile canvas resizing variables
-var WIDTH = 960;
-var HEIGHT = 640;
+// TODO expert mode where you can color the ship outside the lines
+
+
+// the base width and height of game that graphics are designed for (pre-resizing for android screens)
+var BASE_WIDTH = 960;
+var BASE_HEIGHT = 640;
+var scaleRatio = 1;
+// am I running on a mobile device?
+var mobile = false;
+
+
 /*
 var RATIO = 0;
 var currentWidth = 0;
@@ -20,10 +28,10 @@ var canvas = null;
 var gameContainer = null;
 
 // frame rate of game
-var frameRate = 24;
+var frameRate = 60;
 
 // game objects
-var colorScreen = null;
+var coloringStage = null;
 var assetManager = null;
 
 // ------------------------------------------------------------ event handlers
@@ -33,11 +41,8 @@ function onInit() {
 
     // is a touch screen supported?
     if (createjs.Touch.isSupported()) {
-
-        console.log("getting in here!");
-
         createjs.Touch.enable(stage);
-        //mobile = true;
+        mobile = true;
     }
 
 
@@ -54,15 +59,13 @@ function onInit() {
     android = ua.indexOf("android") > -1 ? true : false;
     ios = ( ua.indexOf("iphone") > -1 || ua.indexOf("ipad") > -1  ) ? true : false;
     */
-    window.addEventListener("resize", onResize);
-
 
 	// get reference to canvas
 	canvas = document.getElementById("stage");
 
     // set canvas to as wide/high as the browser window
-	canvas.width = WIDTH;
-	canvas.height = HEIGHT;
+	canvas.width = BASE_WIDTH;
+	canvas.height = BASE_HEIGHT;
 
 	// create stage object
     stage = new createjs.Stage(canvas);
@@ -79,7 +82,7 @@ function onInit() {
     // load the assets
 	assetManager.loadAssets(manifest);
 
-
+    // initial resize of app to adjust for device screen size
     onResize();
 }
 
@@ -103,19 +106,17 @@ function onResize(e) {
     */
 
     // set the new canvas style width and height
-    // note: our canvas is still 320 x 480, but
+    // our canvas is still 320 x 480, but
     // we're essentially scaling it with CSS
     canvas.width = currentWidth;
     canvas.height = currentHeight;
 
 
     // Determine scale ratio
-    var widthRatio = canvas.width / WIDTH;
-    var heightRatio = canvas.height / HEIGHT;
+    var widthRatio = canvas.width / BASE_WIDTH;
+    var heightRatio = canvas.height / BASE_HEIGHT;
     // Use Math.min to constrain to the stage
-    var scaleRatio = Math.max(widthRatio,heightRatio);
-
-    console.log("scaleRatio: " + scaleRatio);
+    scaleRatio = Math.max(widthRatio, heightRatio);
 
     gameContainer.scaleX = gameContainer.scaleY = scaleRatio;
 
@@ -136,7 +137,7 @@ function onSetup(e) {
 	stage.removeEventListener("onAllAssetsLoaded", onSetup);
 
 
-    colorScreen = new ColorScreen(assetManager, gameContainer);
+    coloringStage = new ColoringStage(assetManager, gameContainer);
 
 
 
@@ -152,6 +153,10 @@ function onSetup(e) {
     // startup the ticker
     createjs.Ticker.setFPS(frameRate);
     createjs.Ticker.addEventListener("tick", onTick);
+
+
+    window.addEventListener("resize", onResize);
+
 
     console.log(">> game ready");
 }
