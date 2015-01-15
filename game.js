@@ -28,7 +28,7 @@ var canvas = null;
 var gameContainer = null;
 
 // frame rate of game
-var frameRate = 60;
+var frameRate = 30;
 
 // game objects
 var coloringStage = null;

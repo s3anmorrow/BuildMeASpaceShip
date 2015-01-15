@@ -15,9 +15,38 @@ var ColoringStage = function(assetManager, gameContainer) {
     // cache it (stores it as a seperate canvas)
     coloring.cache(0, 0, canvas.width, canvas.height);
     var spaceShip = assetManager.getSprite("assets");
-    spaceShip.gotoAndStop("outline");
+    spaceShip.gotoAndStop("spaceship");
+
+
+
+    // ATTEMPT IV
+    // http://community.createjs.com/discussions/easeljs/494-composite-operation-on-one-layer-knopckout-mask-as-example
+    // http://www.html5canvastutorials.com/advanced/html5-canvas-global-composite-operations-tutorial/
+    spaceShip.compositeOperation = "destination-atop";
+    spaceShip.cache(0, 0, canvas.width, canvas.height);
+
+
+
+    /*
+    // ATTEMPT III - NOT WORKING
+    // http://community.createjs.com/discussions/easeljs/584-alphamapfilter-using-alpha-png-image-to-mask-jpg
+    var mask = assetManager.getSprite("assets");
+    mask.gotoAndStop("outline");
+    var amf = new createjs.AlphaMaskFilter(mask);
+    screen.filters = [amf];
+    */
+
+    /*
+    // ATTEMPT II - WORKING BUT CUMBERSOME
+    var testy = new createjs.Shape();
+    testy.graphics.drawCircle(100, 100, 100);
+    coloring.mask = testy;
+    */
+
     screen.addChild(coloring);
     screen.addChild(spaceShip);
+
+    //screen.addChild(mask);
 
     // add screen to gameContainer for display
     gameContainer.addChild(screen);
@@ -41,6 +70,16 @@ var ColoringStage = function(assetManager, gameContainer) {
     function paintMe(e) {
         // prevents game scrolling or anything dumb
         e.preventDefault();
+
+
+        /*
+        // ATTEMPT I - WORKING BUT NOT EXACT
+        // only draw if pointer is overtop of spaceShip
+        var point = spaceShip.globalToLocal(e.touches[0].pageX, e.touches[0].pageY);
+        console.log("collision? " + spaceShip.hitTest(point.x, point.y));
+        if (!spaceShip.hitTest(point.x, point.y)) return;
+        */
+
 
         // place paint drop
         coloring.graphics.beginFill(brushColor);
