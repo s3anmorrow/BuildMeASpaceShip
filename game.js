@@ -42,19 +42,6 @@ var assetManager = null;
 function onInit() {
 	console.log(">> initializing");
 
-
-    // is a touch screen supported?
-    if (createjs.Touch.isSupported()) {
-        createjs.Touch.enable(stage);
-        mobile = true;
-    }
-
-
-    /*
-    RATIO = WIDTH / HEIGHT;
-    currentWidth = WIDTH;
-    currentHeight = HEIGHT;
-    */
     // we need to sniff out Android and iOS
     // so that we can hide the address bar in
     // our resize function
@@ -66,13 +53,16 @@ function onInit() {
 
 	// get reference to canvas
 	canvas = document.getElementById("stage");
-
-    // set canvas to as wide/high as the browser window
-	canvas.width = BASE_WIDTH;
-	canvas.height = BASE_HEIGHT;
-
 	// create stage object
     stage = new createjs.Stage(canvas);
+    stage.enableMouseOver(10);
+
+    // is a touch screen supported?
+    if (createjs.Touch.isSupported()) {
+        console.log(">> mobile device detected");
+        createjs.Touch.enable(stage);
+        mobile = true;
+    }
 
 
     gameContainer = new createjs.Container();
@@ -91,39 +81,32 @@ function onInit() {
 }
 
 function onResize(e) {
-    currentWidth = window.innerWidth;
-    currentHeight = window.innerHeight;
+    var w = window.innerWidth;
+    var h = window.innerHeight;
 
-    /*
-    // resize the width in proportion
-    // to the new height
-    currentWidth = currentHeight * RATIO;
-    */
+    var bestFit = false;
 
-    /*
-    // this will create some extra space on the
-    // page, allowing us to scroll past
-    // the address bar, thus hiding it.
-    if (android || ios) {
-        document.body.style.height = (window.innerHeight + 50) + "px";
+    // !!!!!!!!!!!!! probably drop this bestfit approach since it stretches things bad
+    if (bestFit) {
+        /*
+        // scale to exact fit
+        stage.scaleX = w / BASE_WIDTH;
+        stage.scaleY = h / BASE_HEIGHT;
+
+        // adjust canvas size
+        stage.canvas.width = BASE_WIDTH * stage.scaleX;
+        stage.canvas.height = BASE_HEIGHT * stage.scaleY;
+        */
+    } else {
+        // keep aspect ratio
+        scaleRatio = Math.min(w / BASE_WIDTH, h / BASE_HEIGHT);
+        stage.scaleX = scaleRatio;
+        stage.scaleY = scaleRatio;
+
+        // adjust canvas size
+        canvas.width = BASE_WIDTH * scaleRatio;
+        canvas.height = BASE_HEIGHT * scaleRatio;
     }
-    */
-
-    // set the new canvas style width and height
-    // our canvas is still 320 x 480, but
-    // we're essentially scaling it with CSS
-    canvas.width = currentWidth;
-    canvas.height = currentHeight;
-
-
-    // Determine scale ratio
-    var widthRatio = canvas.width / BASE_WIDTH;
-    var heightRatio = canvas.height / BASE_HEIGHT;
-    // Use Math.min to constrain to the stage
-    scaleRatio = Math.max(widthRatio, heightRatio);
-
-    gameContainer.scaleX = gameContainer.scaleY = scaleRatio;
-
 
     /*
     // we use a timeout here because some mobile

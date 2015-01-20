@@ -1,9 +1,0 @@
-{
-    "jscodehints.detectedExclusions": [
-        "C:/~ WORKSPACE/~ working/mobile kids game/~ assets/EaselJS-master/EaselJS-master/_assets/libs/tweenjs-NEXT.min.js",
-        "C:/~ WORKSPACE/~ working/mobile kids game/~ assets/EaselJS-master/EaselJS-master/_assets/libs/soundjs-NEXT.min.js",
-        "C:/~ WORKSPACE/~ working/mobile kids game/~ assets/EaselJS-master/EaselJS-master/src/easeljs/geom/DisplayProps.js",
-        "C:/~ WORKSPACE/~ working/mobile kids game/ColoringStage.js",
-        "C:/~ WORKSPACE/~ working/mobile kids game/~ assets/EaselJS-master/EaselJS-master/_assets/libs/preloadjs-NEXT.min.js"
-    ]
-}
