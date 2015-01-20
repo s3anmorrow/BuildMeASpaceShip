@@ -1,7 +1,7 @@
 var AssemblyStage = function(assetManager, root) {
 
-    // the current part being colored
-    var currentPart = null;
+    // event to be dispatched when this stage is complete
+    //var completeEvent = new createjs.Event("onChooseComplete", true);
 
     // size of brush for coloring spaceship
     var brushSize = 30;
@@ -11,9 +11,6 @@ var AssemblyStage = function(assetManager, root) {
     var curPoint = new createjs.Point();
     // the x,y position of the last touch on the screen
     var lastPoint = new createjs.Point();
-
-    // event to be dispatched when this stage is complete
-    //var completeEvent = new createjs.Event("onChooseComplete", true);
 
     // master container for this stage's screen
     var screen = new createjs.Container();
@@ -26,38 +23,44 @@ var AssemblyStage = function(assetManager, root) {
     // container to contain whole spaceship (coloring and all)
     var spaceShip = new createjs.Container();
 
-    // setup body spaceship part
-    // shape for coloring on - cache for fast rendering
-    var coloringCanvas = new createjs.Shape();
-    // sprite of spaceship part we color
-    var part1 = assetManager.getSprite("assets");
-    part1.gotoAndStop("body");
-    part1.x = 50;
-    part1.y = 30;
-
-    var part2 = assetManager.getSprite("assets");
-    part2.gotoAndStop("wings");
-    part2.x = 10;
-    part2.y = 200;
-
-    var part3 = assetManager.getSprite("assets");
-    part3.gotoAndStop("tail");
-    part3.x = 10;
-    part3.y = 300;
-
-
-    spaceShip.addChild(coloringCanvas);
-    spaceShip.addChild(part1);
-    //spaceShip.addChild(part2);
-    //spaceShip.addChild(part3);
-
+    // setup spaceship part with shape for coloring and sprite for coloring on
+    var part1 = {};
+    part1.colorCanvas = new createjs.Shape();
+    part1.sprite = assetManager.getSprite("assets");
+    part1.sprite.gotoAndStop("body");
+    part1.sprite.x = 50;
+    part1.sprite.y = 30;
     // setting composite so we can ONLY color current spaceship part
-    // http://community.createjs.com/discussions/easeljs/494-composite-operation-on-one-layer-knopckout-mask-as-example
-    part1.compositeOperation = "destination-atop";
+    part1.sprite.compositeOperation = "destination-atop";
+
+    var part2 = {};
+    part2.colorCanvas = new createjs.Shape();
+    part2.sprite = assetManager.getSprite("assets");
+    part2.sprite.gotoAndStop("wings");
+    part2.sprite.x = 10;
+    part2.sprite.y = 200;
+    //part2.sprite.compositeOperation = "destination-atop";
+
+    var part3 = {};
+    part3.colorCanvas = new createjs.Shape();
+    part3.sprite = assetManager.getSprite("assets");
+    part3.sprite.gotoAndStop("tail");
+    part3.sprite.x = 10;
+    part3.sprite.y = 300;
+    //part3.sprite.compositeOperation = "destination-atop";
+
+    spaceShip.addChild(part1.colorCanvas);
+    spaceShip.addChild(part1.sprite);
+    spaceShip.addChild(part2.colorCanvas);
+    spaceShip.addChild(part2.sprite);
+    spaceShip.addChild(part3.colorCanvas);
+    spaceShip.addChild(part3.sprite);
 
     // !!!!!!!!!!!!!!!!!!! change caching to only be the size of the spaceship
     // cache coloring container and master container
-    coloringCanvas.cache(0, 0, canvas.width / scaleRatio, canvas.height / scaleRatio);
+    part1.colorCanvas.cache(0, 0, canvas.width / scaleRatio, canvas.height / scaleRatio);
+    part2.colorCanvas.cache(0, 0, canvas.width / scaleRatio, canvas.height / scaleRatio);
+    part3.colorCanvas.cache(0, 0, canvas.width / scaleRatio, canvas.height / scaleRatio);
     spaceShip.cache(0, 0, canvas.width / scaleRatio, canvas.height / scaleRatio);
     // add to screen
     screen.addChild(spaceShip);
@@ -67,70 +70,77 @@ var AssemblyStage = function(assetManager, root) {
     screen.addChild(spriteContainer);
     */
 
+    // parts queue
+    var partsQueue = [part1, part2, part3];
+    // the current part being colored
+    var currentPart = part1;
+
 
 
 
     // setup paint selection buttons
     var btnRed = assetManager.getSprite("assets");
-    btnRed.gotoAndStop("redPaint");
-    btnRed.x = 300;
+    btnRed.gotoAndStop("btnRedDown");
+    btnRed.x = 400;
     btnRed.y = 50;
     btnRed.color = "#990000";
-    btnRed.upframe = btnRed.currentFrame;
-    btnRed.overframe = btnRed.currentFrame + 1;
-    btnRed.gotoAndStop(btnRed.overframe);
+    btnRed.label = "btnRed";
     btnRed.addEventListener("click", onChangeColor);
     screen.addChild(btnRed);
 
     var btnGreen = assetManager.getSprite("assets");
-    btnGreen.gotoAndStop("greenPaint");
-    btnGreen.x = 300;
+    btnGreen.gotoAndStop("btnGreenUp");
+    btnGreen.x = 400;
     btnGreen.y = 110;
     btnGreen.color = "#006600";
-    btnGreen.upframe = btnGreen.currentFrame;
-    btnGreen.overframe = btnGreen.currentFrame + 1;
+    btnGreen.label = "btnGreen";
     btnGreen.addEventListener("click", onChangeColor);
     screen.addChild(btnGreen);
 
     var btnYellow = assetManager.getSprite("assets");
-    btnYellow.gotoAndStop("yellowPaint");
-    btnYellow.x = 300;
+    btnYellow.gotoAndStop("btnYellowUp");
+    btnYellow.x = 400;
     btnYellow.y = 170;
     btnYellow.color = "#FFCC00";
-    btnYellow.upframe = btnYellow.currentFrame;
-    btnYellow.overframe = btnYellow.currentFrame + 1;
+    btnYellow.label = "btnYellow";
     btnYellow.addEventListener("click", onChangeColor);
     screen.addChild(btnYellow);
 
     var btnBlue = assetManager.getSprite("assets");
-    btnBlue.gotoAndStop("bluePaint");
-    btnBlue.x = 300;
+    btnBlue.gotoAndStop("btnBlueUp");
+    btnBlue.x = 400;
     btnBlue.y = 230;
     btnBlue.color = "#003366";
-    btnBlue.upframe = btnBlue.currentFrame;
-    btnBlue.overframe = btnBlue.currentFrame + 1;
+    btnBlue.label = "btnBlue";
     btnBlue.addEventListener("click", onChangeColor);
     screen.addChild(btnBlue);
 
     var btnPurple = assetManager.getSprite("assets");
-    btnPurple.gotoAndStop("purplePaint");
-    btnPurple.x = 300;
+    btnPurple.gotoAndStop("btnPurpleUp");
+    btnPurple.x = 400;
     btnPurple.y = 290;
     btnPurple.color = "#663399";
-    btnPurple.upframe = btnPurple.currentFrame;
-    btnPurple.overframe = btnPurple.currentFrame + 1;
+    btnPurple.label = "btnPurple";
     btnPurple.addEventListener("click", onChangeColor);
     screen.addChild(btnPurple);
 
     var btnOrange = assetManager.getSprite("assets");
-    btnOrange.gotoAndStop("orangePaint");
-    btnOrange.x = 300;
+    btnOrange.gotoAndStop("btnOrangeUp");
+    btnOrange.x = 400;
     btnOrange.y = 350;
     btnOrange.color = "#CC6600";
-    btnOrange.upframe = btnOrange.currentFrame;
-    btnOrange.overframe = btnOrange.currentFrame + 1;
+    btnOrange.label = "btnOrange";
     btnOrange.addEventListener("click", onChangeColor);
     screen.addChild(btnOrange);
+
+    // add ok button
+    var btnFinished = assetManager.getSprite("assets");
+    btnFinished.gotoAndStop("btnOkUp");
+    btnFinished.x = 400;
+    btnFinished.y = 420;
+    btnFinished.addEventListener("mousedown", onFinished);
+    btnFinished.addEventListener("click", onFinished);
+    screen.addChild(btnFinished);
 
 
 
@@ -168,18 +178,18 @@ var AssemblyStage = function(assetManager, root) {
         */
 
         // draw line onto colorLayer
-        coloringCanvas.graphics.setStrokeStyle(brushSize, "round", "round");
-        coloringCanvas.graphics.beginStroke(brushColor);
-        coloringCanvas.graphics.moveTo(lastPoint.x, lastPoint.y);
-        coloringCanvas.graphics.lineTo(curPoint.x, curPoint.y);
+        currentPart.colorCanvas.graphics.setStrokeStyle(brushSize, "round", "round");
+        currentPart.colorCanvas.graphics.beginStroke(brushColor);
+        currentPart.colorCanvas.graphics.moveTo(lastPoint.x, lastPoint.y);
+        currentPart.colorCanvas.graphics.lineTo(curPoint.x, curPoint.y);
         // store current X,Y
         lastPoint.x = curPoint.x;
         lastPoint.y = curPoint.y;
 
         // draw the new vector onto the existing cache, compositing it with the "source-overlay" composite operation:
-		coloringCanvas.updateCache("source-overlay");
+		currentPart.colorCanvas.updateCache("source-overlay");
         // because the vector paint drop has been drawn to the cache clear it out
-		coloringCanvas.graphics.clear();
+		currentPart.colorCanvas.graphics.clear();
         // update cache whole spaceShip container so that composite (can only color on spaceship part) works
         spaceShip.updateCache("source-overlay");
     }
@@ -193,13 +203,13 @@ var AssemblyStage = function(assetManager, root) {
         // set brush color and adjust button
         brushColor = e.target.color;
         // reset all buttons and set target
-        btnRed.gotoAndStop(btnRed.upframe);
-        btnGreen.gotoAndStop(btnGreen.upframe);
-        btnYellow.gotoAndStop(btnYellow.upframe);
-        btnBlue.gotoAndStop(btnBlue.upframe);
-        btnPurple.gotoAndStop(btnPurple.upframe);
-        btnOrange.gotoAndStop(btnOrange.upframe);
-        e.target.gotoAndStop(e.target.overframe);
+        btnRed.gotoAndStop(btnRed.label + "Up");
+        btnGreen.gotoAndStop(btnGreen.label + "Up");
+        btnYellow.gotoAndStop(btnYellow.label + "Up");
+        btnBlue.gotoAndStop(btnBlue.label + "Up");
+        btnPurple.gotoAndStop(btnPurple.label + "Up");
+        btnOrange.gotoAndStop(btnOrange.label + "Up");
+        e.target.gotoAndStop(e.target.label + "Down");
     }
 
     function onStartColoring(e) {
@@ -219,5 +229,24 @@ var AssemblyStage = function(assetManager, root) {
     function onColoring(e) {
         paintMe(e);
     }
+
+    function onFinished(e) {
+        console.log("e type: " + e.type);
+
+        if (e.type === "mousedown") {
+            btnFinished.gotoAndStop("btnOkDown");
+        } else {
+            btnFinished.gotoAndStop("btnOkUp");
+
+            //currentPart.sprite.compositeOperation = "source-over";
+            currentPart = part2;
+            currentPart.sprite.compositeOperation = "destination-atop";
+
+
+
+
+        }
+    }
+
 
 };
