@@ -29,7 +29,7 @@ var ios = false;
 var stage = null;
 var canvas = null;
 // the main container for the game - is resized to device android screen resolutions
-var gameContainer = null;
+var root = null;
 
 // frame rate of game
 var frameRate = 30;
@@ -64,9 +64,9 @@ function onInit() {
         mobile = true;
     }
 
-
-    gameContainer = new createjs.Container();
-    stage.addChild(gameContainer);
+    // construct root container - this one is scaled to fit mobile device screen
+    root = new createjs.Container();
+    stage.addChild(root);
 
 
 
@@ -85,9 +85,8 @@ function onResize(e) {
     var h = window.innerHeight;
 
     var bestFit = false;
-
-    // !!!!!!!!!!!!! probably drop this bestfit approach since it stretches things bad
     if (bestFit) {
+        // !!!!!!!!!!!!! probably drop this bestfit approach since it stretches things bad
         /*
         // scale to exact fit
         stage.scaleX = w / BASE_WIDTH;
@@ -124,7 +123,7 @@ function onSetup(e) {
 	stage.removeEventListener("onAllAssetsLoaded", onSetup);
 
 
-    assemblyStage = new AssemblyStage(assetManager, gameContainer);
+    assemblyStage = new AssemblyStage(assetManager, root);
 
 
 
