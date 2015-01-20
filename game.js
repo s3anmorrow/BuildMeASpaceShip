@@ -4,6 +4,7 @@
 
 // TODO expert mode where you can color the ship outside the lines
 // TODO get rid of address bar in browser on mobile devices
+// TODO build system so that stage.update() only happens when it needs to be
 
 // the base width and height of game that graphics are designed for (pre-resizing for android screens)
 var BASE_WIDTH = 960;
@@ -11,6 +12,9 @@ var BASE_HEIGHT = 640;
 var scaleRatio = 1;
 // am I running on a mobile device?
 var mobile = false;
+
+// flag to mark a stage update is needed
+var stageUpdateReq = true;
 
 
 /*
@@ -31,7 +35,7 @@ var gameContainer = null;
 var frameRate = 30;
 
 // game objects
-var coloringStage = null;
+var assemblyStage = null;
 var assetManager = null;
 
 // ------------------------------------------------------------ event handlers
@@ -137,7 +141,7 @@ function onSetup(e) {
 	stage.removeEventListener("onAllAssetsLoaded", onSetup);
 
 
-    coloringStage = new ColoringStage(assetManager, gameContainer);
+    assemblyStage = new AssemblyStage(assetManager, gameContainer);
 
 
 
@@ -171,7 +175,10 @@ function onTick(e) {
 
 
 
-
-    // update the stage!
-	stage.update();
+    if (stageUpdateReq) {
+        // update the stage!
+        stage.update();
+        // reset flag till next update required
+        //stageUpdateReq = false;
+    }
 }
