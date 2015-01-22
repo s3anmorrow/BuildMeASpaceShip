@@ -1,4 +1,4 @@
-// Space Kids Game
+// Build me a Space Ship!
 // Sean Morrow
 // Jan 2015
 
@@ -35,6 +35,7 @@ var root = null;
 var frameRate = 30;
 
 // game objects
+var colorStage = null;
 var assemblyStage = null;
 var assetManager = null;
 
@@ -84,10 +85,9 @@ function onResize(e) {
     var w = window.innerWidth;
     var h = window.innerHeight;
 
-    var bestFit = false;
+    var bestFit = true;
     if (bestFit) {
         // !!!!!!!!!!!!! probably drop this bestfit approach since it stretches things bad
-        /*
         // scale to exact fit
         stage.scaleX = w / BASE_WIDTH;
         stage.scaleY = h / BASE_HEIGHT;
@@ -95,7 +95,6 @@ function onResize(e) {
         // adjust canvas size
         stage.canvas.width = BASE_WIDTH * stage.scaleX;
         stage.canvas.height = BASE_HEIGHT * stage.scaleY;
-        */
     } else {
         // keep aspect ratio
         scaleRatio = Math.min(w / BASE_WIDTH, h / BASE_HEIGHT);
@@ -123,7 +122,9 @@ function onSetup(e) {
 	stage.removeEventListener("onAllAssetsLoaded", onSetup);
 
 
-    assemblyStage = new AssemblyStage(assetManager, root);
+    assemblyStage = new AssemblyStage();
+    assemblyStage.showMe();
+    //colorStage = new ColorStage();
 
 
 
