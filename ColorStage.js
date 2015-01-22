@@ -139,7 +139,7 @@ var ColorStage = function() {
     btnFinished.x = 400;
     btnFinished.y = 420;
     btnFinished.addEventListener("mousedown", onFinished);
-    btnFinished.addEventListener("click", onFinished);
+    btnFinished.addEventListener("pressup", onFinished);
     screen.addChild(btnFinished);
 
 
@@ -241,8 +241,6 @@ var ColorStage = function() {
 
         if (e.type === "mousedown") {
             btnFinished.gotoAndStop("btnOkDown");
-        } else {
-            btnFinished.gotoAndStop("btnOkUp");
 
             if (currentPart == part1) {
                 currentPart = part2;
@@ -254,10 +252,8 @@ var ColorStage = function() {
                 part1.sprite.alpha = 0.5;
                 part2.sprite.alpha = 0.5;
             }
-
-
-
-
+        } else {
+            btnFinished.gotoAndStop("btnOkUp");
         }
     }
 

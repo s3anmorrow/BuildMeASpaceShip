@@ -10,6 +10,23 @@ var AssemblyStage = function() {
     // private variables
     // the X location of touch to determine direction of swipe
     var downX = null;
+    // an array for the current parts user is selecting from
+    var partsOnTheLine = null;
+    // the array index of current part
+    var partIndex = 0;
+    // the index of the current assemblyLine (fuselages, wings, tail)
+    var assemblyLineIndex = 0;
+
+
+
+
+    // !!!!!!!!!!!!!!!!!!!!!!!! this will be need to be moved to a more global location (custom class?)
+    var spaceShip = new createjs.Container();
+    spaceShip.x = 400;
+    spaceShip.y = 50;
+    // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+
 
     // event to be dispatched when this stage is complete
     //var completeEvent = new createjs.Event("onChooseComplete", true);
@@ -23,64 +40,92 @@ var AssemblyStage = function() {
     background.cache(0, 0, background.getBounds().width, background.getBounds().height);
     screen.addChild(background);
 
-    var assemblyLine = new createjs.Container();
-    assemblyLine.x = 0;
-
-    var part1 = assetManager.getSprite("assets");
-    part1.gotoAndStop("fuselage1");
-    part1.x = 400;
-    part1.y = 50;
-    assemblyLine.addChild(part1);
-
-    var part2 = assetManager.getSprite("assets");
-    part2.gotoAndStop("fuselage2");
-    part2.x = 600;
-    part2.y = 50;
-    assemblyLine.addChild(part2);
-
-    var part3 = assetManager.getSprite("assets");
-    part3.gotoAndStop("fuselage3");
-    part3.x = 800;
-    part3.y = 50;
-    assemblyLine.addChild(part3);
-
-    var part4 = assetManager.getSprite("assets");
-    part4.gotoAndStop("fuselage4");
-    part4.x = 1000;
-    part4.y = 50;
-    assemblyLine.addChild(part4);
-
-    var part5 = assetManager.getSprite("assets");
-    part5.gotoAndStop("fuselage5");
-    part5.x = 1200;
-    part5.y = 50;
-    assemblyLine.addChild(part5);
-
-    partWidth = 200;
-
     var btnOk = assetManager.getSprite("assets");
     btnOk.gotoAndStop("btnOkUp");
-    btnOk.x = 440;
-    btnOk.y = 460;
+    btnOk.x = 435;
+    btnOk.y = 480;
     btnOk.addEventListener("mousedown", onOk);
-    btnOk.addEventListener("click", onOk);
+    btnOk.addEventListener("pressup", onOk);
     screen.addChild(btnOk);
 
+    // construct sprites of spaceship parts to add to assembly line later
+    var assemblyLine = new createjs.Container();
+
+    var spacer = 60;
+    var dropX = 0;
+    var fuselages = [];
+    for (var n=0; n<5; n++) {
+        fuselages[n] = assetManager.getSprite("assets");
+        fuselages[n].gotoAndStop("fuselage" + (n + 1));
+        fuselages[n].x = dropX;
+        fuselages[n].y = 50;
+        dropX += fuselages[n].getBounds().width + spacer;
+    }
+
+    dropX = 0;
+    var wings = [];
+    for (n=0; n<5; n++) {
+        wings[n] = assetManager.getSprite("assets");
+        wings[n].gotoAndStop("wings" + (n + 1));
+        wings[n].x = dropX;
+        wings[n].y = 50;
+        dropX += wings[n].getBounds().width + spacer;
+    }
+
+    dropX = 0;
+    var tails = [];
+    for (n=0; n<5; n++) {
+        tails[n] = assetManager.getSprite("assets");
+        tails[n].gotoAndStop("wings" + (n + 1));
+        tails[n].x = dropX;
+        tails[n].y = 75;
+        dropX += tails[n].getBounds().width + spacer;
+    }
+
+    // setup assemblyLine with current parts
+    assemblyLineSetup();
 
     screen.addChild(assemblyLine);
-
+    screen.addChild(spaceShip);
 
     // ------------------------------------------------- private methods
     function swipeLeft() {
-        var destX = assemblyLine.x - partWidth;
+        if (partIndex === 4) return;
+
+        partIndex++;
+        var destX = 400 - partsOnTheLine[partIndex].x;
         // tween to new X destination over 250ms
         createjs.Tween.get(assemblyLine).to({x:destX}, 250);
-
     }
 
     function swipeRight() {
-        var destX = assemblyLine.x + partWidth;
+        if (partIndex === 0) return;
+
+        partIndex--;
+        var destX = 400 - partsOnTheLine[partIndex].x;
         createjs.Tween.get(assemblyLine).to({x:destX}, 250);
+    }
+
+    function assemblyLineSetup() {
+        // assembly line resets
+        assemblyLine.removeAllChildren();
+        partIndex = 0;
+        assemblyLine.x = 400;
+
+        // current part to assemblyline for selection
+        if (assemblyLineIndex === 0) partsOnTheLine = fuselages;
+        else if (assemblyLineIndex === 1) partsOnTheLine = wings;
+        else if (assemblyLineIndex === 2) partsOnTheLine = tails;
+        else {
+            // stage is complete
+
+
+        }
+
+        // add new parts to assemblyLine
+        for (var n=0; n<5; n++) {
+            assemblyLine.addChild(partsOnTheLine[n]);
+        }
     }
 
 
@@ -100,6 +145,7 @@ var AssemblyStage = function() {
     this.hideMe = function(){
         background.removeEventListener("mousedown", onStartSwipe);
         background.removeEventListener("pressmove", onSwiping);
+
 
 
 
@@ -140,6 +186,22 @@ var AssemblyStage = function() {
 
         if (e.type === "mousedown") {
             btnOk.gotoAndStop("btnOkDown");
+
+
+
+            // add part to spaceShip container
+            var newPart = partsOnTheLine[partIndex];
+            newPart.x = 0;
+            newPart.y = 0;
+            spaceShip.addChild(newPart);
+
+
+
+            assemblyLineIndex++;
+            assemblyLineSetup();
+
+
+
         } else {
             btnOk.gotoAndStop("btnOkUp");
         }
