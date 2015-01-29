@@ -6,6 +6,10 @@ var AssemblyStage = function() {
     var assetManager = window.assetManager;
     var root = window.root;
     var scaleRatio = window.scaleRatio;
+    var spaceShip = window.spaceShip;
+
+    // event to be dispatched when this stage is complete
+    var completeEvent = new createjs.Event("onAssemblyComplete", true);
 
     // private variables
     // the X location of touch to determine direction of swipe
@@ -17,23 +21,21 @@ var AssemblyStage = function() {
     // the index of the current assemblyLine (fuselages, wings, tail)
     var assemblyLineIndex = 0;
 
-
-
-
     // !!!!!!!!!!!!!!!!!!!!!!!! this will be need to be moved to a more global location (custom class?)
-    var spaceShip = new createjs.Container();
+    // position your spaceship
     spaceShip.x = 400;
     spaceShip.y = 50;
     // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 
-
-    // event to be dispatched when this stage is complete
-    //var completeEvent = new createjs.Event("onChooseComplete", true);
-
     // master container for this stage's screen
     var screen = new createjs.Container();
     screen.snapToPixelEnabled = true;
+    var fadeBandRight = assetManager.getSprite("assets");
+    fadeBandRight.x = 930;
+    fadeBandRight.gotoAndStop("fadeBandRight");
+    var fadeBandLeft = assetManager.getSprite("assets");
+    fadeBandLeft.gotoAndStop("fadeBandLeft");
 
     var background = assetManager.getSprite("assets");
     background.gotoAndStop("assembly");
@@ -43,7 +45,7 @@ var AssemblyStage = function() {
     var btnOk = assetManager.getSprite("assets");
     btnOk.gotoAndStop("btnOkUp");
     btnOk.x = 435;
-    btnOk.y = 480;
+    btnOk.y = 530;
     btnOk.addEventListener("mousedown", onOk);
     btnOk.addEventListener("pressup", onOk);
     screen.addChild(btnOk);
@@ -76,7 +78,7 @@ var AssemblyStage = function() {
     var tails = [];
     for (n=0; n<5; n++) {
         tails[n] = assetManager.getSprite("assets");
-        tails[n].gotoAndStop("wings" + (n + 1));
+        tails[n].gotoAndStop("tail" + (n + 1));
         tails[n].x = dropX;
         tails[n].y = 75;
         dropX += tails[n].getBounds().width + spacer;
@@ -87,6 +89,8 @@ var AssemblyStage = function() {
 
     screen.addChild(assemblyLine);
     screen.addChild(spaceShip);
+    screen.addChild(fadeBandRight);
+    screen.addChild(fadeBandLeft);
 
     // ------------------------------------------------- private methods
     function swipeLeft() {
@@ -118,8 +122,7 @@ var AssemblyStage = function() {
         else if (assemblyLineIndex === 2) partsOnTheLine = tails;
         else {
             // stage is complete
-
-
+            screen.dispatchEvent(completeEvent);
         }
 
         // add new parts to assemblyLine
@@ -138,7 +141,6 @@ var AssemblyStage = function() {
 
 
 
-        // add screen to root for display
         root.addChild(screen);
     };
 
@@ -149,7 +151,7 @@ var AssemblyStage = function() {
 
 
 
-
+        root.removeChild(screen);
     };
 
 
@@ -187,20 +189,15 @@ var AssemblyStage = function() {
         if (e.type === "mousedown") {
             btnOk.gotoAndStop("btnOkDown");
 
-
-
-            // add part to spaceShip container
-            var newPart = partsOnTheLine[partIndex];
-            newPart.x = 0;
-            newPart.y = 0;
-            spaceShip.addChild(newPart);
-
-
-
+            if (assemblyLineIndex < 2) {
+                // add part to spaceShip container
+                var newPart = partsOnTheLine[partIndex];
+                newPart.x = 0;
+                newPart.y = 0;
+                spaceShip.addChildAt(newPart, 0);
+            }
             assemblyLineIndex++;
             assemblyLineSetup();
-
-
 
         } else {
             btnOk.gotoAndStop("btnOkUp");

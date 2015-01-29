@@ -3,10 +3,11 @@ var ColorStage = function() {
     var assetManager = window.assetManager;
     var root = window.root;
     var scaleRatio = window.scaleRatio;
+    //var spaceShip = window.spaceShip;
 
 
     // event to be dispatched when this stage is complete
-    //var completeEvent = new createjs.Event("onChooseComplete", true);
+    var completeEvent = new createjs.Event("onColorComplete", true);
 
     // size of brush for coloring spaceship
     var brushSize = 20;
@@ -27,12 +28,11 @@ var ColorStage = function() {
 
     // container to contain whole spaceship (coloring and all)
     var spaceShip = new createjs.Container();
-
     // setup spaceship part with shape for coloring and sprite for coloring on
     var part1 = {};
     part1.colorCanvas = new createjs.Shape();
     part1.sprite = assetManager.getSprite("assets");
-    part1.sprite.gotoAndStop("fuselage");
+    part1.sprite.gotoAndStop("fuselage1");
     part1.sprite.x = 50;
     part1.sprite.y = 30;
     part1.mask = assetManager.getSprite("assets");
@@ -43,14 +43,14 @@ var ColorStage = function() {
     var part2 = {};
     part2.colorCanvas = new createjs.Shape();
     part2.sprite = assetManager.getSprite("assets");
-    part2.sprite.gotoAndStop("wings");
+    part2.sprite.gotoAndStop("wing1");
     part2.sprite.x = 10;
     part2.sprite.y = 200;
 
     var part3 = {};
     part3.colorCanvas = new createjs.Shape();
     part3.sprite = assetManager.getSprite("assets");
-    part3.sprite.gotoAndStop("tail");
+    part3.sprite.gotoAndStop("tail1");
     part3.sprite.x = 10;
     part3.sprite.y = 300;
 
@@ -142,23 +142,23 @@ var ColorStage = function() {
     btnFinished.addEventListener("pressup", onFinished);
     screen.addChild(btnFinished);
 
-
-
-
-    // add screen to root for display
-    root.addChild(screen);
-
-    // setup event listeners
-    screen.addEventListener("mousedown", onStartColoring);
-    screen.addEventListener("pressmove", onColoring);
-
     // ------------------------------------------------- public methods
     this.showMe = function(){
+        // setup event listeners
+        screen.addEventListener("mousedown", onStartColoring);
+        screen.addEventListener("pressmove", onColoring);
 
+
+
+        root.addChild(screen);
     };
 
     this.hideMe = function(){
+        screen.removeEventListener("mousedown", onStartColoring);
+        screen.removeEventListener("pressmove", onColoring);
 
+
+        root.removeChild(screen);
     };
 
     // ------------------------------------------------- private methods

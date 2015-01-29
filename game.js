@@ -38,6 +38,7 @@ var frameRate = 30;
 var colorStage = null;
 var assemblyStage = null;
 var assetManager = null;
+var spaceShip = null;
 
 // ------------------------------------------------------------ event handlers
 function onInit() {
@@ -85,7 +86,7 @@ function onResize(e) {
     var w = window.innerWidth;
     var h = window.innerHeight;
 
-    var bestFit = true;
+    var bestFit = false;
     if (bestFit) {
         // !!!!!!!!!!!!! probably drop this bestfit approach since it stretches things bad
         // scale to exact fit
@@ -122,16 +123,19 @@ function onSetup(e) {
 	stage.removeEventListener("onAllAssetsLoaded", onSetup);
 
 
+    // construct the spaceship
+    spaceShip = new createjs.Container();
+
     assemblyStage = new AssemblyStage();
     assemblyStage.showMe();
-    //colorStage = new ColorStage();
+    colorStage = new ColorStage();
 
 
 
 
-    /*
     // setup event listeners for custom events for screen flow
-    stage.addEventListener("onBetComplete", onBetComplete, true);
+    stage.addEventListener("onAssemblyComplete", onScreenComplete, true);
+    /*
     stage.addEventListener("onChooseComplete", onChooseComplete, true);
     stage.addEventListener("onRaceComplete", onRaceComplete, true);
     stage.addEventListener("onSummaryComplete", onStartMe, true);
@@ -140,12 +144,31 @@ function onSetup(e) {
     // startup the ticker
     createjs.Ticker.setFPS(frameRate);
     createjs.Ticker.addEventListener("tick", onTick);
-
-
+    // listener for browser resize (on desktop) to resize game
     window.addEventListener("resize", onResize);
 
-
     console.log(">> game ready");
+}
+
+function onScreenComplete(e) {
+
+    console.log("ASSEMBLY COMPLETE! " + e.type);
+
+    // event routing
+    switch(e.type) {
+        case "onAssemblyComplete":
+            assemblyStage.hideMe();
+            colorStage.showMe();
+            break;
+
+
+    }
+
+
+
+    //colorStage.showMe();
+
+
 }
 
 function onTick(e) {
