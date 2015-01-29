@@ -123,8 +123,8 @@ function onSetup(e) {
 	stage.removeEventListener("onAllAssetsLoaded", onSetup);
 
 
-    // construct the spaceship
-    spaceShip = new createjs.Container();
+    // construct the spaceship object
+    spaceShip = new SpaceShip();
 
     assemblyStage = new AssemblyStage();
     assemblyStage.showMe();

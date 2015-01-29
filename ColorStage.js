@@ -3,8 +3,7 @@ var ColorStage = function() {
     var assetManager = window.assetManager;
     var root = window.root;
     var scaleRatio = window.scaleRatio;
-    //var spaceShip = window.spaceShip;
-
+    var spaceShip = window.spaceShip;
 
     // event to be dispatched when this stage is complete
     var completeEvent = new createjs.Event("onColorComplete", true);
@@ -26,6 +25,7 @@ var ColorStage = function() {
     background.gotoAndStop("assembly");
     screen.addChild(background);
 
+    /*
     // container to contain whole spaceship (coloring and all)
     var spaceShip = new createjs.Container();
     // setup spaceship part with shape for coloring and sprite for coloring on
@@ -74,14 +74,14 @@ var ColorStage = function() {
     var currentPart = part1;
     part2.sprite.alpha = 0.5;
     part3.sprite.alpha = 0.5;
-
+    */
 
 
 
     // setup paint selection buttons
     var btnRed = assetManager.getSprite("assets");
     btnRed.gotoAndStop("btnRedDown");
-    btnRed.x = 400;
+    btnRed.x = 850;
     btnRed.y = 50;
     btnRed.color = "#990000";
     btnRed.label = "btnRed";
@@ -90,7 +90,7 @@ var ColorStage = function() {
 
     var btnGreen = assetManager.getSprite("assets");
     btnGreen.gotoAndStop("btnGreenUp");
-    btnGreen.x = 400;
+    btnGreen.x = 850;
     btnGreen.y = 110;
     btnGreen.color = "#006600";
     btnGreen.label = "btnGreen";
@@ -99,7 +99,7 @@ var ColorStage = function() {
 
     var btnYellow = assetManager.getSprite("assets");
     btnYellow.gotoAndStop("btnYellowUp");
-    btnYellow.x = 400;
+    btnYellow.x = 850;
     btnYellow.y = 170;
     btnYellow.color = "#FFCC00";
     btnYellow.label = "btnYellow";
@@ -108,7 +108,7 @@ var ColorStage = function() {
 
     var btnBlue = assetManager.getSprite("assets");
     btnBlue.gotoAndStop("btnBlueUp");
-    btnBlue.x = 400;
+    btnBlue.x = 850;
     btnBlue.y = 230;
     btnBlue.color = "#003366";
     btnBlue.label = "btnBlue";
@@ -117,7 +117,7 @@ var ColorStage = function() {
 
     var btnPurple = assetManager.getSprite("assets");
     btnPurple.gotoAndStop("btnPurpleUp");
-    btnPurple.x = 400;
+    btnPurple.x = 850;
     btnPurple.y = 290;
     btnPurple.color = "#663399";
     btnPurple.label = "btnPurple";
@@ -126,7 +126,7 @@ var ColorStage = function() {
 
     var btnOrange = assetManager.getSprite("assets");
     btnOrange.gotoAndStop("btnOrangeUp");
-    btnOrange.x = 400;
+    btnOrange.x = 850;
     btnOrange.y = 350;
     btnOrange.color = "#CC6600";
     btnOrange.label = "btnOrange";
@@ -136,8 +136,8 @@ var ColorStage = function() {
     // add ok button
     var btnFinished = assetManager.getSprite("assets");
     btnFinished.gotoAndStop("btnOkUp");
-    btnFinished.x = 400;
-    btnFinished.y = 420;
+    btnFinished.x = 835;
+    btnFinished.y = 460;
     btnFinished.addEventListener("mousedown", onFinished);
     btnFinished.addEventListener("pressup", onFinished);
     screen.addChild(btnFinished);
@@ -148,6 +148,9 @@ var ColorStage = function() {
         screen.addEventListener("mousedown", onStartColoring);
         screen.addEventListener("pressmove", onColoring);
 
+        // positioning and showing spaceship
+        spaceShip.positionMe(400,50);
+        spaceShip.showMe(screen);
 
 
         root.addChild(screen);

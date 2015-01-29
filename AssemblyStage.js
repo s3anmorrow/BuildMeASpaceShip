@@ -21,13 +21,6 @@ var AssemblyStage = function() {
     // the index of the current assemblyLine (fuselages, wings, tail)
     var assemblyLineIndex = 0;
 
-    // !!!!!!!!!!!!!!!!!!!!!!!! this will be need to be moved to a more global location (custom class?)
-    // position your spaceship
-    spaceShip.x = 400;
-    spaceShip.y = 50;
-    // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-
-
     // master container for this stage's screen
     var screen = new createjs.Container();
     screen.snapToPixelEnabled = true;
@@ -80,17 +73,16 @@ var AssemblyStage = function() {
         tails[n] = assetManager.getSprite("assets");
         tails[n].gotoAndStop("tail" + (n + 1));
         tails[n].x = dropX;
-        tails[n].y = 75;
+        tails[n].y = 50;
         dropX += tails[n].getBounds().width + spacer;
     }
 
-    // setup assemblyLine with current parts
-    assemblyLineSetup();
-
     screen.addChild(assemblyLine);
-    screen.addChild(spaceShip);
     screen.addChild(fadeBandRight);
     screen.addChild(fadeBandLeft);
+
+    // setup assemblyLine with current parts
+    assemblyLineSetup();
 
     // ------------------------------------------------- private methods
     function swipeLeft() {
@@ -123,6 +115,7 @@ var AssemblyStage = function() {
         else {
             // stage is complete
             screen.dispatchEvent(completeEvent);
+            return;
         }
 
         // add new parts to assemblyLine
@@ -138,6 +131,9 @@ var AssemblyStage = function() {
         background.addEventListener("mousedown", onStartSwipe);
         background.addEventListener("pressmove", onSwiping);
 
+        // positioning and showing spaceship
+        spaceShip.positionMe(400,50);
+        spaceShip.showMe(screen);
 
 
 
@@ -189,13 +185,9 @@ var AssemblyStage = function() {
         if (e.type === "mousedown") {
             btnOk.gotoAndStop("btnOkDown");
 
-            if (assemblyLineIndex < 2) {
-                // add part to spaceShip container
-                var newPart = partsOnTheLine[partIndex];
-                newPart.x = 0;
-                newPart.y = 0;
-                spaceShip.addChildAt(newPart, 0);
-            }
+            // add part to spaceShip assembly
+            spaceShip.assembleMe(partsOnTheLine[partIndex]);
+
             assemblyLineIndex++;
             assemblyLineSetup();
 
