@@ -17,6 +17,9 @@ var ColorStage = function() {
     // the x,y position of the last touch on the screen
     var lastPoint = new createjs.Point();
 
+    // the spaceship sprite
+    var spaceShipSprite = spaceShip.getSprite();
+
     // master container for this stage's screen
     var screen = new createjs.Container();
     screen.snapToPixelEnabled = true;
@@ -76,6 +79,7 @@ var ColorStage = function() {
     part3.sprite.alpha = 0.5;
     */
 
+    var colorCanvas = spaceShip.getColorCanvas();
 
 
     // setup paint selection buttons
@@ -148,10 +152,11 @@ var ColorStage = function() {
         screen.addEventListener("mousedown", onStartColoring);
         screen.addEventListener("pressmove", onColoring);
 
-        // positioning and showing spaceship
-        spaceShip.positionMe(400,50);
-        spaceShip.showMe(screen);
 
+        // positioning and showing spaceship
+        spaceShipSprite.x = 400;
+        spaceShipSprite.y = 50;
+        screen.addChild(spaceShipSprite);
 
         root.addChild(screen);
     };
@@ -166,41 +171,25 @@ var ColorStage = function() {
 
     // ------------------------------------------------- private methods
     function paintMe(e) {
-        // prevents game scrolling or anything dumb
-        //e.preventDefault();
-
-        // where are we now?
-        curPoint.x = stage.mouseX / scaleRatio;
-        curPoint.y = stage.mouseY / scaleRatio;
-
-        /*
-        // place paint drop - scale to correct ratio for canvas resize since it is a vector being added to the container
-        currentPart.colorCanvas.graphics.beginFill(brushColor);
-        currentPart.colorCanvas.graphics.drawCircle(curPoint.x, curPoint.y, brushSize);
-        currentPart.colorCanvas.graphics.endFill();
-        */
-
-        /*
-        // only draw if pointer is overtop of spaceShip - even though composite of spaceship section is done it slows down framerate
-        var point = sprite.globalToLocal(touchX, touchY);
-        if (!sprite.hitTest(point.x, point.y)) return;
-        */
+        // where are we now in terms of colorCanvas shape coord system?
+        var touchPoint = colorCanvas.globalToLocal(stage.mouseX, stage.mouseY);
+        // scale it to our resizing of game
+        curPoint.x = touchPoint.x / scaleRatio;
+        curPoint.y = touchPoint.y / scaleRatio;
 
         // draw line onto colorLayer
-        currentPart.colorCanvas.graphics.setStrokeStyle(brushSize, "round", "round");
-        currentPart.colorCanvas.graphics.beginStroke(brushColor);
-        currentPart.colorCanvas.graphics.moveTo(lastPoint.x, lastPoint.y);
-        currentPart.colorCanvas.graphics.lineTo(curPoint.x, curPoint.y);
+        colorCanvas.graphics.setStrokeStyle(brushSize, "round", "round");
+        colorCanvas.graphics.beginStroke(brushColor);
+        colorCanvas.graphics.moveTo(lastPoint.x, lastPoint.y);
+        colorCanvas.graphics.lineTo(curPoint.x, curPoint.y);
         // store current X,Y
         lastPoint.x = curPoint.x;
         lastPoint.y = curPoint.y;
 
         // draw the new vector onto the existing cache, compositing it with the "source-overlay" composite operation:
-		currentPart.colorCanvas.updateCache("source-overlay");
+		colorCanvas.updateCache("source-overlay");
         // because the vector paint drop has been drawn to the cache clear it out
-		currentPart.colorCanvas.graphics.clear();
-        // update cache whole spaceShip container so that composite (can only color on spaceship part) works
-        //spaceShip.updateCache("source-overlay");
+		colorCanvas.graphics.clear();
     }
 
 
@@ -225,8 +214,9 @@ var ColorStage = function() {
         console.log("start coloring");
 
         // set last point to current touch point with scaling
-        lastPoint.x = stage.mouseX / scaleRatio;
-        lastPoint.y = stage.mouseY / scaleRatio;
+        var touchPoint = colorCanvas.globalToLocal(stage.mouseX, stage.mouseY);
+        lastPoint.x = touchPoint.x / scaleRatio;
+        lastPoint.y = touchPoint.y / scaleRatio;
 
         paintMe(e);
     }
@@ -245,6 +235,7 @@ var ColorStage = function() {
         if (e.type === "mousedown") {
             btnFinished.gotoAndStop("btnOkDown");
 
+            /*
             if (currentPart == part1) {
                 currentPart = part2;
                 part2.sprite.alpha = 1;
@@ -255,6 +246,7 @@ var ColorStage = function() {
                 part1.sprite.alpha = 0.5;
                 part2.sprite.alpha = 0.5;
             }
+            */
         } else {
             btnFinished.gotoAndStop("btnOkUp");
         }

@@ -1,7 +1,4 @@
 var AssemblyStage = function() {
-
-    // TODO fix swipe functionality so going basically up/down does not fire a left or right swipe
-
     // local references to important globals
     var assetManager = window.assetManager;
     var root = window.root;
@@ -20,16 +17,12 @@ var AssemblyStage = function() {
     var partIndex = 0;
     // the index of the current assemblyLine (fuselages, wings, tail)
     var assemblyLineIndex = 0;
+    // the spaceship sprite
+    var spaceShipSprite = spaceShip.getSprite();
 
     // master container for this stage's screen
     var screen = new createjs.Container();
     screen.snapToPixelEnabled = true;
-    var fadeBandRight = assetManager.getSprite("assets");
-    fadeBandRight.x = 930;
-    fadeBandRight.gotoAndStop("fadeBandRight");
-    var fadeBandLeft = assetManager.getSprite("assets");
-    fadeBandLeft.gotoAndStop("fadeBandLeft");
-
     var background = assetManager.getSprite("assets");
     background.gotoAndStop("assembly");
     background.cache(0, 0, background.getBounds().width, background.getBounds().height);
@@ -37,7 +30,7 @@ var AssemblyStage = function() {
 
     var btnOk = assetManager.getSprite("assets");
     btnOk.gotoAndStop("btnOkUp");
-    btnOk.x = 435;
+    btnOk.x = 444;
     btnOk.y = 530;
     btnOk.addEventListener("mousedown", onOk);
     btnOk.addEventListener("pressup", onOk);
@@ -54,6 +47,7 @@ var AssemblyStage = function() {
         fuselages[n].gotoAndStop("fuselage" + (n + 1));
         fuselages[n].x = dropX;
         fuselages[n].y = 50;
+        fuselages[n].type = "fuselage";
         dropX += fuselages[n].getBounds().width + spacer;
     }
 
@@ -64,6 +58,7 @@ var AssemblyStage = function() {
         wings[n].gotoAndStop("wings" + (n + 1));
         wings[n].x = dropX;
         wings[n].y = 50;
+        wings[n].type = "wing";
         dropX += wings[n].getBounds().width + spacer;
     }
 
@@ -74,12 +69,9 @@ var AssemblyStage = function() {
         tails[n].gotoAndStop("tail" + (n + 1));
         tails[n].x = dropX;
         tails[n].y = 50;
+        tails[n].type = "tail";
         dropX += tails[n].getBounds().width + spacer;
     }
-
-    screen.addChild(assemblyLine);
-    screen.addChild(fadeBandRight);
-    screen.addChild(fadeBandLeft);
 
     // setup assemblyLine with current parts
     assemblyLineSetup();
@@ -87,7 +79,6 @@ var AssemblyStage = function() {
     // ------------------------------------------------- private methods
     function swipeLeft() {
         if (partIndex === 4) return;
-
         partIndex++;
         var destX = 400 - partsOnTheLine[partIndex].x;
         // tween to new X destination over 250ms
@@ -96,7 +87,6 @@ var AssemblyStage = function() {
 
     function swipeRight() {
         if (partIndex === 0) return;
-
         partIndex--;
         var destX = 400 - partsOnTheLine[partIndex].x;
         createjs.Tween.get(assemblyLine).to({x:destX}, 250);
@@ -111,8 +101,11 @@ var AssemblyStage = function() {
         // current part to assemblyline for selection
         if (assemblyLineIndex === 0) partsOnTheLine = fuselages;
         else if (assemblyLineIndex === 1) partsOnTheLine = wings;
-        else if (assemblyLineIndex === 2) partsOnTheLine = tails;
-        else {
+        else if (assemblyLineIndex === 2) {
+            partsOnTheLine = tails;
+            // swap displaylist index so tails are on top of spaceship
+            screen.swapChildren(spaceShipSprite, assemblyLine);
+        } else {
             // stage is complete
             screen.dispatchEvent(completeEvent);
             return;
@@ -131,11 +124,14 @@ var AssemblyStage = function() {
         background.addEventListener("mousedown", onStartSwipe);
         background.addEventListener("pressmove", onSwiping);
 
-        // positioning and showing spaceship
-        spaceShip.positionMe(400,50);
-        spaceShip.showMe(screen);
 
 
+        // add assembly line container overtop
+        screen.addChild(assemblyLine);
+        // positioning and showing spaceship on this screen
+        spaceShipSprite.x = 400;
+        spaceShipSprite.y = 50;
+        screen.addChild(spaceShipSprite);
 
         root.addChild(screen);
     };

@@ -1,82 +1,11 @@
 // manifest of asset information
 var manifest = [
     {
+        src:"lib/assets.json",
+        spritesheet:"assets"
+    },
+    {
         src:"lib/assets.png",
-        id:"assets",
-        data:{
-"framerate":24,
-"images":["assets.png"],
-"frames":[
-    [1991, 2, 50, 50, 0, -5, -5],
-    [1257, 1054, 60, 60, 0, 0, 0],
-    [1493, 1054, 50, 50, 0, -5, -5],
-    [1321, 1054, 60, 60, 0, 0, 0],
-    [1601, 1054, 50, 50, 0, -5, -5],
-    [1193, 1054, 60, 60, 0, 0, 0],
-    [1385, 1054, 50, 50, 0, -5, -5],
-    [1065, 1054, 60, 60, 0, 0, 0],
-    [1547, 1054, 50, 50, 0, -5, -5],
-    [1129, 1054, 60, 60, 0, 0, 0],
-    [1439, 1054, 50, 50, 0, -5, -5],
-    [1001, 1054, 60, 60, 0, 0, 0],
-    [692, 1054, 80, 80, 0, -5, -5],
-    [1932, 650, 80, 80, 0, -5, -5],
-    [1663, 2, 160, 400, 0, 0, 0],
-    [2, 650, 160, 400, 0, 0, 0],
-    [1499, 2, 160, 400, 0, 0, 0],
-    [1337, 2, 158, 422, 0, -1, 22],
-    [1827, 2, 160, 400, 0, 0, 0],
-    [665, 650, 340, 110, 0, 93, -218],
-    [347, 1054, 341, 81, 0, 92, -188],
-    [1009, 650, 340, 109, 0, 92, -157],
-    [166, 650, 317, 199, 0, 75, -157],
-    [2, 1054, 341, 85, 0, 93, -42],
-    [1748, 650, 180, 88, 0, 10, -348],
-    [487, 650, 174, 121, 0, 7, -329],
-    [1557, 650, 187, 94, 0, 14, -352],
-    [1353, 650, 200, 108, 0, 21, -342],
-    [776, 1054, 221, 65, 0, 30, -370],
-    [1037, 2, 296, 454, 0, 105, 23],
-    [2, 2, 964, 644, 0, 2, 2],
-    [970, 2, 29, 640, 0, -1, 0],
-    [1003, 2, 30, 640, 0, 0, 0]
-],
-"animations":{
-    "tail5": {"frames": [28], "speed": 1},
-    "wings2": {"frames": [20], "speed": 1},
-    "fuselage4": {"frames": [17], "speed": 1},
-    "fuselage3": {"frames": [16], "speed": 1},
-    "btnOrangeDown": {"frames": [11], "speed": 1},
-    "wings1": {"frames": [19], "speed": 1},
-    "fuselage1": {"frames": [14], "speed": 1},
-    "btnRedDown": {"frames": [1], "speed": 1},
-    "btnOkUp": {"frames": [12], "speed": 1},
-    "btnYellowDown": {"frames": [5], "speed": 1},
-    "btnBlueUp": {"frames": [6], "speed": 1},
-    "wings3": {"frames": [21], "speed": 1},
-    "fuselage5": {"frames": [18], "speed": 1},
-    "btnPurpleDown": {"frames": [9], "speed": 1},
-    "assembly": {"frames": [30], "speed": 1},
-    "fadeBandLeft": {"frames": [32], "speed": 1},
-    "btnBlueDown": {"frames": [7], "speed": 1},
-    "btnOrangeUp": {"frames": [10], "speed": 1},
-    "btnPurpleUp": {"frames": [8], "speed": 1},
-    "btnYellowUp": {"frames": [4], "speed": 1},
-    "tail1": {"frames": [24], "speed": 1},
-    "tail2": {"frames": [25], "speed": 1},
-    "tail3": {"frames": [26], "speed": 1},
-    "fuselage2": {"frames": [15], "speed": 1},
-    "wings5": {"frames": [23], "speed": 1},
-    "btnOkDown": {"frames": [13], "speed": 1},
-    "btnGreenDown": {"frames": [3], "speed": 1},
-    "btnGreenUp": {"frames": [2], "speed": 1},
-    "btnRedUp": {"frames": [0], "speed": 1},
-    "fuselageMask": {"frames": [29], "speed": 1},
-    "fadeBandRight": {"frames": [31], "speed": 1},
-    "wings4": {"frames": [22], "speed": 1},
-    "tail4": {"frames": [27], "speed": 1}
-}
-}
-
+        id:"assets"
     }
 ];
