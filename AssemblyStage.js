@@ -24,7 +24,7 @@ var AssemblyStage = function() {
     var screen = new createjs.Container();
     screen.snapToPixelEnabled = true;
     var background = assetManager.getSprite("assets");
-    background.gotoAndStop("assembly");
+    background.gotoAndStop("screenAssembly");
     background.cache(0, 0, background.getBounds().width, background.getBounds().height);
     screen.addChild(background);
 

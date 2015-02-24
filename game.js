@@ -35,8 +35,11 @@ var root = null;
 var frameRate = 30;
 
 // game objects
+var startScreen = null;
 var colorStage = null;
 var assemblyStage = null;
+var blastOffStage = null;
+var flightStage = null;
 var assetManager = null;
 var spaceShip = null;
 
@@ -122,24 +125,28 @@ function onSetup(e) {
     console.log(">> adding sprites to game");
 	stage.removeEventListener("onAllAssetsLoaded", onSetup);
 
+    // construct start screen
+    startScreen = assetManager.getSprite("assets","screenStart");
+    startScreen.addEventListener("pressup", onStartGame);
+    root.addChild(startScreen);
+
 
     // construct the spaceship object
     spaceShip = new SpaceShip();
 
     assemblyStage = new AssemblyStage();
-    assemblyStage.showMe();
     colorStage = new ColorStage();
+    blastOffStage = new BlastOffStage();
+    flightStage = new FlightStage();
 
 
 
 
     // setup event listeners for custom events for screen flow
-    stage.addEventListener("onAssemblyComplete", onScreenComplete, true);
-    /*
-    stage.addEventListener("onChooseComplete", onChooseComplete, true);
-    stage.addEventListener("onRaceComplete", onRaceComplete, true);
-    stage.addEventListener("onSummaryComplete", onStartMe, true);
-    */
+    stage.addEventListener("onAssemblyComplete", onStageComplete, true);
+    stage.addEventListener("onColorComplete", onStageComplete, true);
+    stage.addEventListener("onBlastOffComplete", onStageComplete, true);
+    stage.addEventListener("onFlightComplete", onStageComplete, true);
 
     // startup the ticker
     createjs.Ticker.setFPS(frameRate);
@@ -150,7 +157,12 @@ function onSetup(e) {
     console.log(">> game ready");
 }
 
-function onScreenComplete(e) {
+function onStartGame(e) {
+    root.removeChild(startScreen);
+    assemblyStage.showMe();
+}
+
+function onStageComplete(e) {
 
     console.log("ASSEMBLY COMPLETE! " + e.type);
 
@@ -160,7 +172,21 @@ function onScreenComplete(e) {
             assemblyStage.hideMe();
             colorStage.showMe();
             break;
+        case "onColorComplete":
+            colorStage.hideMe();
+            blastOffStage.showMe();
+            break;
+        case "onBlastOffComplete":
+            blastOffStage.hideMe();
+            flightStage.showMe();
+            break;
+        case "onFlightComplete":
+            flightStage.hideMe();
 
+            // ??????????????????????????
+            //blastOffStage.showMe();
+
+            break;
 
     }
 

@@ -25,7 +25,7 @@ var ColorStage = function() {
     screen.snapToPixelEnabled = true;
 
     var background = assetManager.getSprite("assets");
-    background.gotoAndStop("assembly");
+    background.gotoAndStop("screenAssembly");
     screen.addChild(background);
 
     /*
@@ -234,21 +234,10 @@ var ColorStage = function() {
 
         if (e.type === "mousedown") {
             btnFinished.gotoAndStop("btnOkDown");
-
-            /*
-            if (currentPart == part1) {
-                currentPart = part2;
-                part2.sprite.alpha = 1;
-                part1.sprite.alpha = 0.5;
-                part3.sprite.alpha = 0.5;
-            } else if (currentPart == part2) {
-                currentPart = part3;
-                part1.sprite.alpha = 0.5;
-                part2.sprite.alpha = 0.5;
-            }
-            */
         } else {
             btnFinished.gotoAndStop("btnOkUp");
+            // stage is complete
+            screen.dispatchEvent(completeEvent);
         }
     }
 
