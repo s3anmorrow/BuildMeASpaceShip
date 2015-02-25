@@ -7,8 +7,8 @@
 // TODO build system so that stage.update() only happens when it needs to be
 
 // the base width and height of game that graphics are designed for (pre-resizing for android screens)
-var BASE_WIDTH = 960;
-var BASE_HEIGHT = 640;
+var BASE_WIDTH = 640;
+var BASE_HEIGHT = 960;
 var scaleRatio = 1;
 // am I running on a mobile device?
 var mobile = false;
@@ -121,6 +121,16 @@ function onResize(e) {
 
 }
 
+function onPause(e) {
+    // ??????????????????????????????????????????????
+    createjs.Ticker.removeEventListener("tick", onTick);
+}
+
+function onResume(e) {
+    // ??????????????????????????????????????????????
+    createjs.Ticker.addEventListener("tick", onTick);
+}
+
 function onSetup(e) {
     console.log(">> adding sprites to game");
 	stage.removeEventListener("onAllAssetsLoaded", onSetup);
@@ -153,6 +163,9 @@ function onSetup(e) {
     createjs.Ticker.addEventListener("tick", onTick);
     // listener for browser resize (on desktop) to resize game
     window.addEventListener("resize", onResize);
+    // setup event listener for when browser loses focus
+    window.addEventListener("blur", onPause);
+    window.addEventListener("focus", onResume);
 
     console.log(">> game ready");
 }

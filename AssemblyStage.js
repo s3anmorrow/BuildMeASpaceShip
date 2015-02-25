@@ -30,8 +30,8 @@ var AssemblyStage = function() {
 
     var btnOk = assetManager.getSprite("assets");
     btnOk.gotoAndStop("btnOkUp");
-    btnOk.x = 444;
-    btnOk.y = 530;
+    btnOk.x = 275;
+    btnOk.y = 720;
     btnOk.addEventListener("mousedown", onOk);
     btnOk.addEventListener("pressup", onOk);
     screen.addChild(btnOk);
@@ -80,7 +80,7 @@ var AssemblyStage = function() {
     function swipeLeft() {
         if (partIndex === 4) return;
         partIndex++;
-        var destX = 400 - partsOnTheLine[partIndex].x;
+        var destX = 235 - partsOnTheLine[partIndex].x;
         // tween to new X destination over 250ms
         createjs.Tween.get(assemblyLine).to({x:destX}, 250);
     }
@@ -88,7 +88,7 @@ var AssemblyStage = function() {
     function swipeRight() {
         if (partIndex === 0) return;
         partIndex--;
-        var destX = 400 - partsOnTheLine[partIndex].x;
+        var destX = 235 - partsOnTheLine[partIndex].x;
         createjs.Tween.get(assemblyLine).to({x:destX}, 250);
     }
 
@@ -96,7 +96,8 @@ var AssemblyStage = function() {
         // assembly line resets
         assemblyLine.removeAllChildren();
         partIndex = 0;
-        assemblyLine.x = 400;
+        assemblyLine.x = 235;
+        assemblyLine.y = 160;
 
         // current part to assemblyline for selection
         if (assemblyLineIndex === 0) partsOnTheLine = fuselages;
@@ -129,8 +130,8 @@ var AssemblyStage = function() {
         // add assembly line container overtop
         screen.addChild(assemblyLine);
         // positioning and showing spaceship on this screen
-        spaceShipSprite.x = 400;
-        spaceShipSprite.y = 50;
+        spaceShipSprite.x = 235;
+        spaceShipSprite.y = 210;
         screen.addChild(spaceShipSprite);
 
         root.addChild(screen);

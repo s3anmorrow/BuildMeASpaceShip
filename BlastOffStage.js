@@ -21,8 +21,8 @@ var BlastOffStage = function() {
 
     var btnOk = assetManager.getSprite("assets");
     btnOk.gotoAndStop("btnOkUp");
-    btnOk.x = 444;
-    btnOk.y = 530;
+    btnOk.x = 275;
+    btnOk.y = 720;
     btnOk.addEventListener("mousedown", onOk);
     btnOk.addEventListener("pressup", onOk);
     screen.addChild(btnOk);

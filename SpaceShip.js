@@ -51,6 +51,10 @@ var SpaceShip = function() {
         }
     };
 
+    this.resetMe = function() {
+
+    };
+
 
 
 
