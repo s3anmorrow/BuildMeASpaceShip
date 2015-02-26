@@ -17,7 +17,7 @@ var ColorStage = function() {
     // the x,y position of the last touch on the screen
     var lastPoint = new createjs.Point();
     // array to keep track of which part we are coloring
-    var canvasQueue = ["fuselage","wings"];
+    var canvasQueue = ["fuselage","wings","tail"];
     var canvasIndex = 0;
     var colorCanvas = null;
 

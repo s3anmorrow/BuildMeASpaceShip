@@ -31,11 +31,11 @@ var SpaceShip = function() {
     cacheCoord.wings3 = new createjs.Rectangle(-84,205,340,100);
     cacheCoord.wings4 = new createjs.Rectangle(-68,205,317,100);
     cacheCoord.wings5 = new createjs.Rectangle(-84,215,340,85);
-    cacheCoord.tail1 = new createjs.Rectangle(0,0,176,400);
-    cacheCoord.tail2 = new createjs.Rectangle(0,0,176,400);
-    cacheCoord.tail3 = new createjs.Rectangle(0,0,176,400);
-    cacheCoord.tail4 = new createjs.Rectangle(0,0,176,400);
-    cacheCoord.tail5 = new createjs.Rectangle(0,0,176,400);
+    cacheCoord.tail1 = new createjs.Rectangle(-2,348,180,64);
+    cacheCoord.tail2 = new createjs.Rectangle(1,359,174,90);
+    cacheCoord.tail3 = new createjs.Rectangle(-6,352,186,94);
+    cacheCoord.tail4 = new createjs.Rectangle(-12,342,199,107);
+    cacheCoord.tail5 = new createjs.Rectangle(-22,370,220,60);
 
     // ------------------------------------------------- public methods
     this.getSprite = function() {
@@ -48,8 +48,6 @@ var SpaceShip = function() {
 
     this.assembleMe = function(newPart) {
 
-        console.log("part type: " + newPart.type);
-
         // add part to spaceShip shipContainer
         newPart.x = 0;
         newPart.y = 0;
@@ -58,6 +56,7 @@ var SpaceShip = function() {
         var partName = newPart.currentAnimation;
         var cacheRect = cacheCoord[partName];
 
+        console.log("part added: " + partName);
 
         // setup coloring canvas and mask for fuselage
         if (newPart.type === "fuselage") {
@@ -85,7 +84,17 @@ var SpaceShip = function() {
             // adding new part to ship at back
             shipContainer.addChildAt(newPart, 0);
         } else {
+            // adding new part to ship
             shipContainer.addChild(newPart);
+
+            // adding color canvas to ship
+            shipContainer.addChild(colorCanvases.tail);
+            colorCanvases.tail.cache(cacheRect.x, cacheRect.y, cacheRect.width, cacheRect.height);
+
+            // adding color mask to ship
+            colorMasks.tail.gotoAndStop(partName + "Mask");
+            shipContainer.addChild(colorMasks.tail);
+
         }
     };
 
