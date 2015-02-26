@@ -28,9 +28,11 @@ var ColorStage = function() {
     var screen = new createjs.Container();
     screen.snapToPixelEnabled = true;
 
+    /*
     var background = assetManager.getSprite("assets");
     background.gotoAndStop("screenAssembly");
     screen.addChild(background);
+    */
 
     // setup paint selection buttons
     var btnRed = assetManager.getSprite("assets");

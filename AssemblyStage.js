@@ -2,8 +2,8 @@ var AssemblyStage = function() {
     // local references to important globals
     var assetManager = window.assetManager;
     var root = window.root;
-    var scaleRatio = window.scaleRatio;
     var spaceShip = window.spaceShip;
+    var background = window.background.getSprite();
 
     // event to be dispatched when this stage is complete
     var completeEvent = new createjs.Event("onAssemblyComplete", true);
@@ -23,10 +23,13 @@ var AssemblyStage = function() {
     // master container for this stage's screen
     var screen = new createjs.Container();
     screen.snapToPixelEnabled = true;
+
+    /*
     var background = assetManager.getSprite("assets");
     background.gotoAndStop("screenAssembly");
     background.cache(0, 0, background.getBounds().width, background.getBounds().height);
     screen.addChild(background);
+    */
 
     var btnOk = assetManager.getSprite("assets");
     btnOk.gotoAndStop("btnOkUp");

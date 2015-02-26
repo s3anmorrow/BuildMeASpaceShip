@@ -35,6 +35,8 @@ var root = null;
 var frameRate = 30;
 
 // game objects
+var background = null;
+var startStage = null;
 var startScreen = null;
 var colorStage = null;
 var assemblyStage = null;
@@ -42,6 +44,12 @@ var blastOffStage = null;
 var flightStage = null;
 var assetManager = null;
 var spaceShip = null;
+
+// ----------------------------------------------------------- private methods
+function randomMe(low, high) {
+    // returns a random number
+	return Math.floor(Math.random() * (1 + high - low)) + low;
+}
 
 // ------------------------------------------------------------ event handlers
 function onInit() {
@@ -135,24 +143,20 @@ function onSetup(e) {
     console.log(">> adding sprites to game");
 	stage.removeEventListener("onAllAssetsLoaded", onSetup);
 
-    // construct start screen
-    startScreen = assetManager.getSprite("assets","screenStart");
-    startScreen.addEventListener("pressup", onStartGame);
-    root.addChild(startScreen);
+    // construct background (shared amongst all stages)
+    background = new Background();
+    background.showMe();
 
-
-    // construct the spaceship object
+    // construct game objects
     spaceShip = new SpaceShip();
-
+    startStage = new StartStage();
     assemblyStage = new AssemblyStage();
     colorStage = new ColorStage();
     blastOffStage = new BlastOffStage();
     flightStage = new FlightStage();
 
-
-
-
     // setup event listeners for custom events for screen flow
+    stage.addEventListener("onStartComplete", onStageComplete, true);
     stage.addEventListener("onAssemblyComplete", onStageComplete, true);
     stage.addEventListener("onColorComplete", onStageComplete, true);
     stage.addEventListener("onBlastOffComplete", onStageComplete, true);
@@ -166,6 +170,8 @@ function onSetup(e) {
     // setup event listener for when browser loses focus
     window.addEventListener("blur", onPause);
     window.addEventListener("focus", onResume);
+
+    startStage.showMe();
 
     console.log(">> game ready");
 }
@@ -181,6 +187,10 @@ function onStageComplete(e) {
 
     // event routing
     switch(e.type) {
+        case "onStartComplete":
+            startStage.hideMe();
+            assemblyStage.showMe();
+            break;
         case "onAssemblyComplete":
             assemblyStage.hideMe();
             colorStage.showMe();
