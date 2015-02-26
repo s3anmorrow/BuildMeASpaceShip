@@ -24,16 +24,9 @@ var AssemblyStage = function() {
     var screen = new createjs.Container();
     screen.snapToPixelEnabled = true;
 
-    /*
-    var background = assetManager.getSprite("assets");
-    background.gotoAndStop("screenAssembly");
-    background.cache(0, 0, background.getBounds().width, background.getBounds().height);
-    screen.addChild(background);
-    */
-
     var btnOk = assetManager.getSprite("assets");
     btnOk.gotoAndStop("btnOkUp");
-    btnOk.x = 275;
+    btnOk.x = 265;
     btnOk.y = 720;
     btnOk.addEventListener("mousedown", onOk);
     btnOk.addEventListener("pressup", onOk);

@@ -17,8 +17,8 @@ var ColorStage = function() {
     // the x,y position of the last touch on the screen
     var lastPoint = new createjs.Point();
     // array to keep track of which part we are coloring
-    var canvasQueue = ["fuselage","wings","tail"];
-    var canvasIndex = 0;
+    var partsQueue = ["fuselage","wings","tail"];
+    var partsIndex = 0;
     var colorCanvas = null;
 
     // the spaceship sprite
@@ -27,12 +27,6 @@ var ColorStage = function() {
     // master container for this stage's screen
     var screen = new createjs.Container();
     screen.snapToPixelEnabled = true;
-
-    /*
-    var background = assetManager.getSprite("assets");
-    background.gotoAndStop("screenAssembly");
-    screen.addChild(background);
-    */
 
     // setup paint selection buttons
     var btnRed = assetManager.getSprite("assets");
@@ -104,9 +98,13 @@ var ColorStage = function() {
         screen.addEventListener("mousedown", onStartColoring);
         screen.addEventListener("pressmove", onColoring);
 
-        // setup canvas to fuselage (default)
-        canvasIndex = 0;
-        colorCanvas = spaceShip.getColorCanvas(canvasQueue[canvasIndex]);
+        // setup canvas to fuselage (default) and alpha all other parts to focus
+        partsIndex = 0;
+        colorCanvas = spaceShip.getColorCanvas(partsQueue[partsIndex]);
+        spaceShip.focusOnPart(partsQueue[partsIndex]);
+
+
+
 
         // positioning and showing spaceship
         spaceShipSprite.x = 235;
@@ -194,13 +192,17 @@ var ColorStage = function() {
         } else {
             btnFinished.gotoAndStop("btnOkUp");
 
+            if (partsIndex === 2) {
+                // stage is complete
+                spaceShip.focusOnPart(undefined);
+                screen.dispatchEvent(completeEvent);
+                return;
+            }
+
             // change to the next canvas for coloring
-            canvasIndex++;
-            colorCanvas = spaceShip.getColorCanvas(canvasQueue[canvasIndex]);
-
-
-            // stage is complete
-            //screen.dispatchEvent(completeEvent);
+            partsIndex++;
+            colorCanvas = spaceShip.getColorCanvas(partsQueue[partsIndex]);
+            spaceShip.focusOnPart(partsQueue[partsIndex]);
         }
     }
 

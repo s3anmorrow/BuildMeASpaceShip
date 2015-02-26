@@ -46,6 +46,14 @@ var Background = function(){
         root.removeChild(screen);
     };
 
+    this.pauseMe = function() {
+        window.clearInterval(twinkleTimer);
+    }
+
+    this.unPauseMe = function() {
+        twinkleTimer = window.setInterval(onTwinkle, 200);
+    }
+
     // ------------------------------------------------- event handlers
     function onTwinkle(e) {
         var index = randomMe(0,99);

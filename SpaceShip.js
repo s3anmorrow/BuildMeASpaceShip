@@ -7,6 +7,15 @@ var SpaceShip = function() {
     // container to hold spaceship parts
     var shipContainer = new createjs.Container();
 
+    // parts list
+    var partsQueue = ["fuselage","wings","tail"];
+
+    // collection of sprites for each part added to the ship
+    var parts = {};
+    parts.fuselage = null;
+    parts.wings = null;
+    parts.tail = null;
+
     // collection of shapes to color on for each ship part
     var colorCanvases = {};
     colorCanvases.fuselage = new createjs.Shape();
@@ -46,6 +55,26 @@ var SpaceShip = function() {
         return colorCanvases[which];
     };
 
+    this.focusOnPart = function(which) {
+        var alphaSetting = 0.5;
+        if (which === undefined) {
+            alphaSetting = 1;
+        }
+
+        // set all parts, canvases, and masks to be alphed
+        for (var n=0; n<3; n++) {
+            parts[partsQueue[n]].alpha = alphaSetting;
+            colorCanvases[partsQueue[n]].alpha = alphaSetting;
+            colorMasks[partsQueue[n]].alpha = alphaSetting;
+        }
+
+        if (which === undefined) return;
+
+        parts[which].alpha = 1;
+        colorCanvases[which].alpha = 1;
+        colorMasks[which].alpha = 1;
+    };
+
     this.assembleMe = function(newPart) {
 
         // add part to spaceShip shipContainer
@@ -62,6 +91,7 @@ var SpaceShip = function() {
         if (newPart.type === "fuselage") {
 
             // adding new part to ship
+            parts.fuselage = newPart;
             shipContainer.addChild(newPart);
 
             // adding color canvas to ship
@@ -82,9 +112,11 @@ var SpaceShip = function() {
             colorCanvases.wings.cache(cacheRect.x, cacheRect.y, cacheRect.width, cacheRect.height);
 
             // adding new part to ship at back
+            parts.wings = newPart;
             shipContainer.addChildAt(newPart, 0);
         } else {
             // adding new part to ship
+            parts.tail = newPart;
             shipContainer.addChild(newPart);
 
             // adding color canvas to ship
@@ -94,11 +126,21 @@ var SpaceShip = function() {
             // adding color mask to ship
             colorMasks.tail.gotoAndStop(partName + "Mask");
             shipContainer.addChild(colorMasks.tail);
-
         }
     };
 
     this.resetMe = function() {
+        // resets
+        parts.fuselage = null;
+        parts.wings = null;
+        parts.tail = null;
+        // no focusing on any part
+        this.focusOnPart(undefined);
+        // clearing out all caches for next round
+        colorCanvases.fuselage.uncache();
+        colorCanvases.wings.uncache();
+        colorCanvases.tail.uncache();
+
 
     };
 
