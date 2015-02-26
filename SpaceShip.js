@@ -6,23 +6,43 @@ var SpaceShip = function() {
 
     // container to hold spaceship parts
     var shipContainer = new createjs.Container();
-    // shape for user to draw on
-    var colorCanvas = new createjs.Shape();
-    // fuselage mask (sprite)
-    var colorMask = assetManager.getSprite("assets");
-    colorMask.x = 0;
-    colorMask.y = 0;
 
+    // collection of shapes to color on for each ship part
+    var colorCanvases = {};
+    colorCanvases.fuselage = new createjs.Shape();
+    colorCanvases.wings = new createjs.Shape();
+    colorCanvases.tail = new createjs.Shape();
 
+    // collection of sprites to act as masks for coloring on shapes
+    var colorMasks = {};
+    colorMasks.fuselage = assetManager.getSprite("assets");
+    colorMasks.wings = assetManager.getSprite("assets");
+    colorMasks.tail = assetManager.getSprite("assets");
 
+    var cacheCoord = {};
+    cacheCoord.fuselage1 = new createjs.Rectangle(0,0,176,400);
+    cacheCoord.fuselage2 = new createjs.Rectangle(0,0,176,400);
+    cacheCoord.fuselage3 = new createjs.Rectangle(0,0,176,400);
+    cacheCoord.fuselage4 = new createjs.Rectangle(0,0,176,400);
+    cacheCoord.fuselage5 = new createjs.Rectangle(0,0,176,400);
+    cacheCoord.wings1 = new createjs.Rectangle(-74,209,320,95);
+    cacheCoord.wings2 = new createjs.Rectangle(-84,215,340,80);
+    cacheCoord.wings3 = new createjs.Rectangle(-84,205,340,100);
+    cacheCoord.wings4 = new createjs.Rectangle(-68,205,317,100);
+    cacheCoord.wings5 = new createjs.Rectangle(-84,215,340,85);
+    cacheCoord.tail1 = new createjs.Rectangle(0,0,176,400);
+    cacheCoord.tail2 = new createjs.Rectangle(0,0,176,400);
+    cacheCoord.tail3 = new createjs.Rectangle(0,0,176,400);
+    cacheCoord.tail4 = new createjs.Rectangle(0,0,176,400);
+    cacheCoord.tail5 = new createjs.Rectangle(0,0,176,400);
 
     // ------------------------------------------------- public methods
     this.getSprite = function() {
         return shipContainer;
     };
 
-    this.getColorCanvas = function() {
-        return colorCanvas;
+    this.getColorCanvas = function(which) {
+        return colorCanvases[which];
     };
 
     this.assembleMe = function(newPart) {
@@ -33,18 +53,35 @@ var SpaceShip = function() {
         newPart.x = 0;
         newPart.y = 0;
 
+        // get name of frame of part (part name)
+        var partName = newPart.currentAnimation;
+        var cacheRect = cacheCoord[partName];
+
+
         // setup coloring canvas and mask for fuselage
         if (newPart.type === "fuselage") {
 
-            console.log("animation: " + newPart.currentAnimation);
-
+            // adding new part to ship
             shipContainer.addChild(newPart);
-            shipContainer.addChild(colorCanvas);
-            colorCanvas.cache(0, 0, newPart.getBounds().width, newPart.getBounds().height);
-            //colorCanvas.cache(0, 0, 960, 640);
-            colorMask.gotoAndStop(newPart.currentAnimation + "Mask");
-            shipContainer.addChild(colorMask);
+
+            // adding color canvas to ship
+            shipContainer.addChild(colorCanvases.fuselage);
+            colorCanvases.fuselage.cache(cacheRect.x, cacheRect.y, cacheRect.width, cacheRect.height);
+
+            // adding color mask to ship
+            colorMasks.fuselage.gotoAndStop(partName + "Mask");
+            shipContainer.addChild(colorMasks.fuselage);
         } else if (newPart.type === "wing") {
+
+            // adding color mask to ship
+            colorMasks.wings.gotoAndStop(partName + "Mask");
+            shipContainer.addChildAt(colorMasks.wings, 0);
+
+            // adding color canvas to ship
+            shipContainer.addChildAt(colorCanvases.wings, 0);
+            colorCanvases.wings.cache(cacheRect.x, cacheRect.y, cacheRect.width, cacheRect.height);
+
+            // adding new part to ship at back
             shipContainer.addChildAt(newPart, 0);
         } else {
             shipContainer.addChild(newPart);

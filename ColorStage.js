@@ -16,6 +16,10 @@ var ColorStage = function() {
     var curPoint = new createjs.Point();
     // the x,y position of the last touch on the screen
     var lastPoint = new createjs.Point();
+    // array to keep track of which part we are coloring
+    var canvasQueue = ["fuselage","wings"];
+    var canvasIndex = 0;
+    var colorCanvas = null;
 
     // the spaceship sprite
     var spaceShipSprite = spaceShip.getSprite();
@@ -27,60 +31,6 @@ var ColorStage = function() {
     var background = assetManager.getSprite("assets");
     background.gotoAndStop("screenAssembly");
     screen.addChild(background);
-
-    /*
-    // container to contain whole spaceship (coloring and all)
-    var spaceShip = new createjs.Container();
-    // setup spaceship part with shape for coloring and sprite for coloring on
-    var part1 = {};
-    part1.colorCanvas = new createjs.Shape();
-    part1.sprite = assetManager.getSprite("assets");
-    part1.sprite.gotoAndStop("fuselage1");
-    part1.sprite.x = 50;
-    part1.sprite.y = 30;
-    part1.mask = assetManager.getSprite("assets");
-    part1.mask.gotoAndStop("fuselageMask");
-    part1.mask.x = 50;
-    part1.mask.y = 30;
-
-    var part2 = {};
-    part2.colorCanvas = new createjs.Shape();
-    part2.sprite = assetManager.getSprite("assets");
-    part2.sprite.gotoAndStop("wing1");
-    part2.sprite.x = 10;
-    part2.sprite.y = 200;
-
-    var part3 = {};
-    part3.colorCanvas = new createjs.Shape();
-    part3.sprite = assetManager.getSprite("assets");
-    part3.sprite.gotoAndStop("tail1");
-    part3.sprite.x = 10;
-    part3.sprite.y = 300;
-
-    spaceShip.addChild(part1.sprite);
-    spaceShip.addChild(part1.colorCanvas);
-    spaceShip.addChild(part1.mask);
-    spaceShip.addChild(part2.sprite);
-    spaceShip.addChild(part2.colorCanvas);
-    spaceShip.addChild(part3.sprite);
-    spaceShip.addChild(part3.colorCanvas);
-
-    // cache coloring container and master container
-    part1.colorCanvas.cache(50, 30, part1.sprite.getBounds().width, part1.sprite.getBounds().height);
-    part2.colorCanvas.cache(10, 200, part2.sprite.getBounds().width / scaleRatio, part2.sprite.getBounds().height / scaleRatio);
-    part3.colorCanvas.cache(10, 300, part3.sprite.getBounds().width / scaleRatio, part3.sprite.getBounds().height / scaleRatio);
-    //spaceShip.cache(0, 0, canvas.width / scaleRatio, canvas.height / scaleRatio);
-    // add to screen
-    screen.addChild(spaceShip);
-
-    // the current part being colored
-    var currentPart = part1;
-    part2.sprite.alpha = 0.5;
-    part3.sprite.alpha = 0.5;
-    */
-
-    var colorCanvas = spaceShip.getColorCanvas();
-
 
     // setup paint selection buttons
     var btnRed = assetManager.getSprite("assets");
@@ -152,6 +102,9 @@ var ColorStage = function() {
         screen.addEventListener("mousedown", onStartColoring);
         screen.addEventListener("pressmove", onColoring);
 
+        // setup canvas to fuselage (default)
+        canvasIndex = 0;
+        colorCanvas = spaceShip.getColorCanvas(canvasQueue[canvasIndex]);
 
         // positioning and showing spaceship
         spaceShipSprite.x = 235;
@@ -191,8 +144,6 @@ var ColorStage = function() {
         // because the vector paint drop has been drawn to the cache clear it out
 		colorCanvas.graphics.clear();
     }
-
-
 
     // ------------------------------------------------- event handlers
     function onChangeColor(e) {
@@ -236,8 +187,14 @@ var ColorStage = function() {
             btnFinished.gotoAndStop("btnOkDown");
         } else {
             btnFinished.gotoAndStop("btnOkUp");
+
+            // change to the next canvas for coloring
+            canvasIndex++;
+            colorCanvas = spaceShip.getColorCanvas(canvasQueue[canvasIndex]);
+
+
             // stage is complete
-            screen.dispatchEvent(completeEvent);
+            //screen.dispatchEvent(completeEvent);
         }
     }
 
