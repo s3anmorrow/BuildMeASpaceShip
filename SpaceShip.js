@@ -4,11 +4,17 @@ var SpaceShip = function() {
     var root = window.root;
     var scaleRatio = window.scaleRatio;
 
-    // container to hold spaceship parts
-    var shipContainer = new createjs.Container();
-
     // parts list
     var partsQueue = ["fuselage","wings","tail"];
+
+    // container to hold all spaceship parts
+    var shipContainer = new createjs.Container();
+
+    // collection of containers to hold individual spaceship parts
+    var containers = {};
+    containers.fuselage = new createjs.Container();
+    containers.wings = new createjs.Container();
+    containers.tail = new createjs.Container();
 
     // collection of sprites for each part added to the ship
     var parts = {};
@@ -46,6 +52,11 @@ var SpaceShip = function() {
     cacheCoord.tail4 = new createjs.Rectangle(-12,342,199,107);
     cacheCoord.tail5 = new createjs.Rectangle(-22,370,220,60);
 
+    // add containers to shipContainer
+    shipContainer.addChild(containers.wings);
+    shipContainer.addChild(containers.fuselage);
+    shipContainer.addChild(containers.tail);
+
     // ------------------------------------------------- public methods
     this.getSprite = function() {
         return shipContainer;
@@ -56,77 +67,48 @@ var SpaceShip = function() {
     };
 
     this.focusOnPart = function(which) {
-        var alphaSetting = 0.5;
-        if (which === undefined) {
-            alphaSetting = 1;
-        }
+
+
+        //shipContainer.addChild(containers[which]);
+
+
+        /*
+        var alphaSetting = 0.2;
+        if (which === undefined) alphaSetting = 1;
 
         // set all parts, canvases, and masks to be alphed
-        for (var n=0; n<3; n++) {
-            parts[partsQueue[n]].alpha = alphaSetting;
-            colorCanvases[partsQueue[n]].alpha = alphaSetting;
-            colorMasks[partsQueue[n]].alpha = alphaSetting;
-        }
+        for (var n=0; n<3; n++) containers[partsQueue[n]].alpha = alphaSetting;
 
         if (which === undefined) return;
 
-        parts[which].alpha = 1;
-        colorCanvases[which].alpha = 1;
-        colorMasks[which].alpha = 1;
+        containers[which].alpha = 1;
+        */
     };
 
     this.assembleMe = function(newPart) {
+        // get name of frame of part (part name)
+        var partType = newPart.type;
+        var partName = newPart.currentAnimation;
+        var container = containers[partType];
+        var colorCanvas = colorCanvases[partType];
+        var cacheRect = cacheCoord[partName];
+        var colorMask = colorMasks[partType];
 
-        // add part to spaceShip shipContainer
+        // adjust location since it was in the assemblyLine before
         newPart.x = 0;
         newPart.y = 0;
+        // storing ref to new part
+        parts[partType] = newPart;
+        // adding new part to shipContainer
+        container.addChild(newPart);
 
-        // get name of frame of part (part name)
-        var partName = newPart.currentAnimation;
-        var cacheRect = cacheCoord[partName];
+        // adding color canvas shape to shipContainer
+        container.addChild(colorCanvas);
+        colorCanvas.cache(cacheRect.x, cacheRect.y, cacheRect.width, cacheRect.height);
 
-        console.log("part added: " + partName);
-
-        // setup coloring canvas and mask for fuselage
-        if (newPart.type === "fuselage") {
-
-            // adding new part to ship
-            parts.fuselage = newPart;
-            shipContainer.addChild(newPart);
-
-            // adding color canvas to ship
-            shipContainer.addChild(colorCanvases.fuselage);
-            colorCanvases.fuselage.cache(cacheRect.x, cacheRect.y, cacheRect.width, cacheRect.height);
-
-            // adding color mask to ship
-            colorMasks.fuselage.gotoAndStop(partName + "Mask");
-            shipContainer.addChild(colorMasks.fuselage);
-        } else if (newPart.type === "wing") {
-
-            // adding color mask to ship
-            colorMasks.wings.gotoAndStop(partName + "Mask");
-            shipContainer.addChildAt(colorMasks.wings, 0);
-
-            // adding color canvas to ship
-            shipContainer.addChildAt(colorCanvases.wings, 0);
-            colorCanvases.wings.cache(cacheRect.x, cacheRect.y, cacheRect.width, cacheRect.height);
-
-            // adding new part to ship at back
-            parts.wings = newPart;
-            shipContainer.addChildAt(newPart, 0);
-        } else {
-            // adding new part to ship
-            parts.tail = newPart;
-            shipContainer.addChild(newPart);
-
-            // adding color canvas to ship
-            shipContainer.addChild(colorCanvases.tail);
-            colorCanvases.tail.cache(cacheRect.x, cacheRect.y, cacheRect.width, cacheRect.height);
-
-            // adding color mask to ship
-            colorMasks.tail.gotoAndStop(partName + "Mask");
-            shipContainer.addChild(colorMasks.tail);
-        }
+        // adding color mask to shipContainer
+        colorMask.gotoAndStop(partName + "Mask");
+        container.addChild(colorMask);
     };
 
     this.resetMe = function() {

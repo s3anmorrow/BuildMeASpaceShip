@@ -12,7 +12,7 @@ var StartStage = function() {
     screen.snapToPixelEnabled = true;
     var title = assetManager.getSprite("assets","screenStart");
     title.x = 0;
-    title.y = 0;
+    title.y = 130;
     screen.addChild(title);
 
     // ------------------------------------------------- public methods

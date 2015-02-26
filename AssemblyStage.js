@@ -24,6 +24,11 @@ var AssemblyStage = function() {
     var screen = new createjs.Container();
     screen.snapToPixelEnabled = true;
 
+    var swipeArrows = assetManager.getSprite("assets","swipeArrows");
+    swipeArrows.x = 145;
+    swipeArrows.y = 90;
+    screen.addChild(swipeArrows);
+
     var btnOk = assetManager.getSprite("assets");
     btnOk.gotoAndStop("btnOkUp");
     btnOk.x = 265;
@@ -54,7 +59,7 @@ var AssemblyStage = function() {
         wings[n].gotoAndStop("wings" + (n + 1));
         wings[n].x = dropX;
         wings[n].y = 50;
-        wings[n].type = "wing";
+        wings[n].type = "wings";
         dropX += wings[n].getBounds().width + spacer;
     }
 

@@ -12,19 +12,12 @@ var BlastOffStage = function() {
     var screen = new createjs.Container();
     screen.snapToPixelEnabled = true;
 
-    /*
-    var background = assetManager.getSprite("assets");
-    background.gotoAndStop("screenAssembly");
-    background.cache(0, 0, background.getBounds().width, background.getBounds().height);
-    screen.addChild(background);
-    */
-
     // the spaceship sprite
     var spaceShipSprite = spaceShip.getSprite();
 
     var btnOk = assetManager.getSprite("assets");
     btnOk.gotoAndStop("btnOkUp");
-    btnOk.x = 275;
+    btnOk.x = 265;
     btnOk.y = 720;
     btnOk.addEventListener("mousedown", onOk);
     btnOk.addEventListener("pressup", onOk);
@@ -35,8 +28,8 @@ var BlastOffStage = function() {
     this.showMe = function(){
 
         // position spaceShip on screen
-        spaceShipSprite.x = 100;
-        spaceShipSprite.y = 100;
+        spaceShipSprite.x = 235;
+        spaceShipSprite.y = 280;
         screen.addChild(spaceShipSprite);
 
 
