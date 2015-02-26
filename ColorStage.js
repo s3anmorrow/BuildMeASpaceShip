@@ -127,8 +127,10 @@ var ColorStage = function() {
         // where are we now in terms of colorCanvas shape coord system?
         var touchPoint = colorCanvas.globalToLocal(stage.mouseX, stage.mouseY);
         // scale it to our resizing of game
-        curPoint.x = touchPoint.x / scaleRatio;
-        curPoint.y = touchPoint.y / scaleRatio;
+        //curPoint.x = touchPoint.x / scaleRatio;
+        curPoint.x = touchPoint.x;
+        //curPoint.y = touchPoint.y / scaleRatio;
+        curPoint.y = touchPoint.y;
 
         // draw line onto colorLayer
         colorCanvas.graphics.setStrokeStyle(brushSize, "round", "round");
@@ -166,8 +168,10 @@ var ColorStage = function() {
 
         // set last point to current touch point with scaling
         var touchPoint = colorCanvas.globalToLocal(stage.mouseX, stage.mouseY);
-        lastPoint.x = touchPoint.x / scaleRatio;
-        lastPoint.y = touchPoint.y / scaleRatio;
+        //lastPoint.x = touchPoint.x / scaleRatio;
+        //lastPoint.y = touchPoint.y / scaleRatio;
+        lastPoint.x = touchPoint.x;
+        lastPoint.y = touchPoint.y;
 
         paintMe(e);
     }

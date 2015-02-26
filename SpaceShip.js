@@ -19,6 +19,7 @@ var SpaceShip = function() {
     colorMasks.wings = assetManager.getSprite("assets");
     colorMasks.tail = assetManager.getSprite("assets");
 
+    // collection of the rectangle coordinates of what area to be cached for each part
     var cacheCoord = {};
     cacheCoord.fuselage1 = new createjs.Rectangle(0,0,176,400);
     cacheCoord.fuselage2 = new createjs.Rectangle(0,0,176,400);
