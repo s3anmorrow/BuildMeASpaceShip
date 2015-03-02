@@ -72,7 +72,6 @@ var SpaceShip = function() {
         //shipContainer.addChild(containers[which]);
 
 
-        /*
         var alphaSetting = 0.2;
         if (which === undefined) alphaSetting = 1;
 
@@ -82,7 +81,7 @@ var SpaceShip = function() {
         if (which === undefined) return;
 
         containers[which].alpha = 1;
-        */
+
     };
 
     this.assembleMe = function(newPart) {

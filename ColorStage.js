@@ -86,8 +86,8 @@ var ColorStage = function() {
     // add ok button
     var btnOk = assetManager.getSprite("assets");
     btnOk.gotoAndStop("btnOkUp");
-    btnOk.x = 265;
-    btnOk.y = 720;
+    btnOk.x = 270;
+    btnOk.y = 740;
     btnOk.addEventListener("mousedown", onFinished);
     btnOk.addEventListener("pressup", onFinished);
     screen.addChild(btnOk);
@@ -108,7 +108,7 @@ var ColorStage = function() {
 
         // positioning and showing spaceship
         spaceShipSprite.x = 235;
-        spaceShipSprite.y = 210;
+        spaceShipSprite.y = 230;
         screen.addChild(spaceShipSprite);
 
         root.addChild(screen);

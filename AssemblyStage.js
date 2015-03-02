@@ -31,8 +31,8 @@ var AssemblyStage = function() {
 
     var btnOk = assetManager.getSprite("assets");
     btnOk.gotoAndStop("btnOkUp");
-    btnOk.x = 265;
-    btnOk.y = 720;
+    btnOk.x = 270;
+    btnOk.y = 740;
     btnOk.addEventListener("mousedown", onOk);
     btnOk.addEventListener("pressup", onOk);
     screen.addChild(btnOk);
@@ -98,7 +98,7 @@ var AssemblyStage = function() {
         assemblyLine.removeAllChildren();
         partIndex = 0;
         assemblyLine.x = 235;
-        assemblyLine.y = 160;
+        assemblyLine.y = 180;
 
         // current part to assemblyline for selection
         if (assemblyLineIndex === 0) partsOnTheLine = fuselages;
@@ -132,7 +132,7 @@ var AssemblyStage = function() {
         screen.addChild(assemblyLine);
         // positioning and showing spaceship on this screen
         spaceShipSprite.x = 235;
-        spaceShipSprite.y = 210;
+        spaceShipSprite.y = 230;
         screen.addChild(spaceShipSprite);
 
         root.addChild(screen);
