@@ -6,7 +6,8 @@ var ColorStage = function() {
     var spaceShip = window.spaceShip;
 
     // event to be dispatched when this stage is complete
-    var completeEvent = new createjs.Event("onColorComplete", true);
+    var completeEvent = new createjs.Event("onStageComplete", true);
+    completeEvent.id = "color";
 
     // size of brush for coloring spaceship
     var brushSize = 20;
@@ -20,9 +21,6 @@ var ColorStage = function() {
     var partsQueue = ["fuselage","wings","tail"];
     var partsIndex = 0;
     var colorCanvas = null;
-
-    // the spaceship sprite
-    var spaceShipSprite = spaceShip.getSprite();
 
     // master container for this stage's screen
     var screen = new createjs.Container();
@@ -107,9 +105,7 @@ var ColorStage = function() {
 
 
         // positioning and showing spaceship
-        spaceShipSprite.x = 235;
-        spaceShipSprite.y = 230;
-        screen.addChild(spaceShipSprite);
+        spaceShip.showMeOn(screen, 235, 230);
 
         root.addChild(screen);
     };

@@ -1,8 +1,10 @@
 var SpaceShip = function() {
+
+    // TODO fix some fuselages so the masks don't knock out sections of them
+
     // local references to important globals
     var assetManager = window.assetManager;
     var root = window.root;
-    var scaleRatio = window.scaleRatio;
 
     // parts list
     var partsQueue = ["fuselage","wings","tail"];
@@ -57,6 +59,10 @@ var SpaceShip = function() {
     shipContainer.addChild(containers.fuselage);
     shipContainer.addChild(containers.tail);
 
+    // other spaceship effects
+    var thrust = assetManager.getSprite("assets", "thrust");
+    var smoke = assetManager.getSprite("assets","smoke");
+
     // ------------------------------------------------- public methods
     this.getSprite = function() {
         return shipContainer;
@@ -64,6 +70,12 @@ var SpaceShip = function() {
 
     this.getColorCanvas = function(which) {
         return colorCanvases[which];
+    };
+
+    this.showMeOn = function(screen, locX, locY) {
+        shipContainer.x = locX;
+        shipContainer.y = locY;
+        screen.addChild(shipContainer);
     };
 
     this.focusOnPart = function(which) {
@@ -82,6 +94,42 @@ var SpaceShip = function() {
 
         containers[which].alpha = 1;
 
+    };
+
+    this.activateThrust = function(which) {
+        if (!which) {
+            thrust.stop();
+            shipContainer.removeChild(thrust);
+            return;
+        }
+        // position thrust sprite
+        thrust.x = 18;
+        thrust.y = shipContainer.getBounds().height - 40;
+        thrust.play();
+        shipContainer.addChild(thrust);
+    };
+
+    this.activateSmoke = function(which) {
+        if (!which) {
+            // stopping smoke animation after animation is complete (avoid abrupt ending)
+            smoke.on("animationend",
+                function(){
+                    smoke.stop();
+                    shipContainer.removeChild(smoke);
+                },
+            null, true);
+            return;
+        }
+        // position thrust sprite
+        smoke.x = -8;
+        smoke.y = shipContainer.getBounds().height - 60;
+        smoke.play();
+        shipContainer.addChild(smoke);
+    };
+
+    this.blastOff = function(callback) {
+        // tween spaceship blasting off top of stage
+        createjs.Tween.get(shipContainer).to({y:-(shipContainer.getBounds().height + 10)}, 5000, createjs.Ease.cubicIn).call(callback);
     };
 
     this.assembleMe = function(newPart) {
@@ -121,6 +169,7 @@ var SpaceShip = function() {
         colorCanvases.fuselage.uncache();
         colorCanvases.wings.uncache();
         colorCanvases.tail.uncache();
+
 
 
     };

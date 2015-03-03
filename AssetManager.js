@@ -133,12 +133,14 @@ var AssetManager = function() {
     }
 
 	// ------------------------------------------------------ public methods
-    this.getSprite = function(spriteSheetID, frameLabel) {
+    this.getSprite = function(spriteSheetID, frameLabel, locX, locY) {
         // construct sprite object to animate the frames (I call this a clip)
         var sprite = new createjs.Sprite(spriteSheets[spriteSheetID]);
         sprite.name = spriteSheetID;
-        sprite.x = 0;
-        sprite.y = 0;
+        if (locX == undefined) sprite.x = 0;
+        else sprite.x = locX;
+        if (locY == undefined) sprite.y = 0;
+        else sprite.y = locY;
         sprite.currentFrame = 0;
         if (frameLabel != undefined) sprite.gotoAndStop(frameLabel);
         return sprite;

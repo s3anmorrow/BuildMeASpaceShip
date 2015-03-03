@@ -41,7 +41,7 @@ var startScreen = null;
 var colorStage = null;
 var assemblyStage = null;
 var blastOffStage = null;
-var flightStage = null;
+var asteroidStage = null;
 var assetManager = null;
 var spaceShip = null;
 
@@ -155,14 +155,10 @@ function onSetup(e) {
     assemblyStage = new AssemblyStage();
     colorStage = new ColorStage();
     blastOffStage = new BlastOffStage();
-    flightStage = new FlightStage();
+    asteroidStage = new AsteroidStage();
 
-    // setup event listeners for custom events for screen flow
-    stage.addEventListener("onStartComplete", onStageComplete, true);
-    stage.addEventListener("onAssemblyComplete", onStageComplete, true);
-    stage.addEventListener("onColorComplete", onStageComplete, true);
-    stage.addEventListener("onBlastOffComplete", onStageComplete, true);
-    stage.addEventListener("onFlightComplete", onStageComplete, true);
+    // setup event listeners for screen flow
+    stage.addEventListener("onStageComplete", onStageComplete, true);
 
     // startup the ticker
     createjs.Ticker.setFPS(frameRate);
@@ -185,28 +181,28 @@ function onStartGame(e) {
 
 function onStageComplete(e) {
 
-    console.log("ASSEMBLY COMPLETE! " + e.type);
+    console.log("stage complete: " + e.id);
 
     // event routing
-    switch(e.type) {
-        case "onStartComplete":
+    switch(e.id) {
+        case "start":
             startStage.hideMe();
             assemblyStage.showMe();
             break;
-        case "onAssemblyComplete":
+        case "assembly":
             assemblyStage.hideMe();
             colorStage.showMe();
             break;
-        case "onColorComplete":
+        case "color":
             colorStage.hideMe();
             blastOffStage.showMe();
             break;
-        case "onBlastOffComplete":
+        case "blastOff":
             blastOffStage.hideMe();
-            flightStage.showMe();
+            asteroidsStage.showMe();
             break;
-        case "onFlightComplete":
-            flightStage.hideMe();
+        case "asteroids":
+            asteroidsStage.hideMe();
 
             // ??????????????????????????
             //blastOffStage.showMe();

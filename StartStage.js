@@ -5,7 +5,8 @@ var StartStage = function() {
     var background = window.background.getSprite();
 
     // event to be dispatched when this stage is complete
-    var completeEvent = new createjs.Event("onStartComplete", true);
+    var completeEvent = new createjs.Event("onStageComplete", true);
+    completeEvent.id = "Start";
 
     // master container for this stage's screen
     var screen = new createjs.Container();

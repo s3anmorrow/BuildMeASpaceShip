@@ -6,7 +6,8 @@ var AssemblyStage = function() {
     var background = window.background.getSprite();
 
     // event to be dispatched when this stage is complete
-    var completeEvent = new createjs.Event("onAssemblyComplete", true);
+    var completeEvent = new createjs.Event("onStageComplete", true);
+    completeEvent.id = "assembly";
 
     // private variables
     // the X location of touch to determine direction of swipe
@@ -126,14 +127,10 @@ var AssemblyStage = function() {
         background.addEventListener("mousedown", onStartSwipe);
         background.addEventListener("pressmove", onSwiping);
 
-
-
         // add assembly line container overtop
         screen.addChild(assemblyLine);
         // positioning and showing spaceship on this screen
-        spaceShipSprite.x = 235;
-        spaceShipSprite.y = 230;
-        screen.addChild(spaceShipSprite);
+        spaceShip.showMeOn(screen, 235, 230);
 
         root.addChild(screen);
     };

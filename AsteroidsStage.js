@@ -1,4 +1,4 @@
-var FlightStage = function() {
+var AsteroidsStage = function() {
     // local references to important globals
     var assetManager = window.assetManager;
     var root = window.root;
@@ -6,7 +6,8 @@ var FlightStage = function() {
     var spaceShip = window.spaceShip;
 
     // event to be dispatched when this stage is complete
-    var completeEvent = new createjs.Event("onFlightComplete", true);
+    var completeEvent = new createjs.Event("onStageComplete", true);
+    completeEvent.id = "asteroids";
 
     // master container for this stage's screen
     var screen = new createjs.Container();
@@ -16,6 +17,7 @@ var FlightStage = function() {
     background.cache(0, 0, background.getBounds().width, background.getBounds().height);
     screen.addChild(background);
 
+    /*
     var btnOk = assetManager.getSprite("assets");
     btnOk.gotoAndStop("btnOkUp");
     btnOk.x = 444;
@@ -23,10 +25,15 @@ var FlightStage = function() {
     btnOk.addEventListener("mousedown", onOk);
     btnOk.addEventListener("pressup", onOk);
     screen.addChild(btnOk);
+    */
 
 
     // ------------------------------------------------- public methods
     this.showMe = function(){
+        // show spaceship
+        spaceShip.showMeOn(screen, 0, 0);
+
+
 
         root.addChild(screen);
     };
