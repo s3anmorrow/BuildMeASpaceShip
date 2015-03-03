@@ -1,4 +1,7 @@
 var BlastOffStage = function() {
+
+    // TODO add shadow from spaceship
+
     // local references to important globals
     var assetManager = window.assetManager;
     var root = window.root;
@@ -18,7 +21,7 @@ var BlastOffStage = function() {
     var spaceShipSprite = spaceShip.getSprite();
 
     var btnGo = assetManager.getSprite("assets","btnGoUp");
-    btnGo.x = 100;
+    btnGo.x = 270;
     btnGo.y = 100;
     btnGo.addEventListener("mousedown", onOk);
     btnGo.addEventListener("pressup", onOk);
@@ -38,6 +41,11 @@ var BlastOffStage = function() {
     this.hideMe = function(){
 
         root.removeChild(screen);
+    };
+
+    this.updateMe = function() {
+
+
     };
 
     // ------------------------------------------------- event handler
