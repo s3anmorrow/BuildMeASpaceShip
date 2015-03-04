@@ -5,6 +5,7 @@
 // TODO expert mode where you can color the ship outside the lines
 // TODO get rid of address bar in browser on mobile devices
 // TODO build system so that stage.update() only happens when it needs to be
+// TODO pause all tweens when game paused
 
 // the base width and height of game that graphics are designed for (pre-resizing for android screens)
 var BASE_WIDTH = 640;
@@ -33,6 +34,8 @@ var root = null;
 
 // frame rate of game
 var frameRate = 30;
+// current game stage
+var gameStage = "";
 
 // game objects
 var background = null;
@@ -132,12 +135,14 @@ function onResize(e) {
 function onPause(e) {
     // ??????????????????????????????????????????????
     background.pauseMe();
+    asteroidStage.pauseMe();
     createjs.Ticker.removeEventListener("tick", onTick);
 }
 
 function onResume(e) {
     // ??????????????????????????????????????????????
     background.unPauseMe();
+    asteroidStage.unPauseMe();
     createjs.Ticker.addEventListener("tick", onTick);
 }
 
@@ -170,6 +175,7 @@ function onSetup(e) {
     window.addEventListener("focus", onResume);
 
     startStage.showMe();
+    gameStage = "start";
 
     console.log(">> game ready");
 }
@@ -188,24 +194,29 @@ function onStageComplete(e) {
         case "start":
             startStage.hideMe();
             assemblyStage.showMe();
+            gameStage = "assembly";
             break;
         case "assembly":
             assemblyStage.hideMe();
             colorStage.showMe();
+            gameStage = "color";
             break;
         case "color":
             colorStage.hideMe();
             blastOffStage.showMe();
+            gameStage = "blastOff";
             break;
         case "blastOff":
             blastOffStage.hideMe();
-            asteroidsStage.showMe();
+            asteroidStage.showMe();
+            gameStage = "asteroids";
             break;
         case "asteroids":
-            asteroidsStage.hideMe();
+            asteroidStage.hideMe();
 
             // ??????????????????????????
-            //blastOffStage.showMe();
+            //dodgeStage.showMe();
+            //gameStage = "dodge";
 
             break;
 
@@ -225,6 +236,10 @@ function onTick(e) {
     // game loop code here
 	// ..
 
+    if (gameStage === "asteroids") {
+        background.updateMe();
+        asteroidStage.updateMe();
+    }
 
 
 

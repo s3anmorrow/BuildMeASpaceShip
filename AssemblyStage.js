@@ -26,7 +26,7 @@ var AssemblyStage = function() {
     screen.snapToPixelEnabled = true;
 
     var swipeArrows = assetManager.getSprite("assets","swipeArrows");
-    swipeArrows.x = 145;
+    swipeArrows.x = 120;
     swipeArrows.y = 90;
     screen.addChild(swipeArrows);
 

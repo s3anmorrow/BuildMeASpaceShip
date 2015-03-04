@@ -104,7 +104,7 @@ var SpaceShip = function() {
         }
         // position thrust sprite
         thrust.x = 18;
-        thrust.y = shipContainer.getBounds().height - 40;
+        thrust.y = shipContainer.getBounds().height - 60;
         thrust.play();
         shipContainer.addChild(thrust);
     };
@@ -127,9 +127,25 @@ var SpaceShip = function() {
         shipContainer.addChild(smoke);
     };
 
-    this.blastOff = function(callback) {
+    this.shrinkMe = function(which) {
+        if (which) {
+            shipContainer.scaleX = 0.75;
+            shipContainer.scaleY = 0.75;
+        } else {
+            shipContainer.scaleX = 1;
+            shipContainer.scaleY = 1;
+        }
+    };
+
+    this.flyOffStage = function(callback) {
         // tween spaceship blasting off top of stage
-        createjs.Tween.get(shipContainer).to({y:-(shipContainer.getBounds().height + 10)}, 5000, createjs.Ease.cubicIn).call(callback);
+        //createjs.Tween.get(shipContainer).to({y:-(shipContainer.getBounds().height + 10)}, 5000, createjs.Ease.cubicIn).call(callback);
+        createjs.Tween.get(shipContainer).to({y:-(shipContainer.getBounds().height + 10)}, 500, createjs.Ease.cubicIn).call(callback);
+    };
+
+    this.flyOnStage = function(callback) {
+        //createjs.Tween.get(shipContainer).to({y:400}, 5000, createjs.Ease.cubicOut).call(callback);
+        createjs.Tween.get(shipContainer).to({y:400}, 500, createjs.Ease.cubicOut).call(callback);
     };
 
     this.assembleMe = function(newPart) {

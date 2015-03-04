@@ -40,7 +40,7 @@ var BlastOffStage = function() {
     // ------------------------------------------------- private methods
     function dropCountDownNumber() {
         // tween count down number onto stage
-        createjs.Tween.get(countDown[countDownIndex]).to({y:150}, 1000, createjs.Ease.cubicOut).call(onCountDownNumberComplete);
+        createjs.Tween.get(countDown[countDownIndex]).to({y:150}, 250, createjs.Ease.cubicOut).call(onCountDownNumberComplete);
     }
 
     // ------------------------------------------------- public methods
@@ -91,7 +91,7 @@ var BlastOffStage = function() {
             spaceShip.activateSmoke(false);
             spaceShip.activateThrust(true);
             // time to blast off!
-            spaceShip.blastOff(onComplete);
+            spaceShip.flyOffStage(onComplete);
         } else {
             dropCountDownNumber();
         }

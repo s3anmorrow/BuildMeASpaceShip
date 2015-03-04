@@ -1,4 +1,4 @@
-var AsteroidsStage = function() {
+var DodgeStage = function() {
     // local references to important globals
     var assetManager = window.assetManager;
     var root = window.root;
