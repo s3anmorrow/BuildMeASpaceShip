@@ -6,6 +6,7 @@ var AsteroidStage = function() {
     var assetManager = window.assetManager;
     var root = window.root;
     var spaceShip = window.spaceShip;
+    var randomMe = window.randomMe;
 
     // event to be dispatched when this stage is complete
     var completeEvent = new createjs.Event("onStageComplete", true);
@@ -13,26 +14,33 @@ var AsteroidStage = function() {
 
     // asteroids ready to appear
     var ready = false;
+    // number of asteroids
+    var asteroidNumber = 20;
     // timer for asteroids to drop
     var asteroidTimer = null;
-    var asteroidFreq = 5000;
+    var asteroidFreq = 1000;
 
     // master container for this stage's screen
     var screen = new createjs.Container();
     screen.snapToPixelEnabled = true;
+    // container for layering asteroids
+    var asteroidLayer = new createjs.Container();
+    var laser = new createjs.Shape();
 
     var asteroidIndex = 0;
     var asteroids = [];
-    for (var n=0; n<10; n++) {
+    for (var n=0; n<asteroidNumber; n++) {
         var asteroid = assetManager.getSprite("assets","asteroid1");
         asteroid.addEventListener("mousedown", onPopAsteroid);
         asteroids.push(asteroid);
     }
 
+    screen.addChild(asteroidLayer);
+    screen.addChild(laser);
+
     // ------------------------------------------------- public methods
     this.showMe = function(){
         // show spaceship
-        //spaceShip.shrinkMe();
         spaceShip.showMeOn(screen, 232, 970);
         spaceShip.flyOnStage(onReady);
 
@@ -42,18 +50,28 @@ var AsteroidStage = function() {
         // game stage initialization
         ready = false;
         // reset asteroids
-        for (var n=0; n<10; n++) {
-            asteroids[n].gotoAndStop("asteroid" + randomMe(1,4));
-            asteroids[n].y = -100;
-            asteroids[n].x = 10;
-            asteroids[n].speed = randomMe(1,4);
-            asteroids[n].active = false;
+        for (var n=0; n<asteroidNumber; n++) {
+            var asteroid = asteroids[n];
+            asteroid.gotoAndStop("asteroid" + randomMe(1,4));
+            asteroid.y = -100;
+            if ((n % 2) === 0) asteroid.x = randomMe(10,184);
+            else asteroid.x = randomMe(340,504);
+            asteroid.centerDisplaceX = asteroid.getBounds().width / 2;
+            asteroid.centerDisplaceY = asteroid.getBounds().height / 2;
+            asteroid.speed = randomMe(1,5);
+            asteroid.active = false;
         }
 
         root.addChild(screen);
+
+        // drop asteroid right away
+        onDropAsteroid();
     };
 
     this.hideMe = function(){
+        // cleanup
+        for (var n=0; n<asteroidNumber; n++) screen.removeChild(asteroids[n]);
+
 
         root.removeChild(screen);
     };
@@ -71,7 +89,7 @@ var AsteroidStage = function() {
             console.log("updating asteroidStage");
 
 
-            for (var n=0; n<10; n++) {
+            for (var n=0; n<asteroidNumber; n++) {
 
                 if (asteroids[n].active) {
 
@@ -88,20 +106,39 @@ var AsteroidStage = function() {
 
     // ------------------------------------------------- event handler
     function onDropAsteroid(e) {
-        if (asteroidIndex >= 10) return;
-        screen.addChild(asteroids[asteroidIndex]);
+        if (asteroidIndex >= asteroidNumber) return;
+        asteroidLayer.addChild(asteroids[asteroidIndex]);
         asteroids[asteroidIndex].active = true;
         asteroidIndex++;
     };
 
     function onPopAsteroid(e) {
 
-        console.log("pop " + e.target);
-
         var asteroid = e.target;
+
+        console.log("pop " + asteroid.x + "," + asteroid.y);
+
+
+        /*
+        // shoot laser at asteroid
+        laser.graphics.moveTo(0,0);
+        //laser.graphics.beginStroke("#FF0000").lineTo(asteroid.x, asteroid.y);
+        laser.graphics.setStrokeStyle(4).beginStroke("red").lineTo(200, 200);
+        laser.graphics.endStroke();
+        //laser.graphics.beginStroke("red").beginFill("blue").drawRect(20, 20, 100, 50);
+        */
+
+        laser.graphics.setStrokeStyle(3);
+        laser.graphics.beginStroke("red");
+        laser.graphics.moveTo(320, 500);
+        laser.graphics.lineTo(asteroid.x + asteroid.centerDisplaceX, asteroid.y + asteroid.centerDisplaceY);
+        laser.graphics.endStroke();
+
+
+
         // !!!!!!!!!!!!!!!!!
         // play popping animation
-        screen.removeChild(asteroid);
+        asteroidLayer.removeChild(asteroid);
         asteroid.active = false;
 
     };

@@ -59,6 +59,12 @@ var SpaceShip = function() {
     shipContainer.addChild(containers.fuselage);
     shipContainer.addChild(containers.tail);
 
+    // ???????????????????????????
+    // misc spaceship parts
+    var laserTurret = assetManager.getSprite("assets","btnRedUp");
+    // ???????????????????????????
+
+
     // other spaceship effects
     var thrust = assetManager.getSprite("assets", "thrust");
     var smoke = assetManager.getSprite("assets","smoke");
@@ -127,6 +133,7 @@ var SpaceShip = function() {
         shipContainer.addChild(smoke);
     };
 
+    /*
     this.shrinkMe = function(which) {
         if (which) {
             shipContainer.scaleX = 0.75;
@@ -136,6 +143,7 @@ var SpaceShip = function() {
             shipContainer.scaleY = 1;
         }
     };
+    */
 
     this.flyOffStage = function(callback) {
         // tween spaceship blasting off top of stage
@@ -156,6 +164,11 @@ var SpaceShip = function() {
         var colorCanvas = colorCanvases[partType];
         var cacheRect = cacheCoord[partName];
         var colorMask = colorMasks[partType];
+
+        // add laser turret if part is a fuselage
+        // ????????????????
+
+
 
         // adjust location since it was in the assemblyLine before
         newPart.x = 0;
