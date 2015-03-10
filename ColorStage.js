@@ -181,8 +181,6 @@ var ColorStage = function() {
     }
 
     function onFinished(e) {
-        console.log("e type: " + e.type);
-
         if (e.type === "mousedown") {
             btnOk.gotoAndStop("btnOkDown");
         } else {

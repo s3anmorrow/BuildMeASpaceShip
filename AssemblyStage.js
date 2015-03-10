@@ -196,8 +196,6 @@ var AssemblyStage = function() {
     }
 
     function onOk(e) {
-        console.log("e type: " + e.type);
-
         if (e.type === "mousedown") {
             btnOk.gotoAndStop("btnOkDown");
 

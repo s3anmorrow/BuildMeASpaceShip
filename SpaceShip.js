@@ -20,6 +20,9 @@ var SpaceShip = function() {
     containers.cockpit = new createjs.Container();
     containers.laser = new createjs.Container();
 
+    // shape to draw laser beam on
+    var laserBeam = new createjs.Shape();
+
     // collection of sprites for each part added to the ship
     var parts = {};
     parts.fuselage = null;
@@ -58,26 +61,22 @@ var SpaceShip = function() {
     cacheCoord.tail4 = new createjs.Rectangle(-12,342,199,107);
     cacheCoord.tail5 = new createjs.Rectangle(-22,370,220,60);
 
+    // collection of laser turret placements
+    var laserCoord = {};
+    laserCoord.laser1 = new createjs.Point(89,65);
+    laserCoord.laser2 = new createjs.Point(89,145);
+    laserCoord.laser3 = new createjs.Point(89,255);
+
     // add containers to shipContainer
     shipContainer.addChild(containers.wings);
     shipContainer.addChild(containers.fuselage);
     shipContainer.addChild(containers.tail);
     shipContainer.addChild(containers.cockpit);
+    shipContainer.addChild(laserBeam);
     shipContainer.addChild(containers.laser);
 
-
-    /*
-    // ???????????????????????????
-    shipContainer.addChild(containers.laser);
-    // misc spaceship parts
+    // other spaceship parts and effects
     var laserTurret = assetManager.getSprite("assets","laserTurret");
-    laserTurret.x = 88;
-    laserTurret.y = 75;
-    containers.laser.addChild(laserTurret);
-    // ???????????????????????????
-    */
-
-    // other spaceship effects
     var thrust = assetManager.getSprite("assets", "thrust");
     var smoke = assetManager.getSprite("assets","smoke");
 
@@ -100,7 +99,7 @@ var SpaceShip = function() {
         var alphaSetting = 0.2;
         if (which === undefined) alphaSetting = 1;
         // set all parts, canvases, and masks to be alphed
-        for (var n=0; n<3; n++) containers[partsQueue[n]].alpha = alphaSetting;
+        for (var n=0; n<5; n++) containers[partsQueue[n]].alpha = alphaSetting;
         if (which === undefined) return;
         containers[which].alpha = 1;
     };
@@ -136,24 +135,50 @@ var SpaceShip = function() {
         shipContainer.addChild(smoke);
     };
 
-    this.aimTurret = function(targetX, targetY) {
 
-        /*
-        var point = shipContainer.localToGlobal(laserTurret.x, laserTurret.y);
+
+    // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    this.getGlobalTurretLocation = function() {
+        // get global equivalent for use on AsteroidStage
+        return containers.laser.localToGlobal(laserTurret.x, laserTurret.y);
+    };
+
+    this.aimTurret = function(angle) {
+        laserTurret.rotation = angle;
+    };
+    // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+    this.fireMe = function(target, targetLayer) {
+
+        // convert asteroid x,y relative to shipContainer
+        var targetPoint = targetLayer.localToLocal(target.x, target.y, shipContainer);
 
         // calculate angle from turret to target asteroid
-        var angle = Math.atan2(targetY - point.y, targetX - point.x);
+        var angle = Math.atan2(targetPoint.y - laserTurret.y, targetPoint.x - laserTurret.x);
         // convert to degrees from radians
         angle = angle * (180 / Math.PI);
+        // aim turret
+        spaceShip.aimTurret(angle);
 
+        // draw laser beam
+        laserBeam.graphics.setStrokeStyle(10, "round");
+        laserBeam.graphics.beginStroke("rgba(255,0,0,0.4)");
+        laserBeam.graphics.moveTo(laserTurret.x, laserTurret.y);
+        laserBeam.graphics.lineTo(targetPoint.x, targetPoint.y);
+        laserBeam.graphics.endStroke();
+        laserBeam.graphics.setStrokeStyle(4, "round");
+        laserBeam.graphics.beginStroke("rgba(255,0,0,1)");
+        laserBeam.graphics.moveTo(laserTurret.x, laserTurret.y);
+        laserBeam.graphics.lineTo(targetPoint.x, targetPoint.y);
+        laserBeam.graphics.endStroke();
 
-        console.log("angle: " + angle);
-
-
-        laserTurret.rotation = angle;
-        */
+        //createjs.Tween.get(countDown[countDownIndex]).to({alpha:0}, 500);
 
     };
+
+
+
+
 
     this.flyOffStage = function(callback) {
         // tween spaceship blasting off top of stage
@@ -175,10 +200,20 @@ var SpaceShip = function() {
         // adjust location since it was in the assemblyLine before
         newPart.x = 0;
         newPart.y = 0;
-        // storing ref to new part
-        parts[partType] = newPart;
-        // adding new part to shipContainer
-        container.addChild(newPart);
+
+        if (partType === "laser") {
+            // storing ref to new part
+            parts[partType] = laserTurret;
+            // laserTurret sprite is added instead of passed in assembly line sprite due to reg point requirements
+            var point = laserCoord[partName];
+            laserTurret.x = point.x;
+            laserTurret.y = point.y;
+            container.addChild(laserTurret);
+        } else {
+            parts[partType] = newPart;
+            // adding new part to shipContainer
+            container.addChild(newPart);
+        }
 
         // if part is cockpit or laser we are done
         if ((partType === "cockpit") || (partType === "laser")) return;
@@ -202,14 +237,19 @@ var SpaceShip = function() {
         parts.fuselage = null;
         parts.wings = null;
         parts.tail = null;
+        parts.cockpit = null;
+        parts.laser = null;
         laserTurret.rotation = 0;
+
+        // remove all parts of spaceship
+        for (var n=0; n<5; n++) containers[partsQueue[n]].removeAllChildren();
+
         // no focusing on any part
         this.focusOnPart(undefined);
         // clearing out all caches for next round
         colorCanvases.fuselage.uncache();
         colorCanvases.wings.uncache();
         colorCanvases.tail.uncache();
-
 
 
     };
