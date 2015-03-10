@@ -25,7 +25,8 @@ var AsteroidStage = function() {
     screen.snapToPixelEnabled = true;
     // container for layering asteroids
     var asteroidLayer = new createjs.Container();
-    var laser = new createjs.Shape();
+    // shape to draw laser beam on
+    var laserLayer = new createjs.Shape();
 
     var asteroidIndex = 0;
     var asteroids = [];
@@ -36,10 +37,10 @@ var AsteroidStage = function() {
     }
 
     screen.addChild(asteroidLayer);
-    screen.addChild(laser);
 
     // ------------------------------------------------- public methods
     this.showMe = function(){
+
         // show spaceship
         spaceShip.showMeOn(screen, 232, 970);
         spaceShip.flyOnStage(onReady);
@@ -61,6 +62,9 @@ var AsteroidStage = function() {
             asteroid.speed = randomMe(1,5);
             asteroid.active = false;
         }
+
+        // add laser layer
+        screen.addChild(laserLayer);
 
         root.addChild(screen);
 
@@ -118,21 +122,22 @@ var AsteroidStage = function() {
 
         console.log("pop " + asteroid.x + "," + asteroid.y);
 
+        // turn laser turret
+        spaceShip.aimTurret(asteroid.x, asteroid.y);
 
-        /*
-        // shoot laser at asteroid
-        laser.graphics.moveTo(0,0);
-        //laser.graphics.beginStroke("#FF0000").lineTo(asteroid.x, asteroid.y);
-        laser.graphics.setStrokeStyle(4).beginStroke("red").lineTo(200, 200);
-        laser.graphics.endStroke();
-        //laser.graphics.beginStroke("red").beginFill("blue").drawRect(20, 20, 100, 50);
-        */
+        // draw laser beam
+        laserLayer.graphics.setStrokeStyle(10, "round");
+        laserLayer.graphics.beginStroke("rgba(255,0,0,0.5)");
+        laserLayer.graphics.moveTo(320, 500);
+        laserLayer.graphics.lineTo(asteroid.x + asteroid.centerDisplaceX, asteroid.y + asteroid.centerDisplaceY);
+        laserLayer.graphics.endStroke();
+        laserLayer.graphics.setStrokeStyle(4, "round");
+        laserLayer.graphics.beginStroke("rgba(255,0,0,1)");
+        laserLayer.graphics.moveTo(320, 500);
+        laserLayer.graphics.lineTo(asteroid.x + asteroid.centerDisplaceX, asteroid.y + asteroid.centerDisplaceY);
+        laserLayer.graphics.endStroke();
 
-        laser.graphics.setStrokeStyle(3);
-        laser.graphics.beginStroke("red");
-        laser.graphics.moveTo(320, 500);
-        laser.graphics.lineTo(asteroid.x + asteroid.centerDisplaceX, asteroid.y + asteroid.centerDisplaceY);
-        laser.graphics.endStroke();
+
 
 
 

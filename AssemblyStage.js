@@ -45,8 +45,7 @@ var AssemblyStage = function() {
     var dropX = 0;
     var fuselages = [];
     for (var n=0; n<5; n++) {
-        fuselages[n] = assetManager.getSprite("assets");
-        fuselages[n].gotoAndStop("fuselage" + (n + 1));
+        fuselages[n] = assetManager.getSprite("assets","fuselage" + (n + 1));
         fuselages[n].x = dropX;
         fuselages[n].y = 50;
         fuselages[n].type = "fuselage";
@@ -56,8 +55,7 @@ var AssemblyStage = function() {
     dropX = 0;
     var wings = [];
     for (n=0; n<5; n++) {
-        wings[n] = assetManager.getSprite("assets");
-        wings[n].gotoAndStop("wings" + (n + 1));
+        wings[n] = assetManager.getSprite("assets","wings" + (n + 1));
         wings[n].x = dropX;
         wings[n].y = 50;
         wings[n].type = "wings";
@@ -67,12 +65,31 @@ var AssemblyStage = function() {
     dropX = 0;
     var tails = [];
     for (n=0; n<5; n++) {
-        tails[n] = assetManager.getSprite("assets");
-        tails[n].gotoAndStop("tail" + (n + 1));
+        tails[n] = assetManager.getSprite("assets","tail" + (n + 1));
         tails[n].x = dropX;
         tails[n].y = 50;
         tails[n].type = "tail";
         dropX += tails[n].getBounds().width + spacer;
+    }
+
+    dropX = 0;
+    var cockpits = [];
+    for (n=0; n<4; n++) {
+        cockpits[n] = assetManager.getSprite("assets","cockpit" + (n + 1));
+        cockpits[n].x = dropX;
+        cockpits[n].y = 50;
+        cockpits[n].type = "cockpit";
+        dropX += fuselages[n].getBounds().width + spacer;
+    }
+
+    dropX = 0;
+    var lasers = [];
+    for (n=0; n<3; n++) {
+        lasers[n] = assetManager.getSprite("assets","laser" + (n + 1));
+        lasers[n].x = dropX;
+        lasers[n].y = 50;
+        lasers[n].type = "laser";
+        dropX += fuselages[n].getBounds().width + spacer;
     }
 
     // setup assemblyLine with current parts
@@ -108,6 +125,10 @@ var AssemblyStage = function() {
             partsOnTheLine = tails;
             // swap displaylist index so tails are on top of spaceship
             screen.swapChildren(spaceShipSprite, assemblyLine);
+        } else if (assemblyLineIndex === 3) {
+            partsOnTheLine = cockpits;
+        } else if (assemblyLineIndex === 4) {
+            partsOnTheLine = lasers;
         } else {
             // stage is complete
             screen.dispatchEvent(completeEvent);

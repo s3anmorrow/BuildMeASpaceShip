@@ -7,7 +7,7 @@ var SpaceShip = function() {
     var root = window.root;
 
     // parts list
-    var partsQueue = ["fuselage","wings","tail"];
+    var partsQueue = ["fuselage","wings","tail","cockpit","laser"];
 
     // container to hold all spaceship parts
     var shipContainer = new createjs.Container();
@@ -17,12 +17,16 @@ var SpaceShip = function() {
     containers.fuselage = new createjs.Container();
     containers.wings = new createjs.Container();
     containers.tail = new createjs.Container();
+    containers.cockpit = new createjs.Container();
+    containers.laser = new createjs.Container();
 
     // collection of sprites for each part added to the ship
     var parts = {};
     parts.fuselage = null;
     parts.wings = null;
     parts.tail = null;
+    parts.cockpit = null;
+    parts.laser = null;
 
     // collection of shapes to color on for each ship part
     var colorCanvases = {};
@@ -58,12 +62,20 @@ var SpaceShip = function() {
     shipContainer.addChild(containers.wings);
     shipContainer.addChild(containers.fuselage);
     shipContainer.addChild(containers.tail);
+    shipContainer.addChild(containers.cockpit);
+    shipContainer.addChild(containers.laser);
 
+
+    /*
     // ???????????????????????????
+    shipContainer.addChild(containers.laser);
     // misc spaceship parts
-    var laserTurret = assetManager.getSprite("assets","btnRedUp");
+    var laserTurret = assetManager.getSprite("assets","laserTurret");
+    laserTurret.x = 88;
+    laserTurret.y = 75;
+    containers.laser.addChild(laserTurret);
     // ???????????????????????????
-
+    */
 
     // other spaceship effects
     var thrust = assetManager.getSprite("assets", "thrust");
@@ -85,21 +97,12 @@ var SpaceShip = function() {
     };
 
     this.focusOnPart = function(which) {
-
-
-        //shipContainer.addChild(containers[which]);
-
-
         var alphaSetting = 0.2;
         if (which === undefined) alphaSetting = 1;
-
         // set all parts, canvases, and masks to be alphed
         for (var n=0; n<3; n++) containers[partsQueue[n]].alpha = alphaSetting;
-
         if (which === undefined) return;
-
         containers[which].alpha = 1;
-
     };
 
     this.activateThrust = function(which) {
@@ -133,17 +136,24 @@ var SpaceShip = function() {
         shipContainer.addChild(smoke);
     };
 
-    /*
-    this.shrinkMe = function(which) {
-        if (which) {
-            shipContainer.scaleX = 0.75;
-            shipContainer.scaleY = 0.75;
-        } else {
-            shipContainer.scaleX = 1;
-            shipContainer.scaleY = 1;
-        }
+    this.aimTurret = function(targetX, targetY) {
+
+        /*
+        var point = shipContainer.localToGlobal(laserTurret.x, laserTurret.y);
+
+        // calculate angle from turret to target asteroid
+        var angle = Math.atan2(targetY - point.y, targetX - point.x);
+        // convert to degrees from radians
+        angle = angle * (180 / Math.PI);
+
+
+        console.log("angle: " + angle);
+
+
+        laserTurret.rotation = angle;
+        */
+
     };
-    */
 
     this.flyOffStage = function(callback) {
         // tween spaceship blasting off top of stage
@@ -161,14 +171,6 @@ var SpaceShip = function() {
         var partType = newPart.type;
         var partName = newPart.currentAnimation;
         var container = containers[partType];
-        var colorCanvas = colorCanvases[partType];
-        var cacheRect = cacheCoord[partName];
-        var colorMask = colorMasks[partType];
-
-        // add laser turret if part is a fuselage
-        // ????????????????
-
-
 
         // adjust location since it was in the assemblyLine before
         newPart.x = 0;
@@ -177,6 +179,14 @@ var SpaceShip = function() {
         parts[partType] = newPart;
         // adding new part to shipContainer
         container.addChild(newPart);
+
+        // if part is cockpit or laser we are done
+        if ((partType === "cockpit") || (partType === "laser")) return;
+
+        // setup color canvases and masks
+        var colorCanvas = colorCanvases[partType];
+        var cacheRect = cacheCoord[partName];
+        var colorMask = colorMasks[partType];
 
         // adding color canvas shape to shipContainer
         container.addChild(colorCanvas);
@@ -192,6 +202,7 @@ var SpaceShip = function() {
         parts.fuselage = null;
         parts.wings = null;
         parts.tail = null;
+        laserTurret.rotation = 0;
         // no focusing on any part
         this.focusOnPart(undefined);
         // clearing out all caches for next round
