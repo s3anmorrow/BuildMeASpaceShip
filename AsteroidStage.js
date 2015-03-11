@@ -35,7 +35,8 @@ var AsteroidStage = function() {
     var asteroids = [];
     for (var n=0; n<asteroidNumber; n++) {
         var asteroid = assetManager.getSprite("assets","asteroid1");
-        asteroid.addEventListener("mousedown", onPopAsteroid);
+        asteroid.addEventListener("mousedown", onStartLaser);
+        asteroid.addEventListener("pressup", onStopLaser);
         asteroids.push(asteroid);
     }
 
@@ -116,7 +117,7 @@ var AsteroidStage = function() {
         asteroidIndex++;
     };
 
-    function onPopAsteroid(e) {
+    function onStartLaser(e) {
         var asteroid = e.target;
         spaceShip.fireMe(asteroid, asteroidLayer);
         // !!!!!!!!!!!!!!!!!
@@ -125,6 +126,11 @@ var AsteroidStage = function() {
         asteroid.active = false;
 
     };
+
+    function onStopLaser(e) {
+
+
+    }
 
     function onReady(e) {
 

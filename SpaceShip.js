@@ -18,10 +18,15 @@ var SpaceShip = function() {
     containers.wings = new createjs.Container();
     containers.tail = new createjs.Container();
     containers.cockpit = new createjs.Container();
+    containers.laserBeams = new createjs.Container();
     containers.laser = new createjs.Container();
 
-    // shape to draw laser beam on
-    var laserBeam = new createjs.Shape();
+    // shapes to draw laser beams on
+    var laserBeams = [];
+    for (var n=0; n<5; n++) {
+        laserBeams[n] = new createjs.Shape();
+        laserBeams[n].active = false;
+    }
 
     // collection of sprites for each part added to the ship
     var parts = {};
@@ -72,11 +77,11 @@ var SpaceShip = function() {
     shipContainer.addChild(containers.fuselage);
     shipContainer.addChild(containers.tail);
     shipContainer.addChild(containers.cockpit);
-    shipContainer.addChild(laserBeam);
+    shipContainer.addChild(containers.laserBeams);
     shipContainer.addChild(containers.laser);
 
     // other spaceship parts and effects
-    var laserTurret = assetManager.getSprite("assets","laserTurret");
+    var laserTurret = assetManager.getSprite("assets","laserTurretAim");
     var thrust = assetManager.getSprite("assets", "thrust");
     var smoke = assetManager.getSprite("assets","smoke");
 
@@ -135,21 +140,7 @@ var SpaceShip = function() {
         shipContainer.addChild(smoke);
     };
 
-
-
-    // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-    this.getGlobalTurretLocation = function() {
-        // get global equivalent for use on AsteroidStage
-        return containers.laser.localToGlobal(laserTurret.x, laserTurret.y);
-    };
-
-    this.aimTurret = function(angle) {
-        laserTurret.rotation = angle;
-    };
-    // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-
     this.fireMe = function(target, targetLayer) {
-
         // convert asteroid x,y relative to shipContainer
         var targetPoint = targetLayer.localToLocal(target.x, target.y, shipContainer);
 
@@ -159,6 +150,18 @@ var SpaceShip = function() {
         angle = angle * (180 / Math.PI);
         // aim turret
         spaceShip.aimTurret(angle);
+
+        // find free laserBeam shape to draw laser beam on
+        var laserBeam = null;
+        for (var n=0; n<5; n++) {
+            if (!laserBeams[n].active) {
+                laserBeam = laserBeams[n];
+                laserBeam.alpha = 1;
+                laserBeam.active = true;
+                containers.laserBeams.addChild(laserBeam);
+                break;
+            }
+        }
 
         // draw laser beam
         laserBeam.graphics.setStrokeStyle(10, "round");
@@ -172,8 +175,8 @@ var SpaceShip = function() {
         laserBeam.graphics.lineTo(targetPoint.x, targetPoint.y);
         laserBeam.graphics.endStroke();
 
-        //createjs.Tween.get(countDown[countDownIndex]).to({alpha:0}, 500);
-
+        // tween beam fading away
+        createjs.Tween.get(laserBeam).to({alpha:0}, 500).call(onLaserComplete);
     };
 
 
@@ -208,6 +211,8 @@ var SpaceShip = function() {
             var point = laserCoord[partName];
             laserTurret.x = point.x;
             laserTurret.y = point.y;
+            laserTurret.rotation = -90;
+            //laserTurret.play();
             container.addChild(laserTurret);
         } else {
             parts[partType] = newPart;
@@ -240,6 +245,7 @@ var SpaceShip = function() {
         parts.cockpit = null;
         parts.laser = null;
         laserTurret.rotation = 0;
+        laserBeamIndex = 0;
 
         // remove all parts of spaceship
         for (var n=0; n<5; n++) containers[partsQueue[n]].removeAllChildren();
@@ -250,16 +256,16 @@ var SpaceShip = function() {
         colorCanvases.fuselage.uncache();
         colorCanvases.wings.uncache();
         colorCanvases.tail.uncache();
-
-
     };
 
-
-
-
-
-
     // ------------------------------------------------- event handlers
+    function onLaserComplete(e) {
+        // make laserBeam shape inactive and remove from stage
+        e.target.active = false;
+        e.target.graphics.clear();
+        containers.laserBeams.removeChild(e.target);
+    }
+
 
 
 
