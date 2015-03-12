@@ -1,6 +1,6 @@
 var AsteroidStage = function() {
 
-    // TODO scroll background stars to simulate flying through space
+    // TODO adjust code so no two asteroids EVER overlap
 
     // local references to important globals
     var assetManager = window.assetManager;
@@ -18,10 +18,7 @@ var AsteroidStage = function() {
     var asteroidNumber = 20;
     // timer for asteroids to drop
     var asteroidTimer = null;
-    var asteroidFreq = 1000;
-
-    // turretLocation for the spaceship
-    //var turretLocation = null;
+    var asteroidFreq = 1500;
 
     // master container for this stage's screen
     var screen = new createjs.Container();
@@ -35,8 +32,7 @@ var AsteroidStage = function() {
     var asteroids = [];
     for (var n=0; n<asteroidNumber; n++) {
         var asteroid = assetManager.getSprite("assets","asteroid1");
-        asteroid.addEventListener("mousedown", onStartLaser);
-        asteroid.addEventListener("pressup", onStopLaser);
+        asteroid.addEventListener("mousedown", onFireLaser);
         asteroids.push(asteroid);
     }
 
@@ -55,11 +51,11 @@ var AsteroidStage = function() {
         // reset asteroids
         for (var n=0; n<asteroidNumber; n++) {
             var asteroid = asteroids[n];
-            asteroid.gotoAndStop("asteroid" + randomMe(1,4));
+            asteroid.gotoAndPlay("asteroid" + randomMe(1,3));
             asteroid.y = -100;
             if ((n % 2) === 0) asteroid.x = randomMe(10,184);
             else asteroid.x = randomMe(340,504);
-            asteroid.speed = randomMe(1,5);
+            asteroid.speed = randomMe(5,10);
             asteroid.active = false;
         }
 
@@ -114,38 +110,42 @@ var AsteroidStage = function() {
         if (asteroidIndex >= asteroidNumber) return;
         asteroidLayer.addChild(asteroids[asteroidIndex]);
         asteroids[asteroidIndex].active = true;
-        asteroidIndex++;
-    };
 
-    function onStartLaser(e) {
+        // random rotation direction
+        var dir = 1;
+        if (randomMe(0,1) === 1) dir = -1;
+        createjs.Tween.get(asteroids[asteroidIndex],{loop:true}).to({rotation: (360 * dir)}, randomMe(15,25) * 1000);
+
+        asteroidIndex++;
+    }
+
+    function onFireLaser(e) {
         var asteroid = e.target;
         spaceShip.fireMe(asteroid, asteroidLayer);
-        // !!!!!!!!!!!!!!!!!
-        // play popping animation
-        asteroidLayer.removeChild(asteroid);
+        // play killed animation
+        asteroid.gotoAndPlay(asteroid.currentAnimation + "Killed");
+        asteroid.addEventListener("animationend",onAsteroidKilled);
         asteroid.active = false;
-
-    };
-
-    function onStopLaser(e) {
-
 
     }
 
+    function onAsteroidKilled(e) {
+        e.target.stop();
+        asteroidLayer.removeChild(e.target);
+        // end of stage?
+        if (asteroidIndex >= asteroidNumber) {
+
+            console.log("END OF ASTEROID STAGE!");
+
+            spaceShip.flyOffStage();
+
+        }
+    }
+
     function onReady(e) {
-
-        console.log("ready!");
         ready = true;
-
-        /*
-        // get global turret location and convert to local of laser Layer
-        turretLocation = spaceShip.getGlobalTurretLocation();
-        turretLocation = laserLayer.globalToLocal(turretLocation.x, turretLocation.y);
-        */
-
         // start timer to drop asteroids
         asteroidTimer = window.setInterval(onDropAsteroid, asteroidFreq);
-
     }
 
 };

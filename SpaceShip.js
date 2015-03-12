@@ -149,7 +149,7 @@ var SpaceShip = function() {
         // convert to degrees from radians
         angle = angle * (180 / Math.PI);
         // aim turret
-        spaceShip.aimTurret(angle);
+        laserTurret.rotation = angle;
 
         // find free laserBeam shape to draw laser beam on
         var laserBeam = null;
@@ -170,18 +170,14 @@ var SpaceShip = function() {
         laserBeam.graphics.lineTo(targetPoint.x, targetPoint.y);
         laserBeam.graphics.endStroke();
         laserBeam.graphics.setStrokeStyle(4, "round");
-        laserBeam.graphics.beginStroke("rgba(255,0,0,1)");
+        laserBeam.graphics.beginStroke("rgba(255,0,0,0.8)");
         laserBeam.graphics.moveTo(laserTurret.x, laserTurret.y);
         laserBeam.graphics.lineTo(targetPoint.x, targetPoint.y);
         laserBeam.graphics.endStroke();
 
         // tween beam fading away
-        createjs.Tween.get(laserBeam).to({alpha:0}, 500).call(onLaserComplete);
+        createjs.Tween.get(laserBeam).to({alpha:0}, 300).call(onLaserComplete);
     };
-
-
-
-
 
     this.flyOffStage = function(callback) {
         // tween spaceship blasting off top of stage
