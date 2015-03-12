@@ -45,6 +45,7 @@ var colorStage = null;
 var assemblyStage = null;
 var blastOffStage = null;
 var asteroidStage = null;
+var dodgeStage = null;
 var assetManager = null;
 var spaceShip = null;
 
@@ -136,6 +137,7 @@ function onPause(e) {
     // ??????????????????????????????????????????????
     background.pauseMe();
     asteroidStage.pauseMe();
+    createjs.Ticker.pause = true;
     createjs.Ticker.removeEventListener("tick", onTick);
 }
 
@@ -143,6 +145,7 @@ function onResume(e) {
     // ??????????????????????????????????????????????
     background.unPauseMe();
     asteroidStage.unPauseMe();
+    createjs.Ticker.pause = false;
     createjs.Ticker.addEventListener("tick", onTick);
 }
 
@@ -161,6 +164,7 @@ function onSetup(e) {
     colorStage = new ColorStage();
     blastOffStage = new BlastOffStage();
     asteroidStage = new AsteroidStage();
+    dodgeStage = new DodgeStage();
 
     // setup event listeners for screen flow
     stage.addEventListener("onStageComplete", onStageComplete, true);
@@ -213,20 +217,16 @@ function onStageComplete(e) {
             break;
         case "asteroids":
             asteroidStage.hideMe();
+            dodgeStage.showMe();
+            gameStage = "dodge";
+            break;
+        case "dodge":
 
-            // ??????????????????????????
-            //dodgeStage.showMe();
-            //gameStage = "dodge";
+            // ???????????
 
             break;
 
     }
-
-
-
-    //colorStage.showMe();
-
-
 }
 
 function onTick(e) {
@@ -239,6 +239,9 @@ function onTick(e) {
     if (gameStage === "asteroids") {
         background.updateMe();
         asteroidStage.updateMe();
+    } else if (gameStage === "dodge") {
+        background.updateMe();
+        dodgeStage.updateMe();
     }
 
 

@@ -81,9 +81,15 @@ var SpaceShip = function() {
     shipContainer.addChild(containers.laser);
 
     // other spaceship parts and effects
-    var laserTurret = assetManager.getSprite("assets","laserTurretAim");
+    var laserTurret = assetManager.getSprite("assets","laserTurret");
     var thrust = assetManager.getSprite("assets", "thrust");
     var smoke = assetManager.getSprite("assets","smoke");
+
+    // ------------------------------------------------- private methods
+    function rotateTurret() {
+        // tween to make laser turret rotate
+        createjs.Tween.get(laserTurret,{loop:true}).to({rotation: 360}, 20000);
+    }
 
     // ------------------------------------------------- public methods
     this.getSprite = function() {
@@ -208,8 +214,8 @@ var SpaceShip = function() {
             laserTurret.x = point.x;
             laserTurret.y = point.y;
             laserTurret.rotation = -90;
-            //laserTurret.play();
             container.addChild(laserTurret);
+            rotateTurret();
         } else {
             parts[partType] = newPart;
             // adding new part to shipContainer

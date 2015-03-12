@@ -40,7 +40,7 @@ var BlastOffStage = function() {
     // ------------------------------------------------- private methods
     function dropCountDownNumber() {
         // tween count down number onto stage
-        createjs.Tween.get(countDown[countDownIndex]).to({y:150}, 250, createjs.Ease.cubicOut).call(onCountDownNumberComplete);
+        createjs.Tween.get(countDown[countDownIndex]).to({y:150}, 240, createjs.Ease.cubicOut).call(onCountDownNumberComplete);
     }
 
     // ------------------------------------------------- public methods
@@ -98,7 +98,8 @@ var BlastOffStage = function() {
     }
 
     function onComplete(e) {
-        console.log("BLASTED OFF!");
+        // kill all tweens
+        createjs.Tween.removeAllTweens();
         // stage is complete
         screen.dispatchEvent(completeEvent);
     }
