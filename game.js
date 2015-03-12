@@ -45,7 +45,7 @@ var colorStage = null;
 var assemblyStage = null;
 var blastOffStage = null;
 var asteroidStage = null;
-var dodgeStage = null;
+var cometStage = null;
 var assetManager = null;
 var spaceShip = null;
 
@@ -164,7 +164,7 @@ function onSetup(e) {
     colorStage = new ColorStage();
     blastOffStage = new BlastOffStage();
     asteroidStage = new AsteroidStage();
-    dodgeStage = new DodgeStage();
+    cometStage = new CometStage();
 
     // setup event listeners for screen flow
     stage.addEventListener("onStageComplete", onStageComplete, true);
@@ -217,10 +217,10 @@ function onStageComplete(e) {
             break;
         case "asteroids":
             asteroidStage.hideMe();
-            dodgeStage.showMe();
-            gameStage = "dodge";
+            cometStage.showMe();
+            gameStage = "comet";
             break;
-        case "dodge":
+        case "comet":
 
             // ???????????
 
@@ -239,9 +239,9 @@ function onTick(e) {
     if (gameStage === "asteroids") {
         background.updateMe();
         asteroidStage.updateMe();
-    } else if (gameStage === "dodge") {
+    } else if (gameStage === "comet") {
         background.updateMe();
-        dodgeStage.updateMe();
+        cometStage.updateMe();
     }
 
 

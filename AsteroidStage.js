@@ -1,7 +1,9 @@
 var AsteroidStage = function() {
+
+    // TODO remove asteroidLayer and add graphics to screen container
+
     // game stage constants
-    var ASTEROID_SPEED_MIN = 4;
-    var ASTEROID_SPEED_MAX = 8;
+    var ASTEROID_SPEED = 4;
     //var ASTEROID_COUNT = 10;
     var ASTEROID_COUNT = 1;
 
@@ -19,7 +21,7 @@ var AsteroidStage = function() {
     var ready = false;
     // timer for asteroids to drop
     var asteroidTimer = null;
-    var asteroidFreq = 1000;
+    var asteroidFreq = 1500;
     // kill counter
     var killCount = 0;
 
@@ -28,8 +30,6 @@ var AsteroidStage = function() {
     screen.snapToPixelEnabled = true;
     // container for layering asteroids
     var asteroidLayer = new createjs.Container();
-    // shape to draw laser beam on
-    var laserLayer = new createjs.Shape();
 
     // create pool of asteroids
     var asteroids = [];
@@ -53,12 +53,8 @@ var AsteroidStage = function() {
 
         // add laser and asteroid layer on top of spaceship
         screen.addChild(asteroidLayer);
-        screen.addChild(laserLayer);
 
         root.addChild(screen);
-
-        // drop asteroid right away
-        onDropAsteroid();
     };
 
     this.hideMe = function(){
@@ -116,15 +112,11 @@ var AsteroidStage = function() {
                 else asteroid.x = randomMe(400,500);
                 // ???????????????????????????????????
 
-                //asteroid.speed = randomMe(ASTEROID_SPEED_MIN, ASTEROID_SPEED_MAX);
-                asteroid.speed = ASTEROID_SPEED_MIN;
+                asteroid.speed = ASTEROID_SPEED;
                 asteroid.addEventListener("mousedown", onFireLaser);
                 asteroid.active = true;
                 asteroid.moving = true;
-
                 asteroidLayer.addChild(asteroid);
-
-                console.log("DROP ASTEROID " + n);
 
                 // random rotation direction
                 var dir = 1;
@@ -166,7 +158,7 @@ var AsteroidStage = function() {
         asteroidLayer.removeChild(e.target);
         e.target.active = false;
         // end of stage?
-        if (killCount === ASTEROID_COUNT) {
+        if (killCount >= ASTEROID_COUNT) {
             window.clearInterval(asteroidTimer);
             // kill all listeners so user can't shoot an asteroid while flying off stage
             for (var n=0; n<(ASTEROID_COUNT * 2); n++) asteroids[n].removeAllEventListeners();
@@ -183,6 +175,8 @@ var AsteroidStage = function() {
         ready = true;
         // start timer to drop asteroids now that spaceship has flown onto screen
         asteroidTimer = window.setInterval(onDropAsteroid, asteroidFreq);
+        // drop asteroid right away
+        onDropAsteroid();
     }
 
     function onComplete(e) {

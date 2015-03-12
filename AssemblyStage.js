@@ -1,4 +1,9 @@
 var AssemblyStage = function() {
+    // game stage constants
+    var COMET_SPEED = 4;
+    //var ASTEROID_COUNT = 10;
+    var COMET_COUNT = 1;
+
     // local references to important globals
     var assetManager = window.assetManager;
     var root = window.root;

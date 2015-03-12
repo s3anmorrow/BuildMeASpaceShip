@@ -47,7 +47,7 @@ var BlastOffStage = function() {
     this.showMe = function(){
         // position and show spaceShip on screen
         spaceShip.showMeOn(screen, 235, BASE_HEIGHT - spaceShipSprite.getBounds().height - 67);
-        spaceShip.activateMe();
+        spaceShip.activateTurret();
 
         // add other screen sprites
         screen.addChild(btnGo);

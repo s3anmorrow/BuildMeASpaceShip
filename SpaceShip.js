@@ -93,7 +93,7 @@ var SpaceShip = function() {
             // randomly pick direction and start tween
             var dir = 1;
             if (randomMe(0,1) === 1) dir = -1;
-            createjs.Tween.get(laserTurret,{loop:true}).to({rotation: (360 * dir)}, 17000);
+            createjs.Tween.get(laserTurret,{loop:true}).to({rotation: ((laserTurret.rotation + 360) * dir)}, 17000);
         } else {
             createjs.Tween.removeTweens(laserTurret);
         }
@@ -115,6 +115,24 @@ var SpaceShip = function() {
         screen.addChild(shipContainer);
     };
 
+    this.moveLeft = function() {
+        shipContainer.x -= 6;
+        if (shipContainer.x <= 100) {
+            shipContainer.x = 100;
+            return false;
+        }
+        return true;
+    };
+
+    this.moveRight = function() {
+        shipContainer.x += 6;
+        if (shipContainer.x >= 370) {
+            shipContainer.x = 370;
+            return false;
+        }
+        return true;
+    };
+
     this.focusOnPart = function(which) {
         var alphaSetting = 0.2;
         if (which === undefined) alphaSetting = 1;
@@ -124,7 +142,8 @@ var SpaceShip = function() {
         containers[which].alpha = 1;
     };
 
-    this.activateMe = function() {
+    this.activateTurret = function() {
+        //createjs.Tween.removeAllTweens(laserTurret);
         rotateTurret(true);
     };
 
@@ -229,7 +248,7 @@ var SpaceShip = function() {
             var point = laserCoord[partName];
             laserTurret.x = point.x;
             laserTurret.y = point.y;
-            laserTurret.rotation = -90;
+            laserTurret.rotation = 270;
             container.addChild(laserTurret);
         } else {
             parts[partType] = newPart;
