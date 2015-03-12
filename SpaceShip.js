@@ -5,6 +5,7 @@ var SpaceShip = function() {
     // local references to important globals
     var assetManager = window.assetManager;
     var root = window.root;
+    var randomMe = window.randomMe;
 
     // parts list
     var partsQueue = ["fuselage","wings","tail","cockpit","laser"];
@@ -84,12 +85,20 @@ var SpaceShip = function() {
     var laserTurret = assetManager.getSprite("assets","laserTurret");
     var thrust = assetManager.getSprite("assets", "thrust");
     var smoke = assetManager.getSprite("assets","smoke");
+    var turretTween = null;
 
     // ------------------------------------------------- private methods
-    function rotateTurret() {
-        // tween to make laser turret rotate
-        createjs.Tween.get(laserTurret,{loop:true}).to({rotation: 360}, 20000);
+    function rotateTurret(which) {
+        if (which) {
+            // randomly pick direction and start tween
+            var dir = 1;
+            if (randomMe(0,1) === 1) dir = -1;
+            createjs.Tween.get(laserTurret,{loop:true}).to({rotation: (360 * dir)}, 17000);
+        } else {
+            createjs.Tween.removeTweens(laserTurret);
+        }
     }
+
 
     // ------------------------------------------------- public methods
     this.getSprite = function() {
@@ -113,6 +122,10 @@ var SpaceShip = function() {
         for (var n=0; n<5; n++) containers[partsQueue[n]].alpha = alphaSetting;
         if (which === undefined) return;
         containers[which].alpha = 1;
+    };
+
+    this.activateMe = function() {
+        rotateTurret(true);
     };
 
     this.activateThrust = function(which) {
@@ -149,6 +162,9 @@ var SpaceShip = function() {
     this.fireMe = function(target, targetLayer) {
         // convert asteroid x,y relative to shipContainer
         var targetPoint = targetLayer.localToLocal(target.x, target.y, shipContainer);
+
+        // pause turret rotate tween in order to fire
+        rotateTurret(false);
 
         // calculate angle from turret to target asteroid
         var angle = Math.atan2(targetPoint.y - laserTurret.y, targetPoint.x - laserTurret.x);
@@ -215,7 +231,6 @@ var SpaceShip = function() {
             laserTurret.y = point.y;
             laserTurret.rotation = -90;
             container.addChild(laserTurret);
-            rotateTurret();
         } else {
             parts[partType] = newPart;
             // adding new part to shipContainer
@@ -266,6 +281,8 @@ var SpaceShip = function() {
         e.target.active = false;
         e.target.graphics.clear();
         containers.laserBeams.removeChild(e.target);
+        // turn back on turret rotation tween
+        rotateTurret(true);
     }
 
 

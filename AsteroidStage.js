@@ -1,12 +1,9 @@
 var AsteroidStage = function() {
-
-    // TODO adjust code so no two asteroids EVER overlap
-
     // game stage constants
     var ASTEROID_SPEED_MIN = 4;
     var ASTEROID_SPEED_MAX = 8;
-    var ASTEROID_COUNT = 10;
-    //var ASTEROID_COUNT = 1;
+    //var ASTEROID_COUNT = 10;
+    var ASTEROID_COUNT = 1;
 
     // local references to important globals
     var assetManager = window.assetManager;
