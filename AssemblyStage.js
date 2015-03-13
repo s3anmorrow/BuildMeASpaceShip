@@ -30,15 +30,21 @@ var AssemblyStage = function() {
     var screen = new createjs.Container();
     screen.snapToPixelEnabled = true;
 
+    var constructionBar2 = assetManager.getSprite("assets","constructionBar");
+    constructionBar2.y = 150;
+    screen.addChild(constructionBar2);
+    var constructionBar1 = assetManager.getSprite("assets","constructionBar");
+    constructionBar1.y = 720;
+    screen.addChild(constructionBar1);
     var swipeArrows = assetManager.getSprite("assets","swipeArrows");
-    swipeArrows.x = 120;
-    swipeArrows.y = 90;
+    swipeArrows.x = 110;
+    swipeArrows.y = 25;
     screen.addChild(swipeArrows);
 
     var btnOk = assetManager.getSprite("assets");
     btnOk.gotoAndStop("btnOkUp");
     btnOk.x = 270;
-    btnOk.y = 740;
+    btnOk.y = 780;
     btnOk.addEventListener("mousedown", onOk);
     btnOk.addEventListener("pressup", onOk);
     screen.addChild(btnOk);
