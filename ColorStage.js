@@ -126,7 +126,7 @@ var ColorStage = function() {
     };
 
     // ------------------------------------------------- private methods
-    function paintMe(e) {
+    function paintMe() {
         // where are we now in terms of colorCanvas shape coord system?
         var touchPoint = colorCanvas.globalToLocal(stage.mouseX, stage.mouseY);
         // scale it to our resizing of game
@@ -176,7 +176,7 @@ var ColorStage = function() {
         lastPoint.x = touchPoint.x;
         lastPoint.y = touchPoint.y;
 
-        paintMe(e);
+        paintMe();
     }
 
     function onStopColoring(e) {
@@ -184,7 +184,7 @@ var ColorStage = function() {
     }
 
     function onColoring(e) {
-        paintMe(e);
+        paintMe();
     }
 
     function onFinished(e) {

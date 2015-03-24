@@ -6,6 +6,7 @@
 // TODO get rid of address bar in browser on mobile devices
 // TODO build system so that stage.update() only happens when it needs to be
 // TODO pause all tweens when game paused
+// TODO set tickEnabled on all sprites that don't animate
 
 // the base width and height of game that graphics are designed for (pre-resizing for android screens)
 var BASE_WIDTH = 640;

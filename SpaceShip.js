@@ -86,6 +86,9 @@ var SpaceShip = function() {
     var thrust = assetManager.getSprite("assets", "thrust");
     var smoke = assetManager.getSprite("assets","smoke");
     var turretTween = null;
+    // comet scorch settings
+    var scorchWidth = 24;
+    var scorchColor = "#000000";
 
     // ------------------------------------------------- private methods
     function rotateTurret(which) {
@@ -160,7 +163,7 @@ var SpaceShip = function() {
         shipContainer.addChild(thrust);
     };
 
-    this.activateSmoke = function(which) {
+    this.activateSmoke = function(which, locX, locY) {
         if (!which) {
             // stopping smoke animation after animation is complete (avoid abrupt ending)
             smoke.on("animationend",
@@ -172,8 +175,13 @@ var SpaceShip = function() {
             return;
         }
         // position thrust sprite
-        smoke.x = -8;
-        smoke.y = shipContainer.getBounds().height - 60;
+        if (locX === undefined) {
+            smoke.x = -8;
+            smoke.y = shipContainer.getBounds().height - 60;
+        } else {
+            smoke.x = locX;
+            smoke.y = locY;
+        }
         smoke.play();
         shipContainer.addChild(smoke);
     };
@@ -229,6 +237,25 @@ var SpaceShip = function() {
     this.flyOnStage = function(callback) {
         //createjs.Tween.get(shipContainer).to({y:400}, 5000, createjs.Ease.cubicOut).call(callback);
         createjs.Tween.get(shipContainer).to({y:400}, 500, createjs.Ease.cubicOut).call(callback);
+    };
+
+    this.scorchMe = function(comet, targetLayer) {
+        // convert comet x,y relative to shipContainer
+        var cometPoint = targetLayer.localToLocal(comet.x, comet.y, shipContainer);
+
+        // draw scorch mark
+        var colorCanvas = colorCanvases.fuselage;
+        colorCanvas.graphics.beginFill("rgba(0,0,0,0.5)");
+        colorCanvas.graphics.drawCircle(cometPoint.x, cometPoint.y, scorchWidth);
+        colorCanvas.graphics.beginFill("rgba(0,0,0,1)");
+        colorCanvas.graphics.drawCircle(cometPoint.x, cometPoint.y, scorchWidth - 6);
+
+
+
+        // draw the new vector onto the existing cache, compositing it with the "source-overlay" composite operation:
+		colorCanvas.updateCache("source-overlay");
+        // because the vector paint drop has been drawn to the cache clear it out
+		colorCanvas.graphics.clear();
     };
 
     this.assembleMe = function(newPart) {

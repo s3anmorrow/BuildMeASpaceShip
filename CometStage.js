@@ -1,7 +1,7 @@
 var CometStage = function() {
 
     // game stage constants
-    var COMET_SPEED = 4;
+    var COMET_SPEED = 8;
     var COMET_COUNT = 5;
 
     // local references to important globals
@@ -22,26 +22,23 @@ var CometStage = function() {
     // spaceship movement direction
     var moveDir = 0;
 
-
     // master container for this stage's screen
     var screen = new createjs.Container();
     screen.snapToPixelEnabled = true;
+    // container for layering comets
+    var cometLayer = new createjs.Container();
 
     // construct comet sprite
     var comet = assetManager.getSprite("assets","comet1");
     comet.active = false;
 
     // ------------------------------------------------- private methods
-    function moveRight() {
-
-
-    }
 
 
     // ------------------------------------------------- public methods
     this.showMe = function(){
         // show spaceship
-        spaceShip.showMeOn(screen, 232, 970);
+        spaceShip.showMeOn(screen, 100, 970);
         spaceShip.flyOnStage(onReady);
         spaceShip.activateTurret();
 
@@ -51,6 +48,9 @@ var CometStage = function() {
         // wire up event listeners
         backgroundSprite.addEventListener("mousedown", onStartSwipe);
         backgroundSprite.addEventListener("pressmove", onSwiping);
+
+        // add laser and comet layer on top of spaceship
+        screen.addChild(cometLayer);
 
         root.addChild(screen);
     };
@@ -80,7 +80,13 @@ var CometStage = function() {
             // update comet on the screen if active
             if (comet.active) {
                 comet.y += comet.speed;
-                // has the comet off the bottom of th screen?
+
+                // draw scorch marks if colliding with fuselage
+                if ((comet.y >= 400) && ((createjs.Ticker.getTicks() % 4) == 0)) {
+                    spaceShip.scorchMe(comet, cometLayer);
+                }
+
+                // has the comet gone off the bottom of the screen?
                 if (comet.y > BASE_HEIGHT + 110) {
                     comet.active = false;
                     screen.removeChild(comet);
@@ -132,29 +138,19 @@ var CometStage = function() {
 
         // setup comet
         comet.gotoAndPlay("comet" + randomMe(1,3));
-        comet.y = -60;
+        comet.y = -150;
 
-        // ??????????????????????? adjust this to avoid overlap
-        if (randomMe(1,2) === 1) comet.x = 100;
-        else comet.x = 500;
-        // ???????????????????????????????????
-
+        // random horizontal positioning
+        if (randomMe(1,2) === 1) comet.x = 150 + randomMe(-20,20);
+        else comet.x = 450 + randomMe(-20,20);
+        // setting comet properties
         comet.speed = COMET_SPEED;
         comet.active = true;
-        comet.moving = true;
+        //comet.moving = true;
         screen.addChild(comet);
 
         cometCount++;
-
-        /*
-        // random rotation direction
-        var dir = 1;
-        if (randomMe(0,1) === 1) dir = -1;
-        createjs.Tween.get(asteroid,{loop:true}).to({rotation: (360 * dir)}, randomMe(15,25) * 1000);
-        */
-
     }
-
 
     function onReady(e) {
         ready = true;
