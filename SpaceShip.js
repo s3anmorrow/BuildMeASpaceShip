@@ -85,6 +85,7 @@ var SpaceShip = function() {
     var laserTurret = assetManager.getSprite("assets","laserTurret");
     var thrust = assetManager.getSprite("assets", "thrust");
     var smoke = assetManager.getSprite("assets","smoke");
+    //var scorchSmoke = assetManager.getSprite("assets","scorchSmoke");
     var turretTween = null;
     // comet scorch settings
     var scorchWidth = 24;
@@ -137,12 +138,22 @@ var SpaceShip = function() {
     };
 
     this.focusOnPart = function(which) {
-        var alphaSetting = 0.2;
-        if (which === undefined) alphaSetting = 1;
         // set all parts, canvases, and masks to be alphed
-        for (var n=0; n<5; n++) containers[partsQueue[n]].alpha = alphaSetting;
-        if (which === undefined) return;
-        containers[which].alpha = 1;
+        for (var n=0; n<5; n++) {
+            parts[partsQueue[n]].alpha = 0.2;
+            if (n<3) colorCanvases[partsQueue[n]].alpha = 0.2;
+        }
+
+        // adjust targets part to not be alpha
+        parts[which].alpha = 1;
+        colorCanvases[which].alpha = 1;
+    };
+
+    this.unFocusOnParts = function() {
+        for (var n=0; n<5; n++) {
+            parts[partsQueue[n]].alpha = 1;
+            if (n<3) colorCanvases[partsQueue[n]].alpha = 1;
+        }
     };
 
     this.activateTurret = function() {
@@ -166,12 +177,10 @@ var SpaceShip = function() {
     this.activateSmoke = function(which, locX, locY) {
         if (!which) {
             // stopping smoke animation after animation is complete (avoid abrupt ending)
-            smoke.on("animationend",
-                function(){
+            smoke.on("animationend", function(){
                     smoke.stop();
                     shipContainer.removeChild(smoke);
-                },
-            null, true);
+            }, null, true);
             return;
         }
         // position thrust sprite
@@ -243,14 +252,26 @@ var SpaceShip = function() {
         // convert comet x,y relative to shipContainer
         var cometPoint = targetLayer.localToLocal(comet.x, comet.y, shipContainer);
 
-        // draw scorch mark
+        // only draw scorch marks if comet actually on fuselage
+        if ((cometPoint.y < 0) || (cometPoint.y > 400) || (cometPoint.x < 0) || (cometPoint.x > 160)) return;
+
+        // draw scorch mark on fuselage
         var colorCanvas = colorCanvases.fuselage;
         colorCanvas.graphics.beginFill("rgba(0,0,0,0.5)");
         colorCanvas.graphics.drawCircle(cometPoint.x, cometPoint.y, scorchWidth);
         colorCanvas.graphics.beginFill("rgba(0,0,0,1)");
         colorCanvas.graphics.drawCircle(cometPoint.x, cometPoint.y, scorchWidth - 6);
 
-
+        // drawing smoke (fades away)
+        var scorchSmoke = assetManager.getSprite("assets","scorchSmoke");
+        scorchSmoke.x = cometPoint.x;
+        scorchSmoke.y = cometPoint.y;
+        scorchSmoke.on("animationend", function(e){
+            e.target.stop();
+            shipContainer.removeChild(e.target);
+        }, null, true);
+        scorchSmoke.play();
+        shipContainer.addChild(scorchSmoke);
 
         // draw the new vector onto the existing cache, compositing it with the "source-overlay" composite operation:
 		colorCanvas.updateCache("source-overlay");

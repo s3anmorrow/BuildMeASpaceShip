@@ -37,7 +37,7 @@ var ColorStage = function() {
     var btnRed = assetManager.getSprite("assets");
     btnRed.gotoAndStop("btnRedDown");
     btnRed.x = 25;
-    btnRed.y = 40;
+    btnRed.y = 30;
     btnRed.color = "#990000";
     btnRed.label = "btnRed";
     btnRed.addEventListener("click", onChangeColor);
@@ -46,7 +46,7 @@ var ColorStage = function() {
     var btnGreen = assetManager.getSprite("assets");
     btnGreen.gotoAndStop("btnGreenUp");
     btnGreen.x = 125;
-    btnGreen.y = 40;
+    btnGreen.y = 30;
     btnGreen.color = "#006600";
     btnGreen.label = "btnGreen";
     btnGreen.addEventListener("click", onChangeColor);
@@ -55,7 +55,7 @@ var ColorStage = function() {
     var btnYellow = assetManager.getSprite("assets");
     btnYellow.gotoAndStop("btnYellowUp");
     btnYellow.x = 225;
-    btnYellow.y = 40;
+    btnYellow.y = 30;
     btnYellow.color = "#FFCC00";
     btnYellow.label = "btnYellow";
     btnYellow.addEventListener("click", onChangeColor);
@@ -64,7 +64,7 @@ var ColorStage = function() {
     var btnBlue = assetManager.getSprite("assets");
     btnBlue.gotoAndStop("btnBlueUp");
     btnBlue.x = 325;
-    btnBlue.y = 40;
+    btnBlue.y = 30;
     btnBlue.color = "#0033CC";
     btnBlue.label = "btnBlue";
     btnBlue.addEventListener("click", onChangeColor);
@@ -73,7 +73,7 @@ var ColorStage = function() {
     var btnPurple = assetManager.getSprite("assets");
     btnPurple.gotoAndStop("btnPurpleUp");
     btnPurple.x = 425;
-    btnPurple.y = 40;
+    btnPurple.y = 30;
     btnPurple.color = "#663399";
     btnPurple.label = "btnPurple";
     btnPurple.addEventListener("click", onChangeColor);
@@ -82,7 +82,7 @@ var ColorStage = function() {
     var btnOrange = assetManager.getSprite("assets");
     btnOrange.gotoAndStop("btnOrangeUp");
     btnOrange.x = 525;
-    btnOrange.y = 40;
+    btnOrange.y = 30;
     btnOrange.color = "#CC6600";
     btnOrange.label = "btnOrange";
     btnOrange.addEventListener("click", onChangeColor);
@@ -130,9 +130,7 @@ var ColorStage = function() {
         // where are we now in terms of colorCanvas shape coord system?
         var touchPoint = colorCanvas.globalToLocal(stage.mouseX, stage.mouseY);
         // scale it to our resizing of game
-        //curPoint.x = touchPoint.x / scaleRatio;
         curPoint.x = touchPoint.x;
-        //curPoint.y = touchPoint.y / scaleRatio;
         curPoint.y = touchPoint.y;
 
         // draw line onto colorLayer
@@ -171,8 +169,6 @@ var ColorStage = function() {
 
         // set last point to current touch point with scaling
         var touchPoint = colorCanvas.globalToLocal(stage.mouseX, stage.mouseY);
-        //lastPoint.x = touchPoint.x / scaleRatio;
-        //lastPoint.y = touchPoint.y / scaleRatio;
         lastPoint.x = touchPoint.x;
         lastPoint.y = touchPoint.y;
 
@@ -195,7 +191,7 @@ var ColorStage = function() {
 
             if (partsIndex === 2) {
                 // stage is complete
-                spaceShip.focusOnPart(undefined);
+                spaceShip.unFocusOnParts();
                 screen.dispatchEvent(completeEvent);
                 return;
             }

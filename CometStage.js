@@ -32,9 +32,6 @@ var CometStage = function() {
     var comet = assetManager.getSprite("assets","comet1");
     comet.active = false;
 
-    // ------------------------------------------------- private methods
-
-
     // ------------------------------------------------- public methods
     this.showMe = function(){
         // show spaceship
@@ -81,10 +78,8 @@ var CometStage = function() {
             if (comet.active) {
                 comet.y += comet.speed;
 
-                // draw scorch marks if colliding with fuselage
-                if ((comet.y >= 400) && ((createjs.Ticker.getTicks() % 4) == 0)) {
-                    spaceShip.scorchMe(comet, cometLayer);
-                }
+                // draw scorch marks on every fourth tick
+                if ((createjs.Ticker.getTicks() % 4) == 0) spaceShip.scorchMe(comet, cometLayer);
 
                 // has the comet gone off the bottom of the screen?
                 if (comet.y > BASE_HEIGHT + 110) {
@@ -146,7 +141,6 @@ var CometStage = function() {
         // setting comet properties
         comet.speed = COMET_SPEED;
         comet.active = true;
-        //comet.moving = true;
         screen.addChild(comet);
 
         cometCount++;
