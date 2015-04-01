@@ -279,6 +279,15 @@ var SpaceShip = function() {
 		colorCanvas.graphics.clear();
     };
 
+    this.toggleCockpit = function(which) {
+        var cockpit = parts.cockpit;
+        if (which) cockpit.play();
+        else cockpit.gotoAndPlay(cockpit.currentAnimation + "Close");
+        cockpit.on("animationend", function(e){
+            e.target.stop();
+        }, null, true);
+    };
+
     this.assembleMe = function(newPart) {
         // get name of frame of part (part name)
         var partType = newPart.type;

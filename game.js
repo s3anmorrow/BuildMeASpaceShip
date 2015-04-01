@@ -35,20 +35,24 @@ var root = null;
 
 // frame rate of game
 var frameRate = 30;
-// current game stage
-var gameStage = "";
+// include instructions?
+var instructions = true;
 
 // game objects
 var background = null;
+var spaceShip = null;
 var startStage = null;
-var startScreen = null;
-var colorStage = null;
+var instructStage = null;
 var assemblyStage = null;
+var colorStage = null;
 var blastOffStage = null;
 var asteroidStage = null;
 var cometStage = null;
-var assetManager = null;
-var spaceShip = null;
+var astronautStage = null;
+
+// screen flow control - populated when game loaded
+var gameStages = [];
+var gameStageIndex = 0;
 
 // ----------------------------------------------------------- private methods
 function randomMe(low, high) {
@@ -138,7 +142,9 @@ function onPause(e) {
     // ??????????????????????????????????????????????
     background.pauseMe();
     asteroidStage.pauseMe();
-    createjs.Ticker.pause = true;
+
+    // pauses all tweens
+    createjs.Ticker.setPaused(true);
     createjs.Ticker.removeEventListener("tick", onTick);
 }
 
@@ -146,7 +152,8 @@ function onResume(e) {
     // ??????????????????????????????????????????????
     background.unPauseMe();
     asteroidStage.unPauseMe();
-    createjs.Ticker.pause = false;
+
+    createjs.Ticker.setPaused(false);
     createjs.Ticker.addEventListener("tick", onTick);
 }
 
@@ -154,18 +161,25 @@ function onSetup(e) {
     console.log(">> adding sprites to game");
 	stage.removeEventListener("onAllAssetsLoaded", onSetup);
 
-    // construct background (shared amongst all stages)
+    // construct background (shared amongst all gameStages)
     background = new Background();
     background.showMe();
 
-    // construct game objects
+    // construct spaceship
     spaceShip = new SpaceShip();
+
+    // construct gameStage objects
     startStage = new StartStage();
+    instructStage = new InstructStage();
     assemblyStage = new AssemblyStage();
     colorStage = new ColorStage();
     blastOffStage = new BlastOffStage();
     asteroidStage = new AsteroidStage();
     cometStage = new CometStage();
+    astronautStage = new AstronautStage();
+    // populate gameStages array
+    gameStages = [startStage,instructStage,assemblyStage,colorStage,blastOffStage,instructStage,asteroidStage,instructStage,cometStage,astronautStage];
+    //gameStages = [startStage,assemblyStage,colorStage,blastOffStage,asteroidStage,cometStage,astronautStage];
 
     // setup event listeners for screen flow
     stage.addEventListener("onStageComplete", onStageComplete, true);
@@ -179,73 +193,34 @@ function onSetup(e) {
     window.addEventListener("blur", onPause);
     window.addEventListener("focus", onResume);
 
-    startStage.showMe();
-    gameStage = "start";
+    // show the startStage
+    gameStages[gameStageIndex].showMe();
 
     console.log(">> game ready");
-}
-
-function onStartGame(e) {
-    root.removeChild(startScreen);
-    assemblyStage.showMe();
+    console.log(">> stage start - index: " + gameStageIndex);
 }
 
 function onStageComplete(e) {
 
-    console.log("stage complete: " + e.id);
+    console.log(">> stage complete");
 
-    // event routing
-    switch(e.id) {
-        case "start":
-            startStage.hideMe();
-            assemblyStage.showMe();
-            gameStage = "assembly";
-            break;
-        case "assembly":
-            assemblyStage.hideMe();
-            colorStage.showMe();
-            gameStage = "color";
-            break;
-        case "color":
-            colorStage.hideMe();
-            blastOffStage.showMe();
-            gameStage = "blastOff";
-            break;
-        case "blastOff":
-            blastOffStage.hideMe();
-            asteroidStage.showMe();
-            gameStage = "asteroids";
-            break;
-        case "asteroids":
-            asteroidStage.hideMe();
-            cometStage.showMe();
-            gameStage = "comet";
-            break;
-        case "comet":
+    // hide last stage screen
+    gameStages[gameStageIndex].hideMe();
+    // show next stage screen
+    gameStageIndex++;
+    gameStages[gameStageIndex].showMe();
 
-            // ???????????
-
-            break;
-
-    }
+    console.log(">> stage start - index: " + gameStageIndex);
 }
 
 function onTick(e) {
     // TESTING FPS
     document.getElementById("fps").innerHTML = createjs.Ticker.getMeasuredFPS();
 
-    // game loop code here
-	// ..
 
-    if (gameStage === "asteroids") {
-        background.updateMe();
-        asteroidStage.updateMe();
-    } else if (gameStage === "comet") {
-        background.updateMe();
-        cometStage.updateMe();
-    }
-
-
+    background.updateMe();
+    asteroidStage.updateMe();
+    cometStage.updateMe();
 
     if (stageUpdateReq) {
         // update the stage!

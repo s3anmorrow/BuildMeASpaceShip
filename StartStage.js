@@ -6,7 +6,6 @@ var StartStage = function() {
 
     // event to be dispatched when this stage is complete
     var completeEvent = new createjs.Event("onStageComplete", true);
-    completeEvent.id = "start";
 
     // master container for this stage's screen
     var screen = new createjs.Container();

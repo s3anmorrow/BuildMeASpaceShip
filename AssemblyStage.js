@@ -12,7 +12,6 @@ var AssemblyStage = function() {
 
     // event to be dispatched when this stage is complete
     var completeEvent = new createjs.Event("onStageComplete", true);
-    completeEvent.id = "assembly";
 
     // private variables
     // the X location of touch to determine direction of swipe
@@ -41,8 +40,7 @@ var AssemblyStage = function() {
     swipeArrows.y = 25;
     screen.addChild(swipeArrows);
 
-    var btnOk = assetManager.getSprite("assets");
-    btnOk.gotoAndStop("btnOkUp");
+    var btnOk = assetManager.getSprite("assets","btnOkUp");
     btnOk.x = 270;
     btnOk.y = 780;
     btnOk.addEventListener("mousedown", onOk);

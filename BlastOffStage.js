@@ -10,7 +10,6 @@ var BlastOffStage = function() {
 
     // event to be dispatched when this stage is complete
     var completeEvent = new createjs.Event("onStageComplete", true);
-    completeEvent.id = "blastOff";
 
     // master container for this stage's screen
     var screen = new createjs.Container();
@@ -63,7 +62,8 @@ var BlastOffStage = function() {
     };
 
     this.hideMe = function(){
-
+        screen.removeChild(btnGo);
+        for (var n=0; n<6; n++) screen.removeChild(countDown[n]);
         root.removeChild(screen);
     };
 

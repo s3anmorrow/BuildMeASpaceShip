@@ -7,7 +7,6 @@ var ColorStage = function() {
 
     // event to be dispatched when this stage is complete
     var completeEvent = new createjs.Event("onStageComplete", true);
-    completeEvent.id = "color";
 
     // size of brush for coloring spaceship
     var brushSize = 20;
@@ -165,18 +164,12 @@ var ColorStage = function() {
     }
 
     function onStartColoring(e) {
-        console.log("start coloring");
-
         // set last point to current touch point with scaling
         var touchPoint = colorCanvas.globalToLocal(stage.mouseX, stage.mouseY);
         lastPoint.x = touchPoint.x;
         lastPoint.y = touchPoint.y;
 
         paintMe();
-    }
-
-    function onStopColoring(e) {
-        console.log("stop coloring");
     }
 
     function onColoring(e) {

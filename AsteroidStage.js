@@ -12,10 +12,10 @@ var AsteroidStage = function() {
     var root = window.root;
     var spaceShip = window.spaceShip;
     var randomMe = window.randomMe;
+    var background = window.background;
 
     // event to be dispatched when this stage is complete
     var completeEvent = new createjs.Event("onStageComplete", true);
-    completeEvent.id = "asteroids";
 
     // asteroids ready to appear
     var ready = false;
@@ -36,6 +36,8 @@ var AsteroidStage = function() {
     for (var n=0; n<(ASTEROID_COUNT * 2); n++) {
         var asteroid = assetManager.getSprite("assets","asteroid1");
         asteroid.bitmapText = new createjs.BitmapText("",assetManager.getSpriteSheet("assets"));
+        asteroid.active = false;
+        asteroid.moving = false;
         asteroids.push(asteroid);
     }
 
@@ -83,7 +85,7 @@ var AsteroidStage = function() {
             for (var n=0; n<(ASTEROID_COUNT * 2); n++) {
                 if (asteroids[n].moving) {
                     var asteroid = asteroids[n];
-                    asteroid.y += asteroid.speed;
+                    asteroid.y += ASTEROID_SPEED;
                     // is the asteroid off the bottom of th screen?
                     if (asteroid.y > BASE_HEIGHT + 110) {
                         asteroid.active = false;
@@ -103,6 +105,11 @@ var AsteroidStage = function() {
         var asteroid = null;
         for (var n=0; n<(ASTEROID_COUNT * 2); n++) {
             if (!asteroids[n].active) {
+
+
+                console.log("dropping asteroid");
+
+
                 asteroid = asteroids[n];
                 asteroid.gotoAndPlay("asteroid" + randomMe(1,3));
                 asteroid.y = -60;
@@ -112,10 +119,9 @@ var AsteroidStage = function() {
                 else asteroid.x = randomMe(400,500);
                 // ???????????????????????????????????
 
-                asteroid.speed = ASTEROID_SPEED;
-                asteroid.addEventListener("mousedown", onFireLaser);
                 asteroid.active = true;
                 asteroid.moving = true;
+                asteroid.addEventListener("mousedown", onFireLaser);
                 asteroidLayer.addChild(asteroid);
 
                 // random rotation direction

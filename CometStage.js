@@ -2,7 +2,7 @@ var CometStage = function() {
 
     // game stage constants
     var COMET_SPEED = 8;
-    var COMET_COUNT = 5;
+    var COMET_COUNT = 1;
 
     // local references to important globals
     var assetManager = window.assetManager;
@@ -13,7 +13,6 @@ var CometStage = function() {
 
     // event to be dispatched when this stage is complete
     var completeEvent = new createjs.Event("onStageComplete", true);
-    completeEvent.id = "comet";
 
     // comets ready to appear
     var ready = false;
@@ -57,19 +56,9 @@ var CometStage = function() {
         ready = false;
         cometCount = 0;
         moveDir = 0;
-        backgroundSprite.removeEventListener("mousedown", onStartSwipe);
-        backgroundSprite.removeEventListener("pressmove", onSwiping);
         comet.active = false;
         screen.removeChild(comet);
         root.removeChild(screen);
-    };
-
-    this.pauseMe = function() {
-        //window.clearInterval(cometTimer);
-    };
-
-    this.unPauseMe = function() {
-        //if (ready) cometTimer = window.setInterval(dropComet, cometFreq);
     };
 
     this.updateMe = function() {
@@ -86,8 +75,13 @@ var CometStage = function() {
                     comet.active = false;
                     screen.removeChild(comet);
 
-                    if (cometCount >= COMET_COUNT) spaceShip.flyOffStage(onComplete);
-                    else dropComet();
+                    if (cometCount >= COMET_COUNT) {
+                        backgroundSprite.removeEventListener("mousedown", onStartSwipe);
+                        backgroundSprite.removeEventListener("pressmove", onSwiping);
+                        spaceShip.flyOffStage(onComplete);
+                    } else {
+                        dropComet();
+                    }
                 }
             }
 
@@ -153,14 +147,8 @@ var CometStage = function() {
     }
 
     function onComplete(e) {
-        // kill all tweens
-        //createjs.Tween.removeAllTweens();
         // stage is complete
-        //screen.dispatchEvent(completeEvent);
-
-
-        console.log("comet stage done!");
-
+        screen.dispatchEvent(completeEvent);
     }
 
 };
