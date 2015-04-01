@@ -180,6 +180,7 @@ function onSetup(e) {
     // populate gameStages array
     gameStages = [startStage,instructStage,assemblyStage,colorStage,blastOffStage,instructStage,asteroidStage,instructStage,cometStage,astronautStage];
     //gameStages = [startStage,assemblyStage,colorStage,blastOffStage,asteroidStage,cometStage,astronautStage];
+    //gameStages = [startStage,instructStage,instructStage,instructStage];
 
     // setup event listeners for screen flow
     stage.addEventListener("onStageComplete", onStageComplete, true);

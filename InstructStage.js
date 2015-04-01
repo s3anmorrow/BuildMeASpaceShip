@@ -24,12 +24,8 @@ var InstructStage = function() {
     screen.addChild(btnOk);
 
     var astronautHead = assetManager.getSprite("assets","astronautHead");
-    astronautHead.x = 100;
-    astronautHead.y = 100;
-
     var astronautWaving = assetManager.getSprite("assets","astronautWaving");
-    astronautWaving.x = 327;
-    astronautWaving.y = 300;
+    var instructBubble = assetManager.getSprite("assets");
 
     // ------------------------------------------------- public methods
     this.showMe = function(){
@@ -38,33 +34,50 @@ var InstructStage = function() {
             case 1:
                 // add astronaut to screen
                 astronautWaving.play();
+                astronautWaving.x = 327;
+                astronautWaving.y = 500;
                 screen.addChild(astronautWaving);
+                instructBubble.x = 65;
+                instructBubble.y = 130;
+                instructBubble.gotoAndStop("instructBubble1");
+                screen.addChild(instructBubble);
                 // tween astronaut hovering up and down
                 createjs.Tween.get(astronautWaving,{loop:true}).to({y:astronautWaving.y + 20}, 4000).to({y:astronautWaving.y}, 4000);
 
                 break;
             case 2:
-                astronautHead.x = -200;
+                astronautHead.x = 200;
                 astronautHead.y = 500;
                 astronautHead.rotation = 45;
+                screen.addChild(astronautHead);
+                instructBubble.x = 45;
+                instructBubble.y = 50;
+                instructBubble.gotoAndStop("instructBubble2");
+                screen.addChild(instructBubble);
                 // tween astronaut coming onto screen and bobbing
-                createjs.Tween.get(astronautHead).to({x:astronautHead.x + 400}, 4000);
+                //createjs.Tween.get(astronautHead).to({x:astronautHead.x + 400}, 2000);
+
                 createjs.Tween.get(astronautHead,{loop:true}).to({y:astronautHead.y + 40}, 3000).to({y:astronautHead.y}, 3000);
 
-                screen.addChild(astronautHead);
+
 
                 break;
             case 3:
-                astronautHead.x = 600;
-                astronautHead.y = 0;
+                astronautHead.x = 500;
+                astronautHead.y = 150;
                 astronautHead.rotation = 220;
-                // tween astronaut coming onto screen and bobbing
-                createjs.Tween.get(astronautHead).to({x:500}, 1000)
-                createjs.Tween.get(astronautHead).to({y:150}, 1000).call(function(){
-                    createjs.Tween.get(astronautHead,{loop:true}).to({y:astronautHead.y + 20}, 3000).to({y:astronautHead.y}, 3000);
-                });
-
                 screen.addChild(astronautHead);
+                instructBubble.x = 45;
+                instructBubble.y = 450;
+                instructBubble.gotoAndStop("instructBubble3");
+                screen.addChild(instructBubble);
+
+                // tween astronaut coming onto screen and bobbing
+                //createjs.Tween.get(astronautHead).to({x:500}, 1000)
+                //createjs.Tween.get(astronautHead).to({y:150}, 1000).call(function(){
+                    createjs.Tween.get(astronautHead,{loop:true}).to({y:astronautHead.y + 20}, 3000).to({y:astronautHead.y}, 3000);
+                //});
+
                 break;
             default:
                 instructSetCount = 1;
