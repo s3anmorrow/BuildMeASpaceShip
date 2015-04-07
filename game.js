@@ -5,8 +5,10 @@
 // TODO expert mode where you can color the ship outside the lines
 // TODO get rid of address bar in browser on mobile devices
 // TODO build system so that stage.update() only happens when it needs to be
-// TODO pause all tweens when game paused
 // TODO set tickEnabled on all sprites that don't animate
+
+// TODO Sound effect list
+
 
 // the base width and height of game that graphics are designed for (pre-resizing for android screens)
 var BASE_WIDTH = 640;
@@ -52,6 +54,7 @@ var astronautStage = null;
 
 // screen flow control - populated when game loaded
 var gameStages = [];
+var gameStagesNoInstruct = [];
 var gameStageIndex = 0;
 
 // ----------------------------------------------------------- private methods
@@ -178,9 +181,9 @@ function onSetup(e) {
     cometStage = new CometStage();
     astronautStage = new AstronautStage();
     // populate gameStages array
-    gameStages = [startStage,instructStage,assemblyStage,colorStage,blastOffStage,instructStage,asteroidStage,instructStage,cometStage,astronautStage];
-    //gameStages = [startStage,assemblyStage,colorStage,blastOffStage,asteroidStage,cometStage,astronautStage];
-    //gameStages = [startStage,instructStage,instructStage,instructStage];
+    gameStages = [startStage,instructStage,assemblyStage,colorStage,blastOffStage,instructStage,asteroidStage,instructStage,cometStage,astronautStage,instructStage];
+    gameStagesNoInstruct = [assemblyStage,colorStage,blastOffStage,instructStage,asteroidStage,instructStage,cometStage,astronautStage,instructStage]
+    //gameStages = [startStage,assemblyStage,astronautStage];
 
     // setup event listeners for screen flow
     stage.addEventListener("onStageComplete", onStageComplete, true);
@@ -205,11 +208,26 @@ function onStageComplete(e) {
 
     console.log(">> stage complete");
 
-    // hide last stage screen
-    gameStages[gameStageIndex].hideMe();
-    // show next stage screen
-    gameStageIndex++;
-    gameStages[gameStageIndex].showMe();
+    if (gameStageIndex === (gameStages.length - 1)) {
+        console.log("END OF GAME");
+
+        // cleanup and resets
+        gameStages[gameStageIndex].hideMe();
+        gameStageIndex = 0;
+        spaceShip.resetMe();
+        // modify screen flow for remainder games
+        gameStages = gameStagesNoInstruct;
+        // play game again!
+        gameStages[gameStageIndex].showMe();
+
+    } else {
+
+        // hide last stage screen
+        gameStages[gameStageIndex].hideMe();
+        // show next stage screen
+        gameStageIndex++;
+        gameStages[gameStageIndex].showMe();
+    }
 
     console.log(">> stage start - index: " + gameStageIndex);
 }

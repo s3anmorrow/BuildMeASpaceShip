@@ -36,7 +36,7 @@ var CometStage = function() {
         // show spaceship
         spaceShip.showMeOn(screen, 100, 970);
         spaceShip.flyOnStage(onReady);
-        spaceShip.activateTurret();
+        spaceShip.toggleTurret(false);
 
         // set background to move
         background.setMoving(true);

@@ -90,7 +90,7 @@ var ColorStage = function() {
     // add ok button
     var btnOk = assetManager.getSprite("assets");
     btnOk.gotoAndStop("btnOkUp");
-    btnOk.x = 270;
+    btnOk.x = 275;
     btnOk.y = 780;
     btnOk.addEventListener("mousedown", onFinished);
     btnOk.addEventListener("pressup", onFinished);
@@ -107,8 +107,9 @@ var ColorStage = function() {
         colorCanvas = spaceShip.getColorCanvas(partsQueue[partsIndex]);
         spaceShip.focusOnPart(partsQueue[partsIndex]);
 
-
-
+        // setup current color
+        brushColor = "#990000";
+        btnRed.dispatchEvent(new createjs.Event("click"));
 
         // positioning and showing spaceship
         spaceShip.showMeOn(screen, 235, 230);
@@ -119,7 +120,6 @@ var ColorStage = function() {
     this.hideMe = function(){
         screen.removeEventListener("mousedown", onStartColoring);
         screen.removeEventListener("pressmove", onColoring);
-
 
         root.removeChild(screen);
     };
@@ -154,12 +154,12 @@ var ColorStage = function() {
         // set brush color and adjust button
         brushColor = e.target.color;
         // reset all buttons and set target
-        btnRed.gotoAndStop(btnRed.label + "Up");
-        btnGreen.gotoAndStop(btnGreen.label + "Up");
-        btnYellow.gotoAndStop(btnYellow.label + "Up");
-        btnBlue.gotoAndStop(btnBlue.label + "Up");
-        btnPurple.gotoAndStop(btnPurple.label + "Up");
-        btnOrange.gotoAndStop(btnOrange.label + "Up");
+        btnRed.gotoAndStop("btnRedUp");
+        btnGreen.gotoAndStop("btnGreenUp");
+        btnYellow.gotoAndStop("btnYellowUp");
+        btnBlue.gotoAndStop("btnBlueUp");
+        btnPurple.gotoAndStop("btnPurpleUp");
+        btnOrange.gotoAndStop("btnOrangeUp");
         e.target.gotoAndStop(e.target.label + "Down");
     }
 

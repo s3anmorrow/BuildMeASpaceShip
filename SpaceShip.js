@@ -1,11 +1,11 @@
 var SpaceShip = function() {
 
-    // TODO fix some fuselages so the masks don't knock out sections of them
-
     // local references to important globals
     var assetManager = window.assetManager;
     var root = window.root;
     var randomMe = window.randomMe;
+    // scope reference fix
+    var me = this;
 
     // parts list
     var partsQueue = ["fuselage","wings","tail","cockpit","laser"];
@@ -91,26 +91,17 @@ var SpaceShip = function() {
     var scorchWidth = 24;
     var scorchColor = "#000000";
 
-    // ------------------------------------------------- private methods
-    function rotateTurret(which) {
-        if (which) {
-            // randomly pick direction and start tween
-            var dir = 1;
-            if (randomMe(0,1) === 1) dir = -1;
-            createjs.Tween.get(laserTurret,{loop:true}).to({rotation: ((laserTurret.rotation + 360) * dir)}, 17000);
-        } else {
-            createjs.Tween.removeTweens(laserTurret);
-        }
-    }
-
-
     // ------------------------------------------------- public methods
-    this.getSprite = function() {
+    this.getShipContainer = function() {
         return shipContainer;
     };
 
     this.getColorCanvas = function(which) {
         return colorCanvases[which];
+    };
+
+    this.getCockpitLocation = function() {
+        return (containers.cockpit.localToGlobal(0, parts.cockpit.getBounds().height)).y;
     };
 
     this.showMeOn = function(screen, locX, locY) {
@@ -156,12 +147,18 @@ var SpaceShip = function() {
         }
     };
 
-    this.activateTurret = function() {
-        //createjs.Tween.removeAllTweens(laserTurret);
-        rotateTurret(true);
+    this.toggleTurret = function(which) {
+        if (which) {
+            // randomly pick direction and start tween
+            var dir = 1;
+            //if (randomMe(0,1) === 1) dir = -1;
+            createjs.Tween.get(laserTurret,{loop:true}).to({rotation: ((laserTurret.rotation + 360) * dir)}, 17000);
+        } else {
+            createjs.Tween.removeTweens(laserTurret);
+        }
     };
 
-    this.activateThrust = function(which) {
+    this.toggleThrust = function(which) {
         if (!which) {
             thrust.stop();
             shipContainer.removeChild(thrust);
@@ -169,12 +166,12 @@ var SpaceShip = function() {
         }
         // position thrust sprite
         thrust.x = 18;
-        thrust.y = shipContainer.getBounds().height - 60;
+        thrust.y = parts.tail.getBounds().y + parts.tail.getBounds().height;
         thrust.play();
         shipContainer.addChild(thrust);
     };
 
-    this.activateSmoke = function(which, locX, locY) {
+    this.toggleSmoke = function(which) {
         if (!which) {
             // stopping smoke animation after animation is complete (avoid abrupt ending)
             smoke.on("animationend", function(){
@@ -183,16 +180,20 @@ var SpaceShip = function() {
             }, null, true);
             return;
         }
-        // position thrust sprite
-        if (locX === undefined) {
-            smoke.x = -8;
-            smoke.y = shipContainer.getBounds().height - 60;
-        } else {
-            smoke.x = locX;
-            smoke.y = locY;
-        }
+        // position smoke sprite
+        smoke.x = -8;
+        smoke.y = parts.tail.getBounds().y + parts.tail.getBounds().height - 60;
         smoke.play();
         shipContainer.addChild(smoke);
+    };
+
+    this.toggleCockpit = function(which) {
+        var cockpit = parts.cockpit;
+        if (which) cockpit.play();
+        else cockpit.gotoAndPlay(cockpit.currentAnimation + "Close");
+        cockpit.on("animationend", function(e){
+            e.target.stop();
+        }, null, true);
     };
 
     this.fireMe = function(target, targetLayer) {
@@ -200,7 +201,7 @@ var SpaceShip = function() {
         var targetPoint = targetLayer.localToLocal(target.x, target.y, shipContainer);
 
         // pause turret rotate tween in order to fire
-        rotateTurret(false);
+        this.toggleTurret(false);
 
         // calculate angle from turret to target asteroid
         var angle = Math.atan2(targetPoint.y - laserTurret.y, targetPoint.x - laserTurret.x);
@@ -239,13 +240,17 @@ var SpaceShip = function() {
 
     this.flyOffStage = function(callback) {
         // tween spaceship blasting off top of stage
-        //createjs.Tween.get(shipContainer).to({y:-(shipContainer.getBounds().height + 10)}, 5000, createjs.Ease.cubicIn).call(callback);
-        createjs.Tween.get(shipContainer).to({y:-(shipContainer.getBounds().height + 10)}, 500, createjs.Ease.cubicIn).call(callback);
+        if (callback != undefined) createjs.Tween.get(shipContainer).to({y:-(shipContainer.getBounds().height + 10)}, 1500, createjs.Ease.cubicIn).call(callback);
+        else createjs.Tween.get(shipContainer).to({y:-(shipContainer.getBounds().height + 10)}, 1500, createjs.Ease.cubicIn);
+
+        //createjs.Tween.get(shipContainer).to({y:-(shipContainer.getBounds().height + 10)}, 500, createjs.Ease.cubicIn).call(callback);
     };
 
     this.flyOnStage = function(callback) {
-        //createjs.Tween.get(shipContainer).to({y:400}, 5000, createjs.Ease.cubicOut).call(callback);
-        createjs.Tween.get(shipContainer).to({y:400}, 500, createjs.Ease.cubicOut).call(callback);
+        if (callback != undefined) createjs.Tween.get(shipContainer).to({y:400}, 1500, createjs.Ease.cubicOut).call(callback);
+        else createjs.Tween.get(shipContainer).to({y:400}, 1500, createjs.Ease.cubicOut);
+
+        //createjs.Tween.get(shipContainer).to({y:400}, 500, createjs.Ease.cubicOut).call(callback);
     };
 
     this.scorchMe = function(comet, targetLayer) {
@@ -277,15 +282,6 @@ var SpaceShip = function() {
 		colorCanvas.updateCache("source-overlay");
         // because the vector paint drop has been drawn to the cache clear it out
 		colorCanvas.graphics.clear();
-    };
-
-    this.toggleCockpit = function(which) {
-        var cockpit = parts.cockpit;
-        if (which) cockpit.play();
-        else cockpit.gotoAndPlay(cockpit.currentAnimation + "Close");
-        cockpit.on("animationend", function(e){
-            e.target.stop();
-        }, null, true);
     };
 
     this.assembleMe = function(newPart) {
@@ -339,15 +335,19 @@ var SpaceShip = function() {
         parts.laser = null;
         laserTurret.rotation = 0;
         laserBeamIndex = 0;
+        this.toggleThrust(false);
+        this.toggleSmoke(false);
+        this.toggleTurret(false);
 
         // remove all parts of spaceship
         for (var n=0; n<5; n++) containers[partsQueue[n]].removeAllChildren();
 
-        // no focusing on any part
-        this.focusOnPart(undefined);
         // clearing out all caches for next round
+        colorCanvases.fuselage.graphics.clear();
         colorCanvases.fuselage.uncache();
+        colorCanvases.wings.graphics.clear();
         colorCanvases.wings.uncache();
+        colorCanvases.tail.graphics.clear();
         colorCanvases.tail.uncache();
     };
 
@@ -358,7 +358,7 @@ var SpaceShip = function() {
         e.target.graphics.clear();
         containers.laserBeams.removeChild(e.target);
         // turn back on turret rotation tween
-        rotateTurret(true);
+        me.toggleTurret(true);
     }
 
 

@@ -7,5 +7,6 @@ var manifest = [
     {
         src:"lib/assets.png",
         id:"assets"
-    }
+    },
+    {src:"lib/beep.mp3", id:"beep", data:4},
 ];

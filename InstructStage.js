@@ -1,5 +1,4 @@
 var InstructStage = function() {
-
     // local references to important globals
     var assetManager = window.assetManager;
     var root = window.root;
@@ -17,8 +16,6 @@ var InstructStage = function() {
     screen.snapToPixelEnabled = true;
 
     var btnOk = assetManager.getSprite("assets", "btnOkUp");
-    btnOk.x = 270;
-    btnOk.y = 780;
     btnOk.addEventListener("mousedown", onOk);
     btnOk.addEventListener("pressup", onOk);
     screen.addChild(btnOk);
@@ -29,10 +26,13 @@ var InstructStage = function() {
 
     // ------------------------------------------------- public methods
     this.showMe = function(){
+        // set background to stop moving
+        background.setMoving(false);
+
         // setup according to which instruction set
         switch (instructSetCount) {
             case 1:
-                // add astronaut to screen
+                // add display objects to screen
                 astronautWaving.play();
                 astronautWaving.x = 327;
                 astronautWaving.y = 500;
@@ -40,6 +40,8 @@ var InstructStage = function() {
                 instructBubble.x = 65;
                 instructBubble.y = 130;
                 instructBubble.gotoAndStop("instructBubble1");
+                btnOk.x = 275;
+                btnOk.y = 780;
                 screen.addChild(instructBubble);
                 // tween astronaut hovering up and down
                 createjs.Tween.get(astronautWaving,{loop:true}).to({y:astronautWaving.y + 20}, 4000).to({y:astronautWaving.y}, 4000);
@@ -50,16 +52,13 @@ var InstructStage = function() {
                 astronautHead.y = 500;
                 astronautHead.rotation = 45;
                 screen.addChild(astronautHead);
-                instructBubble.x = 45;
+                instructBubble.x = 50;
                 instructBubble.y = 50;
                 instructBubble.gotoAndStop("instructBubble2");
+                btnOk.x = 275;
+                btnOk.y = 780;
                 screen.addChild(instructBubble);
-                // tween astronaut coming onto screen and bobbing
-                //createjs.Tween.get(astronautHead).to({x:astronautHead.x + 400}, 2000);
-
                 createjs.Tween.get(astronautHead,{loop:true}).to({y:astronautHead.y + 40}, 3000).to({y:astronautHead.y}, 3000);
-
-
 
                 break;
             case 3:
@@ -67,16 +66,27 @@ var InstructStage = function() {
                 astronautHead.y = 150;
                 astronautHead.rotation = 220;
                 screen.addChild(astronautHead);
-                instructBubble.x = 45;
+                instructBubble.x = 25;
                 instructBubble.y = 450;
                 instructBubble.gotoAndStop("instructBubble3");
+                btnOk.x = 275;
+                btnOk.y = 780;
                 screen.addChild(instructBubble);
+                createjs.Tween.get(astronautHead,{loop:true}).to({y:astronautHead.y + 20}, 3000).to({y:astronautHead.y}, 3000);
 
-                // tween astronaut coming onto screen and bobbing
-                //createjs.Tween.get(astronautHead).to({x:500}, 1000)
-                //createjs.Tween.get(astronautHead).to({y:150}, 1000).call(function(){
-                    createjs.Tween.get(astronautHead,{loop:true}).to({y:astronautHead.y + 20}, 3000).to({y:astronautHead.y}, 3000);
-                //});
+                break;
+            case 4:
+                background.setMoving(true);
+                spaceShip.toggleTurret(true);
+                spaceShip.toggleThrust(true);
+                spaceShip.showMeOn(screen,235,970);
+                spaceShip.flyOnStage();
+                instructBubble.x = 60;
+                instructBubble.y = 50;
+                instructBubble.gotoAndStop("instructBubble4");
+                btnOk.x = 275;
+                btnOk.y = 270;
+                screen.addChild(instructBubble);
 
                 break;
             default:
@@ -86,9 +96,6 @@ var InstructStage = function() {
         }
 
         screen.addChild(btnOk);
-        // set background to stop moving
-        background.setMoving(false);
-
         root.addChild(screen);
         instructSetCount++;
     };
@@ -107,11 +114,23 @@ var InstructStage = function() {
     // ------------------------------------------------- event handler
     function onOk(e) {
         if (e.type === "mousedown") {
-            btnOk.gotoAndStop("btnGoDown");
+            btnOk.gotoAndStop("btnOkDown");
         } else {
-            btnOk.gotoAndStop("btnGoUp");
-            // stage is complete - am forced to construct new event object instead of reusing
-            screen.dispatchEvent(completeEvent);
+            btnOk.gotoAndStop("btnOkUp");
+
+            if (instructSetCount === 5) {
+                // fly spaceship off stage
+                screen.removeChild(btnOk);
+                spaceShip.flyOffStage(onShipOffStage);
+            } else {
+                // stage is complete - am forced to construct new event object instead of reusing
+                screen.dispatchEvent(completeEvent);
+            }
         }
+    }
+
+    function onShipOffStage(e) {
+        background.setMoving(false);
+        screen.dispatchEvent(completeEvent);
     }
 };

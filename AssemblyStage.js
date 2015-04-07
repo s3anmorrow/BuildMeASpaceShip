@@ -1,8 +1,4 @@
 var AssemblyStage = function() {
-    // game stage constants
-    var COMET_SPEED = 4;
-    //var ASTEROID_COUNT = 10;
-    var COMET_COUNT = 1;
 
     // local references to important globals
     var assetManager = window.assetManager;
@@ -22,8 +18,8 @@ var AssemblyStage = function() {
     var partIndex = 0;
     // the index of the current assemblyLine (fuselages, wings, tail)
     var assemblyLineIndex = 0;
-    // the spaceship sprite
-    var spaceShipSprite = spaceShip.getSprite();
+    // the spaceship container for dimensions
+    var spaceShipContainer = spaceShip.getShipContainer();
 
     // master container for this stage's screen
     var screen = new createjs.Container();
@@ -41,7 +37,7 @@ var AssemblyStage = function() {
     screen.addChild(swipeArrows);
 
     var btnOk = assetManager.getSprite("assets","btnOkUp");
-    btnOk.x = 270;
+    btnOk.x = 275;
     btnOk.y = 780;
     btnOk.addEventListener("mousedown", onOk);
     btnOk.addEventListener("pressup", onOk);
@@ -50,55 +46,34 @@ var AssemblyStage = function() {
     // construct sprites of spaceship parts to add to assembly line later
     var assemblyLine = new createjs.Container();
 
-    var spacer = 60;
-    var dropX = 0;
     var fuselages = [];
     for (var n=0; n<5; n++) {
         fuselages[n] = assetManager.getSprite("assets","fuselage" + (n + 1));
-        fuselages[n].x = dropX;
-        fuselages[n].y = 50;
         fuselages[n].type = "fuselage";
-        dropX += fuselages[n].getBounds().width + spacer;
     }
 
-    dropX = 0;
     var wings = [];
     for (n=0; n<5; n++) {
         wings[n] = assetManager.getSprite("assets","wings" + (n + 1));
-        wings[n].x = dropX;
-        wings[n].y = 50;
         wings[n].type = "wings";
-        dropX += wings[n].getBounds().width + spacer;
     }
 
-    dropX = 0;
     var tails = [];
     for (n=0; n<5; n++) {
         tails[n] = assetManager.getSprite("assets","tail" + (n + 1));
-        tails[n].x = dropX;
-        tails[n].y = 50;
         tails[n].type = "tail";
-        dropX += tails[n].getBounds().width + spacer;
     }
 
-    dropX = 0;
     var cockpits = [];
     for (n=0; n<4; n++) {
         cockpits[n] = assetManager.getSprite("assets","cockpit" + (n + 1));
-        cockpits[n].x = dropX;
-        cockpits[n].y = 50;
         cockpits[n].type = "cockpit";
-        dropX += fuselages[n].getBounds().width + spacer;
     }
 
-    dropX = 0;
     var lasers = [];
     for (n=0; n<3; n++) {
         lasers[n] = assetManager.getSprite("assets","laser" + (n + 1));
-        lasers[n].x = dropX;
-        lasers[n].y = 50;
         lasers[n].type = "laser";
-        dropX += fuselages[n].getBounds().width + spacer;
     }
 
     // setup assemblyLine with current parts
@@ -133,7 +108,7 @@ var AssemblyStage = function() {
         else if (assemblyLineIndex === 2) {
             partsOnTheLine = tails;
             // swap displaylist index so tails are on top of spaceship
-            screen.swapChildren(spaceShipSprite, assemblyLine);
+            screen.swapChildren(spaceShipContainer, assemblyLine);
         } else if (assemblyLineIndex === 3) {
             partsOnTheLine = cockpits;
         } else if (assemblyLineIndex === 4) {
@@ -145,7 +120,14 @@ var AssemblyStage = function() {
         }
 
         // add new parts to assemblyLine
-        for (var n=0; n<5; n++) {
+        var spacer = 60;
+        var dropX = 0;
+        for (var n=0; n<partsOnTheLine.length; n++) {
+            // positioning each part
+            partsOnTheLine[n].x = dropX;
+            partsOnTheLine[n].y = 50;
+            dropX += partsOnTheLine[n].getBounds().width + spacer;
+            // add to assemblyline container
             assemblyLine.addChild(partsOnTheLine[n]);
         }
     }
@@ -156,6 +138,9 @@ var AssemblyStage = function() {
     this.showMe = function(){
         background.addEventListener("mousedown", onStartSwipe);
         background.addEventListener("pressmove", onSwiping);
+
+        assemblyLineIndex = 0;
+        assemblyLineSetup();
 
         // add assembly line container overtop
         screen.addChild(assemblyLine);

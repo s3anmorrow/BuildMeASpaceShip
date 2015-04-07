@@ -1,7 +1,4 @@
 var AstronautStage = function() {
-
-    // TODO bug with turret spinning around
-
     // local references to important globals
     var assetManager = window.assetManager;
     var root = window.root;
@@ -22,10 +19,6 @@ var AstronautStage = function() {
     var astronaut = assetManager.getSprite("assets","astronautWaving");
     astronaut.x = 327;
     astronaut.y = 120;
-
-
-
-
 
     // ------------------------------------------------- public methods
     this.showMe = function(){
@@ -58,30 +51,28 @@ var AstronautStage = function() {
 
     // ------------------------------------------------- event handler
     function onMoveAstronaut(e) {
-
-        console.log("save astronaut!");
-
         // kill looping tweens
         createjs.Tween.removeAllTweens();
 
-        // ???????????????
-        // play animation of astronaut while moving
+        // shrink astronaut while it is being rescued to fit in the cockpit
+        astronaut.gotoAndPlay("astronautRescue");
+        astronaut.on("animationend", function(e){
+            e.target.stop();
+        }, null, true);
+
+        // animate astronaut moving into spaceship
+        createjs.Tween.get(astronaut).to({y:spaceShip.getCockpitLocation(), rotation:270}, 3000).call(onRescueAstronaut);
 
         // open the cockpit on spaceship
         spaceShip.toggleCockpit(true);
-        // animate astronaut moving into spaceship
-        createjs.Tween.get(astronaut).to({y:spaceShip.getSprite().y + 60,rotation:270}, 3000).call(onRescueAstronaut);
     }
 
     function onRescueAstronaut(e) {
-
-        // ????????????????????
-        // play animation of astronaut entering the spaceship
-
         // close cockpit
         spaceShip.toggleCockpit(false);
         // remove astronaut
         screen.removeChild(astronaut);
+        spaceShip.toggleThrust(true);
         spaceShip.flyOffStage(onComplete);
     }
 
@@ -89,20 +80,15 @@ var AstronautStage = function() {
         ready = true;
 
         // turn off spaceship thrust
-        spaceShip.activateThrust(false);
+        spaceShip.toggleThrust(false);
         astronaut.addEventListener("mousedown", onMoveAstronaut);
     }
-
-
 
     function onComplete(e) {
         // kill all tweens
         createjs.Tween.removeAllTweens();
         // stage is complete
-        //screen.dispatchEvent(completeEvent);
-
-        console.log("GAME COMPLETE!");
-
+        screen.dispatchEvent(completeEvent);
     }
 
 };

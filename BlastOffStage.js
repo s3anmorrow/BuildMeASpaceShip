@@ -28,10 +28,10 @@ var BlastOffStage = function() {
     countDown[0] = assetManager.getSprite("assets","countdownBlastOff", 150, -240);
 
     // the spaceship sprite
-    var spaceShipSprite = spaceShip.getSprite();
+    var spaceShipContainer = spaceShip.getShipContainer();
 
     var btnGo = assetManager.getSprite("assets","btnGoUp");
-    btnGo.x = 270;
+    btnGo.x = 275;
     btnGo.y = 100;
     btnGo.addEventListener("mousedown", onOk);
     btnGo.addEventListener("pressup", onOk);
@@ -45,13 +45,15 @@ var BlastOffStage = function() {
     // ------------------------------------------------- public methods
     this.showMe = function(){
         // position and show spaceShip on screen
-        spaceShip.showMeOn(screen, 235, BASE_HEIGHT - spaceShipSprite.getBounds().height - 67);
-        spaceShip.activateTurret();
+        spaceShip.showMeOn(screen, 235, BASE_HEIGHT - spaceShipContainer.getBounds().height - 67);
+        spaceShip.toggleTurret(true);
 
         // add other screen sprites
         screen.addChild(btnGo);
         for (var n=0; n<6; n++) {
             countDown[n].alpha = 1;
+            countDown[n].y = -160;
+            if (n === 0) countDown[n].y = -240;
             screen.addChild(countDown[n]);
         }
 
@@ -64,6 +66,7 @@ var BlastOffStage = function() {
     this.hideMe = function(){
         screen.removeChild(btnGo);
         for (var n=0; n<6; n++) screen.removeChild(countDown[n]);
+        spaceShip.toggleTurret(false);
         root.removeChild(screen);
     };
 
@@ -79,7 +82,7 @@ var BlastOffStage = function() {
             // start countdown
             dropCountDownNumber();
             // add smoke from engines / vibration
-            spaceShip.activateSmoke(true);
+            spaceShip.toggleSmoke(true);
         }
     }
 
@@ -89,8 +92,8 @@ var BlastOffStage = function() {
         countDownIndex--;
         if (countDownIndex < 0) {
             // kill smoke and start thrust
-            spaceShip.activateSmoke(false);
-            spaceShip.activateThrust(true);
+            spaceShip.toggleSmoke(false);
+            spaceShip.toggleThrust(true);
             // time to blast off!
             spaceShip.flyOffStage(onComplete);
         } else {
