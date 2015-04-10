@@ -244,6 +244,9 @@ var SpaceShip = function() {
         else createjs.Tween.get(shipContainer).to({y:-(shipContainer.getBounds().height + 10)}, 1500, createjs.Ease.cubicIn);
 
         //createjs.Tween.get(shipContainer).to({y:-(shipContainer.getBounds().height + 10)}, 500, createjs.Ease.cubicIn).call(callback);
+
+        assetManager.getSound("thrust").play();
+
     };
 
     this.flyOnStage = function(callback) {
@@ -251,6 +254,8 @@ var SpaceShip = function() {
         else createjs.Tween.get(shipContainer).to({y:400}, 1500, createjs.Ease.cubicOut);
 
         //createjs.Tween.get(shipContainer).to({y:400}, 500, createjs.Ease.cubicOut).call(callback);
+
+        assetManager.getSound("thrust").play();
     };
 
     this.scorchMe = function(comet, targetLayer) {
@@ -282,6 +287,8 @@ var SpaceShip = function() {
 		colorCanvas.updateCache("source-overlay");
         // because the vector paint drop has been drawn to the cache clear it out
 		colorCanvas.graphics.clear();
+
+        assetManager.getSound("burn").play();
     };
 
     this.assembleMe = function(newPart) {

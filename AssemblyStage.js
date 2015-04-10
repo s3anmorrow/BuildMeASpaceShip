@@ -25,20 +25,14 @@ var AssemblyStage = function() {
     var screen = new createjs.Container();
     screen.snapToPixelEnabled = true;
 
-    var constructionBar2 = assetManager.getSprite("assets","constructionBar");
-    constructionBar2.y = 150;
+    var constructionBar2 = assetManager.getSprite("assets","constructionBar",0,150,false);
     screen.addChild(constructionBar2);
-    var constructionBar1 = assetManager.getSprite("assets","constructionBar");
-    constructionBar1.y = 720;
+    var constructionBar1 = assetManager.getSprite("assets","constructionBar",0,720,false);
     screen.addChild(constructionBar1);
-    var swipeArrows = assetManager.getSprite("assets","swipeArrows");
-    swipeArrows.x = 110;
-    swipeArrows.y = 25;
+    var swipeArrows = assetManager.getSprite("assets","swipeArrows",110,25,false);
     screen.addChild(swipeArrows);
 
-    var btnOk = assetManager.getSprite("assets","btnOkUp");
-    btnOk.x = 275;
-    btnOk.y = 780;
+    var btnOk = assetManager.getSprite("assets","btnOkUp",255,780,false);
     btnOk.addEventListener("mousedown", onOk);
     btnOk.addEventListener("pressup", onOk);
     screen.addChild(btnOk);
@@ -48,19 +42,19 @@ var AssemblyStage = function() {
 
     var fuselages = [];
     for (var n=0; n<5; n++) {
-        fuselages[n] = assetManager.getSprite("assets","fuselage" + (n + 1));
+        fuselages[n] = assetManager.getSprite("assets","fuselage" + (n + 1),0,0,false);
         fuselages[n].type = "fuselage";
     }
 
     var wings = [];
     for (n=0; n<5; n++) {
-        wings[n] = assetManager.getSprite("assets","wings" + (n + 1));
+        wings[n] = assetManager.getSprite("assets","wings" + (n + 1),0,0,false);
         wings[n].type = "wings";
     }
 
     var tails = [];
     for (n=0; n<5; n++) {
-        tails[n] = assetManager.getSprite("assets","tail" + (n + 1));
+        tails[n] = assetManager.getSprite("assets","tail" + (n + 1),0,0,false);
         tails[n].type = "tail";
     }
 
@@ -72,7 +66,7 @@ var AssemblyStage = function() {
 
     var lasers = [];
     for (n=0; n<3; n++) {
-        lasers[n] = assetManager.getSprite("assets","laser" + (n + 1));
+        lasers[n] = assetManager.getSprite("assets","laser" + (n + 1),0,0,false);
         lasers[n].type = "laser";
     }
 
@@ -139,6 +133,7 @@ var AssemblyStage = function() {
         background.addEventListener("mousedown", onStartSwipe);
         background.addEventListener("pressmove", onSwiping);
 
+        downX = null;
         assemblyLineIndex = 0;
         assemblyLineSetup();
 
@@ -173,17 +168,18 @@ var AssemblyStage = function() {
 
         // calculating change in touch location
         var upY = stage.mouseY;
-
         var upX = stage.mouseX;
         var diffX = downX - upX;
 
         // is difference negative or positive?
-        if (diffX > 0) {
-            console.log("LEFT");
-            swipeLeft();
-        } else {
+        if (diffX < 0) {
             console.log("RIGHT");
             swipeRight();
+            assetManager.getSound("slideRight").play();
+        } else {
+            console.log("LEFT");
+            swipeLeft();
+            assetManager.getSound("slideLeft").play();
         }
         // reset values
         downX = null;
@@ -192,6 +188,7 @@ var AssemblyStage = function() {
     function onOk(e) {
         if (e.type === "mousedown") {
             btnOk.gotoAndStop("btnOkDown");
+            assetManager.getSound("beep").play();
 
             // add part to spaceShip assembly
             spaceShip.assembleMe(partsOnTheLine[partIndex]);

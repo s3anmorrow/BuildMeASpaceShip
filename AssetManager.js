@@ -61,6 +61,8 @@ var AssetManager = function() {
     var progress = 0;
     // array of spritesheet objects
     var spriteSheets = [];
+    // array of cordova media objects (sound)
+    var cordovaSounds = [];
     // array of JSON for each spritesheet
     var spriteSheetsJSON = [];
     // LoadQueue object
@@ -73,7 +75,7 @@ var AssetManager = function() {
 	// ------------------------------------------------------ event handlers
     function onLoaded(e) {
 
-        console.log("asset loaded: " + e.item.src + " type: " + e.item.type);
+        console.log("asset loaded: " + e.item.src + " type: " + e.item.type + " id: " + e.item.id);
 
         // what type of asset was loaded?
         switch(e.item.type) {
@@ -104,6 +106,15 @@ var AssetManager = function() {
 
             case createjs.LoadQueue.SOUND:
                 // sound loaded
+                if (mobile) {
+                    // get id and source from manifest of currently loaded soiund
+                    var id = e.item.id;
+                    var src = e.item.src;
+                    // construct cordova media plugin object and store in array
+                    var media = new Media("/android_asset/www/" + src);
+                    cordovaSounds[id] = media;
+                }
+
                 break;
         }
 
@@ -133,7 +144,7 @@ var AssetManager = function() {
     }
 
 	// ------------------------------------------------------ public methods
-    this.getSprite = function(spriteSheetID, frameLabel, locX, locY) {
+    this.getSprite = function(spriteSheetID, frameLabel, locX, locY, animated) {
         // construct sprite object to animate the frames (I call this a clip)
         var sprite = new createjs.Sprite(spriteSheets[spriteSheetID]);
         sprite.name = spriteSheetID;
@@ -143,7 +154,16 @@ var AssetManager = function() {
         else sprite.y = locY;
         sprite.currentFrame = 0;
         if (frameLabel != undefined) sprite.gotoAndStop(frameLabel);
+        if ((animated != undefined) && (!animated)) sprite.tickEnabled = false;
         return sprite;
+    };
+
+    this.getSound = function(soundID) {
+        if (mobile) {
+            return cordovaSounds[soundID];
+        } else {
+            return createjs.Sound.createInstance(soundID);
+        }
     };
 
     this.getProgress = function() {
@@ -154,13 +174,22 @@ var AssetManager = function() {
 		return spriteSheets[id];
 	};
 
+
+    var mobile = window.mobile;
+
     this.loadAssets = function(myManifest) {
         // setup manifest
         manifest = myManifest;
-        // if browser doesn't suppot the ogg it will attempt to look for an mp3
-        createjs.Sound.alternateExtensions = ["mp3","wav"];
-        // registers the PreloadJS object with SoundJS - will automatically have access to all sound assets
-        preloader.installPlugin(createjs.Sound);
+
+        if (!mobile) {
+            // if browser doesn't suppot the ogg it will attempt to look for an mp3
+            createjs.Sound.registerPlugins([createjs.WebAudioPlugin, createjs.HTMLAudioPlugin]);
+            //createjs.Sound.registerPlugins([createjs.CordovaAudioPlugin,createjs.WebAudioPlugin, createjs.HTMLAudioPlugin]);
+            createjs.Sound.alternateExtensions = ["ogg"];
+            // registers the PreloadJS object with SoundJS - will automatically have access to all sound assets
+            preloader.installPlugin(createjs.Sound);
+        }
+
         preloader.addEventListener("fileload", onLoaded);
         preloader.addEventListener("progress", onProgress);
         preloader.addEventListener("error", onError);

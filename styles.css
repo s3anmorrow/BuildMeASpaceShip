@@ -11,3 +11,9 @@ body {
     -khtml-user-select: none; /* webkit (konqueror) browsers */
     -ms-user-select: none; /* IE10+ */
 }
+
+#stage {
+    margin:auto;
+    position:absolute;
+    top:0;left:0;right:0;bottom:0;
+}

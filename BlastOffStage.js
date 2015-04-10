@@ -14,32 +14,31 @@ var BlastOffStage = function() {
     // master container for this stage's screen
     var screen = new createjs.Container();
     screen.snapToPixelEnabled = true;
-    var ground = assetManager.getSprite("assets","ground");
+    var ground = assetManager.getSprite("assets","ground",0,0,false);
     ground.y = 853;
     screen.addChild(ground);
 
     var countDownIndex = 5;
     var countDown = [];
-    countDown[5] = assetManager.getSprite("assets","countdown5", 271, -160);
-    countDown[4] = assetManager.getSprite("assets","countdown4", 271, -160);
-    countDown[3] = assetManager.getSprite("assets","countdown3", 271, -160);
-    countDown[2] = assetManager.getSprite("assets","countdown2", 271, -160);
-    countDown[1] = assetManager.getSprite("assets","countdown1", 271, -160);
-    countDown[0] = assetManager.getSprite("assets","countdownBlastOff", 150, -240);
+    countDown[5] = assetManager.getSprite("assets","countdown5", 271, -160, false);
+    countDown[4] = assetManager.getSprite("assets","countdown4", 271, -160, false);
+    countDown[3] = assetManager.getSprite("assets","countdown3", 271, -160, false);
+    countDown[2] = assetManager.getSprite("assets","countdown2", 271, -160, false);
+    countDown[1] = assetManager.getSprite("assets","countdown1", 271, -160, false);
+    countDown[0] = assetManager.getSprite("assets","countdownBlastOff", 150, -240, false);
 
     // the spaceship sprite
     var spaceShipContainer = spaceShip.getShipContainer();
 
-    var btnGo = assetManager.getSprite("assets","btnGoUp");
-    btnGo.x = 275;
-    btnGo.y = 100;
+    var btnGo = assetManager.getSprite("assets","btnGoUp", 255, 100, false);
     btnGo.addEventListener("mousedown", onOk);
     btnGo.addEventListener("pressup", onOk);
 
     // ------------------------------------------------- private methods
     function dropCountDownNumber() {
         // tween count down number onto stage
-        createjs.Tween.get(countDown[countDownIndex]).to({y:150}, 240, createjs.Ease.cubicOut).call(onCountDownNumberComplete);
+        createjs.Tween.get(countDown[countDownIndex]).to({y:150}, 750, createjs.Ease.cubicOut).call(onCountDownNumberComplete);
+        assetManager.getSound("countdown").play();
     }
 
     // ------------------------------------------------- public methods
@@ -74,6 +73,7 @@ var BlastOffStage = function() {
     function onOk(e) {
         if (e.type === "mousedown") {
             btnGo.gotoAndStop("btnGoDown");
+            assetManager.getSound("beep").play();
         } else {
             btnGo.gotoAndStop("btnGoUp");
 

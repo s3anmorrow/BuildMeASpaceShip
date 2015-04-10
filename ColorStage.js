@@ -33,65 +33,44 @@ var ColorStage = function() {
     screen.addChild(constructionBar1);
 
     // setup paint selection buttons
-    var btnRed = assetManager.getSprite("assets");
-    btnRed.gotoAndStop("btnRedDown");
-    btnRed.x = 25;
-    btnRed.y = 30;
+    var btnRed = assetManager.getSprite("assets","btnRedDown",25,30,false);
     btnRed.color = "#990000";
     btnRed.label = "btnRed";
     btnRed.addEventListener("click", onChangeColor);
     screen.addChild(btnRed);
 
-    var btnGreen = assetManager.getSprite("assets");
-    btnGreen.gotoAndStop("btnGreenUp");
-    btnGreen.x = 125;
-    btnGreen.y = 30;
+    var btnGreen = assetManager.getSprite("assets","btnGreenUp",125,30,false);
     btnGreen.color = "#006600";
     btnGreen.label = "btnGreen";
     btnGreen.addEventListener("click", onChangeColor);
     screen.addChild(btnGreen);
 
-    var btnYellow = assetManager.getSprite("assets");
-    btnYellow.gotoAndStop("btnYellowUp");
-    btnYellow.x = 225;
-    btnYellow.y = 30;
+    var btnYellow = assetManager.getSprite("assets","btnYellowUp",225,30,false);
     btnYellow.color = "#FFCC00";
     btnYellow.label = "btnYellow";
     btnYellow.addEventListener("click", onChangeColor);
     screen.addChild(btnYellow);
 
-    var btnBlue = assetManager.getSprite("assets");
-    btnBlue.gotoAndStop("btnBlueUp");
-    btnBlue.x = 325;
-    btnBlue.y = 30;
+    var btnBlue = assetManager.getSprite("assets","btnBlueUp",325,30,false);
     btnBlue.color = "#0033CC";
     btnBlue.label = "btnBlue";
     btnBlue.addEventListener("click", onChangeColor);
     screen.addChild(btnBlue);
 
-    var btnPurple = assetManager.getSprite("assets");
-    btnPurple.gotoAndStop("btnPurpleUp");
-    btnPurple.x = 425;
-    btnPurple.y = 30;
+    var btnPurple = assetManager.getSprite("assets","btnPurpleUp",425,30,false);
     btnPurple.color = "#663399";
     btnPurple.label = "btnPurple";
     btnPurple.addEventListener("click", onChangeColor);
     screen.addChild(btnPurple);
 
-    var btnOrange = assetManager.getSprite("assets");
-    btnOrange.gotoAndStop("btnOrangeUp");
-    btnOrange.x = 525;
-    btnOrange.y = 30;
+    var btnOrange = assetManager.getSprite("assets","btnOrangeUp",525,30,false);
     btnOrange.color = "#CC6600";
     btnOrange.label = "btnOrange";
     btnOrange.addEventListener("click", onChangeColor);
     screen.addChild(btnOrange);
 
     // add ok button
-    var btnOk = assetManager.getSprite("assets");
-    btnOk.gotoAndStop("btnOkUp");
-    btnOk.x = 275;
-    btnOk.y = 780;
+    var btnOk = assetManager.getSprite("assets","btnOkUp",255,780,false);
     btnOk.addEventListener("mousedown", onFinished);
     btnOk.addEventListener("pressup", onFinished);
     screen.addChild(btnOk);
@@ -179,6 +158,7 @@ var ColorStage = function() {
     function onFinished(e) {
         if (e.type === "mousedown") {
             btnOk.gotoAndStop("btnOkDown");
+            assetManager.getSound("beep").play();
         } else {
             btnOk.gotoAndStop("btnOkUp");
 

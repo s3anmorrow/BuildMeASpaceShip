@@ -17,8 +17,6 @@ var AstronautStage = function() {
 
     // astronaut sprite
     var astronaut = assetManager.getSprite("assets","astronautWaving");
-    astronaut.x = 327;
-    astronaut.y = 120;
 
     // ------------------------------------------------- public methods
     this.showMe = function(){
@@ -27,6 +25,8 @@ var AstronautStage = function() {
         spaceShip.flyOnStage(onReady);
 
         // add astronaut to screen
+        astronaut.x = 327;
+        astronaut.y = 120;
         astronaut.gotoAndPlay("astronautWaving");
         screen.addChild(astronaut);
         // tween astronaut hovering up and down
@@ -44,7 +44,7 @@ var AstronautStage = function() {
         // cleanup
         ready = false;
         astronaut.stop();
-        astronaut.removeEventListener("mousedown", onMoveAstronaut);
+        astronaut.removeEventListener("pressdown", onMoveAstronaut);
 
         root.removeChild(screen);
     };

@@ -3,7 +3,7 @@ var AsteroidStage = function() {
     // game stage constants
     var ASTEROID_SPEED = 4;
     //var ASTEROID_COUNT = 10;
-    var ASTEROID_COUNT = 1;
+    var ASTEROID_COUNT = 4;
     var ASTEROID_MAX = 2
 
     // local references to important globals
@@ -108,7 +108,7 @@ var AsteroidStage = function() {
             if (!asteroids[n].active) {
                 var asteroid = asteroids[n];
                 asteroid.gotoAndPlay("asteroid" + randomMe(1,3));
-                asteroid.y = -60;
+                asteroid.y = -85;
 
                 // ??????????????????????? adjust this to avoid overlap
                 if ((n % 2) === 0) asteroid.x = randomMe(100,200);
@@ -151,6 +151,9 @@ var AsteroidStage = function() {
         asteroidLayer.addChild(bitmapText);
         // tween bitmapText fading away
         createjs.Tween.get(bitmapText).wait(500).to({alpha:0}, 500).call(onTextFaded);
+
+        assetManager.getSound("laser").play();
+        assetManager.getSound("asteroidExplode").play();
     }
 
     function onAsteroidKilled(e) {

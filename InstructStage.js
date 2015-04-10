@@ -15,14 +15,14 @@ var InstructStage = function() {
     var screen = new createjs.Container();
     screen.snapToPixelEnabled = true;
 
-    var btnOk = assetManager.getSprite("assets", "btnOkUp");
+    var btnOk = assetManager.getSprite("assets", "btnOkUp", 0, 0, false);
     btnOk.addEventListener("mousedown", onOk);
     btnOk.addEventListener("pressup", onOk);
     screen.addChild(btnOk);
 
-    var astronautHead = assetManager.getSprite("assets","astronautHead");
+    var astronautHead = assetManager.getSprite("assets","astronautHead",0,0,false);
     var astronautWaving = assetManager.getSprite("assets","astronautWaving");
-    var instructBubble = assetManager.getSprite("assets");
+    var instructBubble = assetManager.getSprite("assets","instructBubble1",0,0,false);
 
     // ------------------------------------------------- public methods
     this.showMe = function(){
@@ -40,7 +40,7 @@ var InstructStage = function() {
                 instructBubble.x = 65;
                 instructBubble.y = 130;
                 instructBubble.gotoAndStop("instructBubble1");
-                btnOk.x = 275;
+                btnOk.x = 255;
                 btnOk.y = 780;
                 screen.addChild(instructBubble);
                 // tween astronaut hovering up and down
@@ -55,7 +55,7 @@ var InstructStage = function() {
                 instructBubble.x = 50;
                 instructBubble.y = 50;
                 instructBubble.gotoAndStop("instructBubble2");
-                btnOk.x = 275;
+                btnOk.x = 255;
                 btnOk.y = 780;
                 screen.addChild(instructBubble);
                 createjs.Tween.get(astronautHead,{loop:true}).to({y:astronautHead.y + 40}, 3000).to({y:astronautHead.y}, 3000);
@@ -69,7 +69,7 @@ var InstructStage = function() {
                 instructBubble.x = 25;
                 instructBubble.y = 450;
                 instructBubble.gotoAndStop("instructBubble3");
-                btnOk.x = 275;
+                btnOk.x = 255;
                 btnOk.y = 780;
                 screen.addChild(instructBubble);
                 createjs.Tween.get(astronautHead,{loop:true}).to({y:astronautHead.y + 20}, 3000).to({y:astronautHead.y}, 3000);
@@ -84,7 +84,7 @@ var InstructStage = function() {
                 instructBubble.x = 60;
                 instructBubble.y = 50;
                 instructBubble.gotoAndStop("instructBubble4");
-                btnOk.x = 275;
+                btnOk.x = 255;
                 btnOk.y = 270;
                 screen.addChild(instructBubble);
 
@@ -98,6 +98,8 @@ var InstructStage = function() {
         screen.addChild(btnOk);
         root.addChild(screen);
         instructSetCount++;
+
+        assetManager.getSound("instructions").play();
     };
 
     this.hideMe = function(){
@@ -115,6 +117,8 @@ var InstructStage = function() {
     function onOk(e) {
         if (e.type === "mousedown") {
             btnOk.gotoAndStop("btnOkDown");
+
+            assetManager.getSound("beep").play();
         } else {
             btnOk.gotoAndStop("btnOkUp");
 

@@ -6,27 +6,27 @@
 // TODO get rid of address bar in browser on mobile devices
 // TODO build system so that stage.update() only happens when it needs to be
 // TODO set tickEnabled on all sprites that don't animate
-
+// TODO problem with astronaut entering cockpit
+// TODO add quit button
+// TODO make buttons bigger
 // TODO Sound effect list
+// TODO implement inclosure appoach at bottom of game.js
+// TODO make sure using cordova media plugin correctly in AssetManager
 
 
 // the base width and height of game that graphics are designed for (pre-resizing for android screens)
-var BASE_WIDTH = 640;
 var BASE_HEIGHT = 960;
+var BASE_WIDTH = 640;
 var scaleRatio = 1;
 // am I running on a mobile device?
 var mobile = false;
-
 // flag to mark a stage update is needed
 var stageUpdateReq = true;
-
 
 /*
 var RATIO = 0;
 var currentWidth = 0;
 var currentHeight = 0;
-var android = false;
-var ios = false;
 */
 
 // game variables
@@ -64,7 +64,7 @@ function randomMe(low, high) {
 }
 
 // ------------------------------------------------------------ event handlers
-function onInit() {
+function onInit(e) {
 	console.log(">> initializing");
 
     // we need to sniff out Android and iOS
@@ -80,12 +80,15 @@ function onInit() {
 	canvas = document.getElementById("stage");
 	// create stage object
     stage = new createjs.Stage(canvas);
-    stage.enableMouseOver(10);
 
     // is a touch screen supported?
     if (createjs.Touch.isSupported()) {
         console.log(">> mobile device detected");
         createjs.Touch.enable(stage);
+    }
+    // is this a mobile device?
+    //if (navigator.userAgent.match(/(iPhone|iPod|iPad|Android|BlackBerry)/) {
+    if (navigator.userAgent.match(/(Android)/)) {
         mobile = true;
     }
 
@@ -138,7 +141,6 @@ function onResize(e) {
             window.scrollTo(0,1);
     }, 1);
     */
-
 }
 
 function onPause(e) {
@@ -234,7 +236,7 @@ function onStageComplete(e) {
 
 function onTick(e) {
     // TESTING FPS
-    document.getElementById("fps").innerHTML = createjs.Ticker.getMeasuredFPS();
+    document.getElementById("fps").innerHTML = Math.floor(createjs.Ticker.getMeasuredFPS());
 
 
     background.updateMe();
@@ -248,3 +250,43 @@ function onTick(e) {
         //stageUpdateReq = false;
     }
 }
+
+// ------------------------------------------------------ game entry point
+if (mobile) {
+    document.addEventListener("deviceready", onInit, false);
+} else {
+    window.addEventListener("load", onInit, false);
+}
+
+// ------------------------------------------------------ cordova / phonegap implementation
+/*
+var app = {
+    // Application Constructor
+    initialize: function() {
+        this.bindEvents();
+    },
+    // Bind Event Listeners
+    //
+    // Bind any events that are required on startup. Common events are:
+    // 'load', 'deviceready', 'offline', and 'online'.
+    bindEvents: function() {
+
+        console.log("test: " + navigator.userAgent);
+
+        if (mobile) {
+            document.addEventListener("deviceready", this.onDeviceReady, false);
+        } else {
+            window.addEventListener("load", this.onDeviceReady, false);
+        }
+    },
+    // deviceready Event Handler
+    //
+    // The scope of 'this' is the event. In order to call the 'receivedEvent'
+    // function, we must explicitly call 'app.receivedEvent(...);'
+    onDeviceReady: function() {
+        onInit();
+    }
+};
+
+app.initialize();
+*/

@@ -136,6 +136,7 @@ var CometStage = function() {
         comet.speed = COMET_SPEED;
         comet.active = true;
         screen.addChild(comet);
+        assetManager.getSound("comet").play();
 
         cometCount++;
     }

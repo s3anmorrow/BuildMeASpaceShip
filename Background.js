@@ -12,12 +12,12 @@ var Background = function(){
     // master container for this stage's screen
     var screen = new createjs.Container();
     screen.snapToPixelEnabled = true;
-    var background = assetManager.getSprite("assets","background");
+    var background = assetManager.getSprite("assets","background",0,0,false);
     background.cache(0, 0, background.getBounds().width, background.getBounds().height);
     screen.addChild(background);
 
-    var starField1 = assetManager.getSprite("assets","starField");
-    var starField2 = assetManager.getSprite("assets","starField");
+    var starField1 = assetManager.getSprite("assets","starField",0,0,false);
+    var starField2 = assetManager.getSprite("assets","starField",0,0,false);
     starField2.y = -960;
     screen.addChild(starField2);
     screen.addChild(starField1);
