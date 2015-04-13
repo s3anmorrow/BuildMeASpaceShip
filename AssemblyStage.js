@@ -116,7 +116,8 @@ var AssemblyStage = function() {
         // add new parts to assemblyLine
         var spacer = 60;
         var dropX = 0;
-        for (var n=0; n<partsOnTheLine.length; n++) {
+        var partsCount = partsOnTheLine.length;
+        for (var n=0; n<partsCount; n++) {
             // positioning each part
             partsOnTheLine[n].x = dropX;
             partsOnTheLine[n].y = 50;

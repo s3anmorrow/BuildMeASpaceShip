@@ -2,6 +2,8 @@ var Background = function(){
     // local references to important globals
     var assetManager = window.assetManager;
     var root = window.root;
+    var baseWidth = window.BASE_WIDTH;
+    var baseHeight = window.BASE_HEIGHT;
 
     // timer for twinkling stars
     var twinkleTimer = null;

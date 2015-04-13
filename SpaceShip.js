@@ -6,6 +6,9 @@ var SpaceShip = function() {
     var randomMe = window.randomMe;
     // scope reference fix
     var me = this;
+    // width of stage on device
+    var stageWidth = stage.canvas.width;
+    var baseWidth = window.BASE_WIDTH;
 
     // parts list
     var partsQueue = ["fuselage","wings","tail","cockpit","laser"];
@@ -110,58 +113,23 @@ var SpaceShip = function() {
         screen.addChild(shipContainer);
     };
 
-
     this.moveMe = function(destX) {
+        // destX is relative to device width of stage - must convert destX releative to actual stage width
+        destX = (destX/stageWidth) * baseWidth;
+
         // adjust for top/left registration point
         destX -= 92;
+
         // check if any movement required
         var dif = shipContainer.x - destX;
         if ((dif > -6) && (dif < 6)) return;
+
         // move spaceship
         if (shipContainer.x < destX) {
             shipContainer.x += 6;
         } else {
             shipContainer.x -= 6;
         }
-    };
-
-    this.moveLeft = function(destX) {
-        shipContainer.x -= 6;
-
-        destX = destX - 92;
-
-        /*
-        if (shipContainer.x <= 100) {
-            shipContainer.x = 100;
-            return false;
-        }
-        */
-
-        if (shipContainer.x <= destX) {
-            //shipContainer.x = destX;
-            return false;
-        }
-
-        return true;
-    };
-
-    this.moveRight = function(destX) {
-        shipContainer.x += 6;
-
-        destX = destX - 92;
-
-        /*
-        if (shipContainer.x >= 370) {
-            shipContainer.x = 370;
-            return false;
-        }
-        */
-        if (shipContainer.x >= destX) {
-            //shipContainer.x = destX;
-            return false;
-        }
-
-        return true;
     };
 
     this.focusOnPart = function(which) {

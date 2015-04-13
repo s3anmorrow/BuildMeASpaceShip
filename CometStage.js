@@ -9,7 +9,11 @@ var CometStage = function() {
     var root = window.root;
     var spaceShip = window.spaceShip;
     var randomMe = window.randomMe;
+    var baseWidth = window.BASE_WIDTH;
+    var baseHeight = window.BASE_HEIGHT;
     var backgroundSprite = window.background.getSprite();
+    // width of stage on device
+    var stageWidth = stage.canvas.width;
 
     // event to be dispatched when this stage is complete
     var completeEvent = new createjs.Event("onStageComplete", true);
@@ -39,7 +43,7 @@ var CometStage = function() {
         spaceShip.toggleTurret(false);
 
         // initialize touchX
-        touchX = spaceShip.getShipContainer().x + 92;
+        touchX = stageWidth/2;
 
         // set background to move
         background.setMoving(true);
@@ -75,7 +79,7 @@ var CometStage = function() {
                 if ((createjs.Ticker.getTicks() % 4) == 0) spaceShip.scorchMe(comet, cometLayer);
 
                 // has the comet gone off the bottom of the screen?
-                if (comet.y > BASE_HEIGHT + 110) {
+                if (comet.y > baseHeight + 110) {
                     comet.active = false;
                     screen.removeChild(comet);
 

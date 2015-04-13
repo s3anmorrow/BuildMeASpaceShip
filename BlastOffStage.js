@@ -7,6 +7,7 @@ var BlastOffStage = function() {
     var assetManager = window.assetManager;
     var root = window.root;
     var spaceShip = window.spaceShip;
+    var baseHeight = window.BASE_HEIGHT;
 
     // event to be dispatched when this stage is complete
     var completeEvent = new createjs.Event("onStageComplete", true);
@@ -44,7 +45,7 @@ var BlastOffStage = function() {
     // ------------------------------------------------- public methods
     this.showMe = function(){
         // position and show spaceShip on screen
-        spaceShip.showMeOn(screen, 235, BASE_HEIGHT - spaceShipContainer.getBounds().height - 67);
+        spaceShip.showMeOn(screen, 235, baseHeight - spaceShipContainer.getBounds().height - 67);
         spaceShip.toggleTurret(true);
 
         // add other screen sprites

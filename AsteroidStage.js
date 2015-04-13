@@ -12,6 +12,7 @@ var AsteroidStage = function() {
     var spaceShip = window.spaceShip;
     var randomMe = window.randomMe;
     var background = window.background;
+    var baseHeight = window.BASE_HEIGHT;
 
     // event to be dispatched when this stage is complete
     var completeEvent = new createjs.Event("onStageComplete", true);
@@ -89,7 +90,7 @@ var AsteroidStage = function() {
                     var asteroid = asteroids[n];
                     asteroid.y += ASTEROID_SPEED;
                     // is the asteroid off the bottom of the screen?
-                    if (asteroid.y > BASE_HEIGHT + 110) {
+                    if (asteroid.y > baseHeight + 110) {
                         asteroid.active = false;
                         asteroid.moving = false;
                         asteroid.removeAllEventListeners();

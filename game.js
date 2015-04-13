@@ -6,22 +6,16 @@
 // TODO build system so that stage.update() only happens when it needs to be
 // TODO problem with astronaut entering cockpit
 // TODO add quit button
-// TODO make buttons bigger
 // TODO Sound effect list
 // TODO implement inclosure appoach at bottom of game.js
 // TODO remove annonymous functions
 // TODO get rid of extra asteroid
-// TODO adjust comet screen so the ship follows the finger instead of swipe
 // TODO add color names to coloring stage
 // TODO swipe down to get astronaut
 
 // TODO test release version of APK
 
-// TODO make sure using cordova media plugin correctly in AssetManager
-// TODO experiment pooling sound objects in AssetManager
 // TODO fix issue with cordova media not working on android 5+
-// TODO sounds can't overlap (cordova ones)
-
 
 
 // the base width and height of game that graphics are designed for (pre-resizing for android screens)
@@ -32,12 +26,6 @@ var scaleRatio = 1;
 var mobile = false;
 // flag to mark a stage update is needed
 var stageUpdateReq = true;
-
-/*
-var RATIO = 0;
-var currentWidth = 0;
-var currentHeight = 0;
-*/
 
 // game variables
 var stage = null;
@@ -93,10 +81,16 @@ function onInit(e) {
 
     // is a touch screen supported?
     if (createjs.Touch.isSupported()) {
-        console.log(">> mobile device detected: " + navigator.userAgent);
+        console.log(">> touch device detected");
         createjs.Touch.enable(stage,true,false);
     }
-    // is this a mobile device?
+    // is this a mobile device and what type?
+    var ua = navigator.userAgent.toLowerCase();
+
+    console.log("device: " + ua);
+
+
+
     //if (navigator.userAgent.match(/(iPhone|iPod|iPad|Android|BlackBerry)/) {
     if (navigator.userAgent.match(/(Android)/)) {
         mobile = true;
@@ -193,9 +187,9 @@ function onSetup(e) {
     cometStage = new CometStage();
     astronautStage = new AstronautStage();
     // populate gameStages array
-    gameStages = [startStage,instructStage,assemblyStage,colorStage,blastOffStage,instructStage,asteroidStage,instructStage,cometStage,astronautStage,instructStage];
+    //gameStages = [startStage,instructStage,assemblyStage,colorStage,blastOffStage,instructStage,asteroidStage,instructStage,cometStage,astronautStage,instructStage];
     gameStagesNoInstruct = [assemblyStage,colorStage,blastOffStage,instructStage,asteroidStage,instructStage,cometStage,astronautStage,instructStage]
-    //gameStages = [startStage,assemblyStage,cometStage];
+    gameStages = [startStage,assemblyStage,cometStage];
 
     // setup event listeners for screen flow
     stage.addEventListener("onStageComplete", onStageComplete, true);
