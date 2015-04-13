@@ -183,7 +183,7 @@ var AssetManager = function() {
         // setup manifest
         manifest = myManifest;
 
-        if (!mobile) {
+        if ((!mobile) || (mobileOS === "android 5")) {
             // if browser doesn't suppot the ogg it will attempt to look for an mp3
             createjs.Sound.registerPlugins([createjs.WebAudioPlugin, createjs.HTMLAudioPlugin]);
             //createjs.Sound.registerPlugins([createjs.CordovaAudioPlugin,createjs.WebAudioPlugin, createjs.HTMLAudioPlugin]);

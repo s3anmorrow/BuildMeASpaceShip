@@ -11,12 +11,10 @@
 // TODO remove annonymous functions
 // TODO get rid of extra asteroid
 // TODO add color names to coloring stage
-// TODO swipe down to get astronaut
 
 // TODO test release version of APK
 
 // TODO fix issue with cordova media not working on android 5+
-
 
 // the base width and height of game that graphics are designed for (pre-resizing for android screens)
 var BASE_HEIGHT = 960;
@@ -24,6 +22,8 @@ var BASE_WIDTH = 640;
 var scaleRatio = 1;
 // am I running on a mobile device?
 var mobile = false;
+var mobileOS = null;
+
 // flag to mark a stage update is needed
 var stageUpdateReq = true;
 
@@ -58,12 +58,12 @@ var gameStageIndex = 0;
 // ----------------------------------------------------------- private methods
 function randomMe(low, high) {
     // returns a random number
-	return Math.floor(Math.random() * (1 + high - low)) + low;
+    return Math.floor(Math.random() * (1 + high - low)) + low;
 }
 
 // ------------------------------------------------------------ event handlers
 function onInit(e) {
-	console.log(">> initializing");
+    console.log(">> initializing");
 
     // we need to sniff out Android and iOS
     // so that we can hide the address bar in
@@ -74,9 +74,9 @@ function onInit(e) {
     ios = ( ua.indexOf("iphone") > -1 || ua.indexOf("ipad") > -1  ) ? true : false;
     */
 
-	// get reference to canvas
-	canvas = document.getElementById("stage");
-	// create stage object
+    // get reference to canvas
+    canvas = document.getElementById("stage");
+    // create stage object
     stage = new createjs.Stage(canvas);
 
     // is a touch screen supported?
@@ -86,14 +86,14 @@ function onInit(e) {
     }
     // is this a mobile device and what type?
     var ua = navigator.userAgent.toLowerCase();
-
-    console.log("device: " + ua);
-
-
-
-    //if (navigator.userAgent.match(/(iPhone|iPod|iPad|Android|BlackBerry)/) {
-    if (navigator.userAgent.match(/(Android)/)) {
+    if (ua.match(/(android)/)) {
+    //if (ua.match(/(iphone|ipod|ipad|android)/)) {
         mobile = true;
+        console.log(">> device info: " + ua);
+        // collect data about device OS
+        if (ua.match(/android 5/)) mobileOS = "android 5";
+        else if (ua.match(/android 4/)) mobileOS = "android 4";
+        else mobileOS = "iOS";
     }
 
     // construct root container - this one is scaled to fit mobile device screen
@@ -103,10 +103,10 @@ function onInit(e) {
 
 
     // construct preloader object to load spritesheet and sound assets
-	assetManager = new AssetManager();
+    assetManager = new AssetManager();
     stage.addEventListener("onAllAssetsLoaded", onSetup);
     // load the assets
-	assetManager.loadAssets(manifest);
+    assetManager.loadAssets(manifest);
 
     // initial resize of app to adjust for device screen size
     onResize();
@@ -168,7 +168,7 @@ function onResume(e) {
 
 function onSetup(e) {
     console.log(">> adding sprites to game");
-	stage.removeEventListener("onAllAssetsLoaded", onSetup);
+    stage.removeEventListener("onAllAssetsLoaded", onSetup);
 
     // construct background (shared amongst all gameStages)
     background = new Background();
@@ -187,9 +187,9 @@ function onSetup(e) {
     cometStage = new CometStage();
     astronautStage = new AstronautStage();
     // populate gameStages array
-    //gameStages = [startStage,instructStage,assemblyStage,colorStage,blastOffStage,instructStage,asteroidStage,instructStage,cometStage,astronautStage,instructStage];
+    gameStages = [startStage,instructStage,assemblyStage,colorStage,blastOffStage,instructStage,asteroidStage,instructStage,cometStage,astronautStage,instructStage];
     gameStagesNoInstruct = [assemblyStage,colorStage,blastOffStage,instructStage,asteroidStage,instructStage,cometStage,astronautStage,instructStage]
-    gameStages = [startStage,assemblyStage,cometStage];
+    //gameStages = [startStage,assemblyStage,astronautStage];
 
     // setup event listeners for screen flow
     stage.addEventListener("onStageComplete", onStageComplete, true);
@@ -251,6 +251,7 @@ function onTick(e) {
     background.updateMe();
     asteroidStage.updateMe();
     cometStage.updateMe();
+    astronautStage.updateMe();
 
     if (stageUpdateReq) {
         // update the stage!
@@ -266,36 +267,3 @@ if (mobile) {
 } else {
     window.addEventListener("load", onInit, false);
 }
-
-// ------------------------------------------------------ cordova / phonegap implementation
-/*
-var app = {
-    // Application Constructor
-    initialize: function() {
-        this.bindEvents();
-    },
-    // Bind Event Listeners
-    //
-    // Bind any events that are required on startup. Common events are:
-    // 'load', 'deviceready', 'offline', and 'online'.
-    bindEvents: function() {
-
-        console.log("test: " + navigator.userAgent);
-
-        if (mobile) {
-            document.addEventListener("deviceready", this.onDeviceReady, false);
-        } else {
-            window.addEventListener("load", this.onDeviceReady, false);
-        }
-    },
-    // deviceready Event Handler
-    //
-    // The scope of 'this' is the event. In order to call the 'receivedEvent'
-    // function, we must explicitly call 'app.receivedEvent(...);'
-    onDeviceReady: function() {
-        onInit();
-    }
-};
-
-app.initialize();
-*/
