@@ -10,6 +10,7 @@ var InstructStage = function() {
 
     // instruction set counter
     var instructSetCount = 1;
+    var expertMode = false;
 
     // master container for this stage's screen
     var screen = new createjs.Container();
@@ -111,6 +112,10 @@ var InstructStage = function() {
         screen.removeAllChildren();
 
         root.removeChild(screen);
+    };
+
+    this.setExpertMode = function(value){
+        expertMode = true;
     };
 
     // ------------------------------------------------- event handler

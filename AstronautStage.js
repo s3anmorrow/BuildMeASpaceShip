@@ -21,8 +21,9 @@ var AstronautStage = function() {
     var screen = new createjs.Container();
     screen.snapToPixelEnabled = true;
 
-    // astronaut sprite
+    // screen sprites
     var astronaut = assetManager.getSprite("assets","astronautWaving");
+    var instructions = assetManager.getSprite("assets","instructBubble10",50,150,false);
 
     // ------------------------------------------------- public methods
     this.showMe = function(){
@@ -38,6 +39,7 @@ var AstronautStage = function() {
         // hard code touch on screen so astronaut is moved in automatically
         touchY = 100;
 
+        // animate astronaut hovering in space
         createjs.Tween.get(astronaut,{loop:true}).to({x:astronaut.x - 20}, 4000).to({x:astronaut.x}, 4000);
 
         // set background to stop moving
@@ -86,6 +88,7 @@ var AstronautStage = function() {
     // ------------------------------------------------- event handler
     function onMoveAstronaut(e) {
         touchY = e.stageY;
+        screen.removeChild(instructions);
     }
 
     function onReady(e) {
@@ -94,6 +97,8 @@ var AstronautStage = function() {
         spaceShip.toggleCockpit(true);
         // turn off spaceship thrust
         spaceShip.toggleThrust(false);
+
+        screen.addChild(instructions);
 
         // determine cockpit location scaled to device screen size
         cockpitY = ((spaceShip.getCockpitLocation() - 10)/stageHeight) * baseHeight;

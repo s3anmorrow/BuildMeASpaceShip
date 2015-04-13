@@ -7,10 +7,8 @@
 // TODO problem with astronaut entering cockpit
 // TODO add quit button
 // TODO Sound effect list
-// TODO implement inclosure appoach at bottom of game.js
 // TODO remove annonymous functions
 // TODO get rid of extra asteroid
-// TODO add color names to coloring stage
 
 // TODO test release version of APK
 
@@ -188,7 +186,7 @@ function onSetup(e) {
     astronautStage = new AstronautStage();
     // populate gameStages array
     gameStages = [startStage,instructStage,assemblyStage,colorStage,blastOffStage,instructStage,asteroidStage,instructStage,cometStage,astronautStage,instructStage];
-    gameStagesNoInstruct = [assemblyStage,colorStage,blastOffStage,instructStage,asteroidStage,instructStage,cometStage,astronautStage,instructStage]
+    gameStagesNoInstruct = [assemblyStage,colorStage,blastOffStage,asteroidStage,cometStage,astronautStage,instructStage]
     //gameStages = [startStage,assemblyStage,astronautStage];
 
     // setup event listeners for screen flow

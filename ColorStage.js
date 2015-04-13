@@ -31,6 +31,10 @@ var ColorStage = function() {
     var constructionBar1 = assetManager.getSprite("assets","constructionBar");
     constructionBar1.y = 720;
     screen.addChild(constructionBar1);
+    var astronaut = assetManager.getSprite("assets","astronautWaving",60,380);
+    astronaut.rotation = 45;
+    screen.addChild(astronaut);
+    var instructions = assetManager.getSprite("assets","btnRedInstruct",50,220,false);
 
     // setup paint selection buttons
     var btnRed = assetManager.getSprite("assets","btnRedDown",25,30,false);
@@ -88,10 +92,16 @@ var ColorStage = function() {
 
         // setup current color
         brushColor = "#990000";
+        instructions.gotoAndStop("btnRedInstruct");
         btnRed.dispatchEvent(new createjs.Event("click"));
+
+        // moving effect for astronaut
+        createjs.Tween.get(astronaut,{loop:true}).to({y:astronaut.y - 10}, 4000).to({y:astronaut.y}, 4000);
 
         // positioning and showing spaceship
         spaceShip.showMeOn(screen, 235, 230);
+        // add color bubble ontop of spaceship
+        screen.addChild(instructions);
 
         root.addChild(screen);
     };
@@ -128,7 +138,7 @@ var ColorStage = function() {
 
     // ------------------------------------------------- event handlers
     function onChangeColor(e) {
-        console.log("color change to " + e.target.color);
+        console.log("color change to " + e.target.label);
 
         // set brush color and adjust button
         brushColor = e.target.color;
@@ -140,6 +150,7 @@ var ColorStage = function() {
         btnPurple.gotoAndStop("btnPurpleUp");
         btnOrange.gotoAndStop("btnOrangeUp");
         e.target.gotoAndStop(e.target.label + "Down");
+        instructions.gotoAndStop(e.target.label + "Instruct");
     }
 
     function onStartColoring(e) {
@@ -165,6 +176,8 @@ var ColorStage = function() {
             if (partsIndex === 2) {
                 // stage is complete
                 spaceShip.unFocusOnParts();
+                // kill all tweens
+                createjs.Tween.removeAllTweens();
                 screen.dispatchEvent(completeEvent);
                 return;
             }

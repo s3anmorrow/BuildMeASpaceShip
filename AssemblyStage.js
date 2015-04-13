@@ -29,8 +29,11 @@ var AssemblyStage = function() {
     screen.addChild(constructionBar2);
     var constructionBar1 = assetManager.getSprite("assets","constructionBar",0,720,false);
     screen.addChild(constructionBar1);
-    var swipeArrows = assetManager.getSprite("assets","swipeArrows",110,25,false);
-    screen.addChild(swipeArrows);
+    var astronaut = assetManager.getSprite("assets","astronautWaving",50,70);
+    astronaut.rotation = 45;
+    screen.addChild(astronaut);
+    var instructions = assetManager.getSprite("assets","instructBubble5",130,30,false);
+    screen.addChild(instructions);
 
     var btnOk = assetManager.getSprite("assets","btnOkUp",255,795,false);
     btnOk.addEventListener("mousedown", onOk);
@@ -97,18 +100,26 @@ var AssemblyStage = function() {
         assemblyLine.y = 180;
 
         // current part to assemblyline for selection
-        if (assemblyLineIndex === 0) partsOnTheLine = fuselages;
-        else if (assemblyLineIndex === 1) partsOnTheLine = wings;
-        else if (assemblyLineIndex === 2) {
+        if (assemblyLineIndex === 0) {
+            partsOnTheLine = fuselages;
+            instructions.gotoAndStop("instructBubble5");
+        } else if (assemblyLineIndex === 1) {
+            partsOnTheLine = wings;
+            instructions.gotoAndStop("instructBubble6");
+        } else if (assemblyLineIndex === 2) {
             partsOnTheLine = tails;
             // swap displaylist index so tails are on top of spaceship
             screen.swapChildren(spaceShipContainer, assemblyLine);
+            instructions.gotoAndStop("instructBubble7");
         } else if (assemblyLineIndex === 3) {
             partsOnTheLine = cockpits;
+            instructions.gotoAndStop("instructBubble8");
         } else if (assemblyLineIndex === 4) {
             partsOnTheLine = lasers;
+            instructions.gotoAndStop("instructBubble9");
         } else {
             // stage is complete
+            createjs.Tween.removeAllTweens();
             screen.dispatchEvent(completeEvent);
             return;
         }
@@ -137,6 +148,9 @@ var AssemblyStage = function() {
         downX = null;
         assemblyLineIndex = 0;
         assemblyLineSetup();
+
+        // moving effect for astronaut
+        createjs.Tween.get(astronaut,{loop:true}).to({y:astronaut.y - 10}, 4000).to({y:astronaut.y}, 4000);
 
         // add assembly line container overtop
         screen.addChild(assemblyLine);
