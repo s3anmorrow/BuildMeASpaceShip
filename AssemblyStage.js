@@ -32,7 +32,7 @@ var AssemblyStage = function() {
     var swipeArrows = assetManager.getSprite("assets","swipeArrows",110,25,false);
     screen.addChild(swipeArrows);
 
-    var btnOk = assetManager.getSprite("assets","btnOkUp",255,780,false);
+    var btnOk = assetManager.getSprite("assets","btnOkUp",255,795,false);
     btnOk.addEventListener("mousedown", onOk);
     btnOk.addEventListener("pressup", onOk);
     screen.addChild(btnOk);
@@ -149,35 +149,29 @@ var AssemblyStage = function() {
         background.removeEventListener("mousedown", onStartSwipe);
         background.removeEventListener("pressmove", onSwiping);
 
-
-
-
         root.removeChild(screen);
     };
 
 
     // ------------------------------------------------- event handlers
-
-
     function onStartSwipe(e) {
-        downX = stage.mouseX;
+        downX = e.stageX;
     }
 
     function onSwiping(e) {
         if (!downX) return;
 
         // calculating change in touch location
-        var upY = stage.mouseY;
-        var upX = stage.mouseX;
+        var upX = e.stageX;
         var diffX = downX - upX;
 
         // is difference negative or positive?
         if (diffX < 0) {
-            console.log("RIGHT");
+            console.log("RIGHT (neg or 0): " + diffX + " downX: " + downX + " upX: " + upX);
             swipeRight();
             assetManager.getSound("slideRight").play();
         } else {
-            console.log("LEFT");
+            console.log("LEFT (pos): " + diffX + " downX: " + downX + " upX: " + upX);
             swipeLeft();
             assetManager.getSound("slideLeft").play();
         }

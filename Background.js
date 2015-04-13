@@ -12,15 +12,20 @@ var Background = function(){
     // master container for this stage's screen
     var screen = new createjs.Container();
     screen.snapToPixelEnabled = true;
+    var backgroundLayer = new createjs.Container();
+    var starFieldLayer = new createjs.Container();
+    var twinkleLayer = new createjs.Container();
+
     var background = assetManager.getSprite("assets","background",0,0,false);
-    background.cache(0, 0, background.getBounds().width, background.getBounds().height);
-    screen.addChild(background);
+    backgroundLayer.addChild(background);
+    backgroundLayer.cache(0, 0, BASE_WIDTH, BASE_HEIGHT);
 
     var starField1 = assetManager.getSprite("assets","starField",0,0,false);
     var starField2 = assetManager.getSprite("assets","starField",0,0,false);
-    starField2.y = -960;
-    screen.addChild(starField2);
-    screen.addChild(starField1);
+    starField1.y = -960;
+    starFieldLayer.addChild(starField1);
+    starFieldLayer.addChild(starField2);
+    starFieldLayer.cache(0, -960, BASE_WIDTH, BASE_HEIGHT * 2);
 
     // twinkle stars only when background not moving
     var twinkleStars = [];
@@ -28,9 +33,13 @@ var Background = function(){
         var star = assetManager.getSprite("assets","star");
         star.x = randomMe(10,630);
         star.y = randomMe(10,950);
-        screen.addChild(star);
+        twinkleLayer.addChild(star);
         twinkleStars[n] = star;
     }
+
+    screen.addChild(backgroundLayer);
+    screen.addChild(starFieldLayer);
+    screen.addChild(twinkleLayer);
 
     // get a bunch of stars twinkling right off the start
     onTwinkle();
@@ -45,11 +54,8 @@ var Background = function(){
 
     this.setMoving = function(value) {
         moving = value;
-        if (moving) {
-            for (var n=0; n<10; n++) screen.removeChild(twinkleStars[n]);
-        } else {
-            for (var n=0; n<10; n++) screen.addChild(twinkleStars[n]);
-        }
+        if (moving) screen.removeChild(twinkleLayer);
+        else screen.addChild(twinkleLayer);
     };
 
     // ------------------------------------------------- public methods
@@ -74,12 +80,9 @@ var Background = function(){
     this.updateMe = function() {
         if (moving) {
             // moving starfield down stage
-            starField1.y+=4;
-            starField2.y+=4;
-            if (starField1.y > 960) {
-                starField1.y = -960;
-            } else if (starField2.y > 960) {
-                starField2.y = -960;
+            starFieldLayer.y+=2;
+            if (starFieldLayer.y >= 960) {
+                starFieldLayer.y = 0;
             }
         }
     };

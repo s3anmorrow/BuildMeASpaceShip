@@ -160,6 +160,8 @@ var AssetManager = function() {
 
     this.getSound = function(soundID) {
         if (mobile) {
+            // force sound to stop if already playing
+            cordovaSounds[soundID].stop();
             return cordovaSounds[soundID];
         } else {
             return createjs.Sound.createInstance(soundID);

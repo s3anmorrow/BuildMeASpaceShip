@@ -2,7 +2,7 @@ var CometStage = function() {
 
     // game stage constants
     var COMET_SPEED = 8;
-    var COMET_COUNT = 1;
+    var COMET_COUNT = 5;
 
     // local references to important globals
     var assetManager = window.assetManager;
@@ -18,8 +18,8 @@ var CometStage = function() {
     var ready = false;
     // number of comets dropped
     var cometCount = 0;
-    // spaceship movement direction
-    var moveDir = 0;
+    // current X position of touch
+    var touchX = 0;
 
     // master container for this stage's screen
     var screen = new createjs.Container();
@@ -38,12 +38,15 @@ var CometStage = function() {
         spaceShip.flyOnStage(onReady);
         spaceShip.toggleTurret(false);
 
+        // initialize touchX
+        touchX = spaceShip.getShipContainer().x + 92;
+
         // set background to move
         background.setMoving(true);
 
         // wire up event listeners
-        backgroundSprite.addEventListener("mousedown", onStartSwipe);
-        backgroundSprite.addEventListener("pressmove", onSwiping);
+        backgroundSprite.addEventListener("mousedown", onMoving);
+        backgroundSprite.addEventListener("pressmove", onMoving);
 
         // add laser and comet layer on top of spaceship
         screen.addChild(cometLayer);
@@ -56,6 +59,7 @@ var CometStage = function() {
         ready = false;
         cometCount = 0;
         moveDir = 0;
+        touchX = 0;
         comet.active = false;
         screen.removeChild(comet);
         root.removeChild(screen);
@@ -76,51 +80,22 @@ var CometStage = function() {
                     screen.removeChild(comet);
 
                     if (cometCount >= COMET_COUNT) {
-                        backgroundSprite.removeEventListener("mousedown", onStartSwipe);
-                        backgroundSprite.removeEventListener("pressmove", onSwiping);
+                        backgroundSprite.removeEventListener("mousedown", onMoving);
+                        backgroundSprite.removeEventListener("pressmove", onMoving);
                         spaceShip.flyOffStage(onComplete);
                     } else {
                         dropComet();
                     }
                 }
             }
-
             // moving spaceship if required
-            if (moveDir === 1) {
-                // moving right
-                if (!spaceShip.moveRight()) moveDir = 0;
-            } else if (moveDir === -1) {
-                // moving left
-                if (!spaceShip.moveLeft()) moveDir = 0;
-            }
-
+            spaceShip.moveMe(touchX);
         }
     };
 
     // ------------------------------------------------- event handler
-    function onStartSwipe(e) {
-        downX = stage.mouseX;
-    }
-
-    function onSwiping(e) {
-        if (!downX) return;
-
-        // calculating change in touch location
-        var upY = stage.mouseY;
-
-        var upX = stage.mouseX;
-        var diffX = downX - upX;
-
-        // is difference negative or positive?
-        if (diffX > 0) {
-            console.log("LEFT");
-            moveDir = -1;
-        } else {
-            console.log("RIGHT");
-            moveDir = 1;
-        }
-        // reset values
-        downX = null;
+    function onMoving(e) {
+        touchX = e.stageX;
     }
 
     function dropComet(e) {
@@ -130,11 +105,14 @@ var CometStage = function() {
         comet.y = -150;
 
         // random horizontal positioning
-        if (randomMe(1,2) === 1) comet.x = 150 + randomMe(-20,20);
+        var which = randomMe(1,3);
+        if (which === 1) comet.x = 150 + randomMe(-20,20);
+        else if (which === 2) comet.x = 300 + randomMe(-20,20);
         else comet.x = 450 + randomMe(-20,20);
         // setting comet properties
         comet.speed = COMET_SPEED;
         comet.active = true;
+        comet.soundPlayed = false;
         screen.addChild(comet);
         assetManager.getSound("comet").play();
 

@@ -3,7 +3,7 @@ var AsteroidStage = function() {
     // game stage constants
     var ASTEROID_SPEED = 4;
     //var ASTEROID_COUNT = 10;
-    var ASTEROID_COUNT = 4;
+    var ASTEROID_COUNT = 2;
     var ASTEROID_MAX = 2
 
     // local references to important globals

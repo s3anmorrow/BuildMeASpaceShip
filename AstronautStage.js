@@ -32,8 +32,6 @@ var AstronautStage = function() {
         // tween astronaut hovering up and down
         createjs.Tween.get(astronaut,{loop:true}).to({y:astronaut.y + 20}, 4000).to({y:astronaut.y}, 4000);
 
-
-
         // set background to stop moving
         background.setMoving(false);
 

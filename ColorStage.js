@@ -9,7 +9,7 @@ var ColorStage = function() {
     var completeEvent = new createjs.Event("onStageComplete", true);
 
     // size of brush for coloring spaceship
-    var brushSize = 20;
+    var brushSize = 40;
     var brushColor = "#990000";
 
     // the x,y position of the current touch on the screen
@@ -70,7 +70,7 @@ var ColorStage = function() {
     screen.addChild(btnOrange);
 
     // add ok button
-    var btnOk = assetManager.getSprite("assets","btnOkUp",255,780,false);
+    var btnOk = assetManager.getSprite("assets","btnOkUp",255,795,false);
     btnOk.addEventListener("mousedown", onFinished);
     btnOk.addEventListener("pressup", onFinished);
     screen.addChild(btnOk);
@@ -104,9 +104,9 @@ var ColorStage = function() {
     };
 
     // ------------------------------------------------- private methods
-    function paintMe() {
+    function paintMe(targetX,targetY) {
         // where are we now in terms of colorCanvas shape coord system?
-        var touchPoint = colorCanvas.globalToLocal(stage.mouseX, stage.mouseY);
+        var touchPoint = colorCanvas.globalToLocal(targetX, targetY);
         // scale it to our resizing of game
         curPoint.x = touchPoint.x;
         curPoint.y = touchPoint.y;
@@ -144,15 +144,15 @@ var ColorStage = function() {
 
     function onStartColoring(e) {
         // set last point to current touch point with scaling
-        var touchPoint = colorCanvas.globalToLocal(stage.mouseX, stage.mouseY);
+        var touchPoint = colorCanvas.globalToLocal(e.stageX, e.stageY);
         lastPoint.x = touchPoint.x;
         lastPoint.y = touchPoint.y;
 
-        paintMe();
+        paintMe(e.stageX, e.stageY);
     }
 
     function onColoring(e) {
-        paintMe();
+        paintMe(e.stageX, e.stageY);
     }
 
     function onFinished(e) {

@@ -41,7 +41,7 @@ var InstructStage = function() {
                 instructBubble.y = 130;
                 instructBubble.gotoAndStop("instructBubble1");
                 btnOk.x = 255;
-                btnOk.y = 780;
+                btnOk.y = 795;
                 screen.addChild(instructBubble);
                 // tween astronaut hovering up and down
                 createjs.Tween.get(astronautWaving,{loop:true}).to({y:astronautWaving.y + 20}, 4000).to({y:astronautWaving.y}, 4000);
@@ -56,7 +56,7 @@ var InstructStage = function() {
                 instructBubble.y = 50;
                 instructBubble.gotoAndStop("instructBubble2");
                 btnOk.x = 255;
-                btnOk.y = 780;
+                btnOk.y = 795;
                 screen.addChild(instructBubble);
                 createjs.Tween.get(astronautHead,{loop:true}).to({y:astronautHead.y + 40}, 3000).to({y:astronautHead.y}, 3000);
 
@@ -70,7 +70,7 @@ var InstructStage = function() {
                 instructBubble.y = 450;
                 instructBubble.gotoAndStop("instructBubble3");
                 btnOk.x = 255;
-                btnOk.y = 780;
+                btnOk.y = 795;
                 screen.addChild(instructBubble);
                 createjs.Tween.get(astronautHead,{loop:true}).to({y:astronautHead.y + 20}, 3000).to({y:astronautHead.y}, 3000);
 
@@ -81,11 +81,11 @@ var InstructStage = function() {
                 spaceShip.toggleThrust(true);
                 spaceShip.showMeOn(screen,235,970);
                 spaceShip.flyOnStage();
-                instructBubble.x = 60;
-                instructBubble.y = 50;
+                instructBubble.x = 100;
+                instructBubble.y = 40;
                 instructBubble.gotoAndStop("instructBubble4");
                 btnOk.x = 255;
-                btnOk.y = 270;
+                btnOk.y = 235;
                 screen.addChild(instructBubble);
 
                 break;

@@ -3,15 +3,25 @@
 // Jan 2015
 
 // TODO expert mode where you can color the ship outside the lines
-// TODO get rid of address bar in browser on mobile devices
 // TODO build system so that stage.update() only happens when it needs to be
-// TODO set tickEnabled on all sprites that don't animate
 // TODO problem with astronaut entering cockpit
 // TODO add quit button
 // TODO make buttons bigger
 // TODO Sound effect list
 // TODO implement inclosure appoach at bottom of game.js
+// TODO remove annonymous functions
+// TODO get rid of extra asteroid
+// TODO adjust comet screen so the ship follows the finger instead of swipe
+// TODO add color names to coloring stage
+// TODO swipe down to get astronaut
+
+// TODO test release version of APK
+
 // TODO make sure using cordova media plugin correctly in AssetManager
+// TODO experiment pooling sound objects in AssetManager
+// TODO fix issue with cordova media not working on android 5+
+// TODO sounds can't overlap (cordova ones)
+
 
 
 // the base width and height of game that graphics are designed for (pre-resizing for android screens)
@@ -83,8 +93,8 @@ function onInit(e) {
 
     // is a touch screen supported?
     if (createjs.Touch.isSupported()) {
-        console.log(">> mobile device detected");
-        createjs.Touch.enable(stage);
+        console.log(">> mobile device detected: " + navigator.userAgent);
+        createjs.Touch.enable(stage,true,false);
     }
     // is this a mobile device?
     //if (navigator.userAgent.match(/(iPhone|iPod|iPad|Android|BlackBerry)/) {
@@ -144,9 +154,9 @@ function onResize(e) {
 }
 
 function onPause(e) {
-    // ??????????????????????????????????????????????
     background.pauseMe();
     asteroidStage.pauseMe();
+    createjs.Touch.disable(stage);
 
     // pauses all tweens
     createjs.Ticker.setPaused(true);
@@ -154,9 +164,9 @@ function onPause(e) {
 }
 
 function onResume(e) {
-    // ??????????????????????????????????????????????
     background.unPauseMe();
     asteroidStage.unPauseMe();
+    createjs.Touch.enable(stage,true,false);
 
     createjs.Ticker.setPaused(false);
     createjs.Ticker.addEventListener("tick", onTick);
@@ -185,7 +195,7 @@ function onSetup(e) {
     // populate gameStages array
     gameStages = [startStage,instructStage,assemblyStage,colorStage,blastOffStage,instructStage,asteroidStage,instructStage,cometStage,astronautStage,instructStage];
     gameStagesNoInstruct = [assemblyStage,colorStage,blastOffStage,instructStage,asteroidStage,instructStage,cometStage,astronautStage,instructStage]
-    //gameStages = [startStage,assemblyStage,astronautStage];
+    //gameStages = [startStage,assemblyStage,cometStage];
 
     // setup event listeners for screen flow
     stage.addEventListener("onStageComplete", onStageComplete, true);
@@ -196,8 +206,13 @@ function onSetup(e) {
     // listener for browser resize (on desktop) to resize game
     window.addEventListener("resize", onResize);
     // setup event listener for when browser loses focus
-    window.addEventListener("blur", onPause);
-    window.addEventListener("focus", onResume);
+    if (mobile) {
+        document.addEventListener("pause", onPause);
+        document.addEventListener("resume", onResume);
+    } else {
+        window.addEventListener("blur", onPause);
+        window.addEventListener("focus", onResume);
+    }
 
     // show the startStage
     gameStages[gameStageIndex].showMe();
@@ -238,7 +253,7 @@ function onTick(e) {
     // TESTING FPS
     document.getElementById("fps").innerHTML = Math.floor(createjs.Ticker.getMeasuredFPS());
 
-
+    // update any objects that need to know when a tick has occurred
     background.updateMe();
     asteroidStage.updateMe();
     cometStage.updateMe();

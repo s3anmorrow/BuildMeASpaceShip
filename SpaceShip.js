@@ -110,21 +110,57 @@ var SpaceShip = function() {
         screen.addChild(shipContainer);
     };
 
-    this.moveLeft = function() {
+
+    this.moveMe = function(destX) {
+        // adjust for top/left registration point
+        destX -= 92;
+        // check if any movement required
+        var dif = shipContainer.x - destX;
+        if ((dif > -6) && (dif < 6)) return;
+        // move spaceship
+        if (shipContainer.x < destX) {
+            shipContainer.x += 6;
+        } else {
+            shipContainer.x -= 6;
+        }
+    };
+
+    this.moveLeft = function(destX) {
         shipContainer.x -= 6;
+
+        destX = destX - 92;
+
+        /*
         if (shipContainer.x <= 100) {
             shipContainer.x = 100;
             return false;
         }
+        */
+
+        if (shipContainer.x <= destX) {
+            //shipContainer.x = destX;
+            return false;
+        }
+
         return true;
     };
 
-    this.moveRight = function() {
+    this.moveRight = function(destX) {
         shipContainer.x += 6;
+
+        destX = destX - 92;
+
+        /*
         if (shipContainer.x >= 370) {
             shipContainer.x = 370;
             return false;
         }
+        */
+        if (shipContainer.x >= destX) {
+            //shipContainer.x = destX;
+            return false;
+        }
+
         return true;
     };
 
@@ -264,6 +300,10 @@ var SpaceShip = function() {
 
         // only draw scorch marks if comet actually on fuselage
         if ((cometPoint.y < 0) || (cometPoint.y > 400) || (cometPoint.x < 0) || (cometPoint.x > 160)) return;
+        if (!comet.soundPlayed) {
+            assetManager.getSound("burn").play();
+            comet.soundPlayed = true;
+        }
 
         // draw scorch mark on fuselage
         var colorCanvas = colorCanvases.fuselage;
@@ -288,7 +328,7 @@ var SpaceShip = function() {
         // because the vector paint drop has been drawn to the cache clear it out
 		colorCanvas.graphics.clear();
 
-        assetManager.getSound("burn").play();
+        //assetManager.getSound("burn").play();
     };
 
     this.assembleMe = function(newPart) {
