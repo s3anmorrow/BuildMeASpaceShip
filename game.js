@@ -7,14 +7,6 @@
 // TODO add quit button
 // TODO remove annonymous functions
 // TODO run PNG through tiny_png
-// TODO add instruction toggle
-
-// TODO replace sounds that don't work
-
-// TODO sliver on all fuselages / top of wings
-// TODO investigate cockpit not opening
-// TODO adjust assetmanager so cordova sounds aren't constructed each time?
-
 // TODO other optimization
 
 // the base width and height of game that graphics are designed for (pre-resizing for android screens)
@@ -177,9 +169,9 @@ function onSetup(e) {
     cometStage = new CometStage();
     astronautStage = new AstronautStage();
     // populate gameStages array
-    //gameStages = [startStage,instructStage,assemblyStage,colorStage,blastOffStage,instructStage,asteroidStage,instructStage,cometStage,astronautStage,instructStage];
+    gameStages = [startStage,instructStage,assemblyStage,colorStage,blastOffStage,instructStage,asteroidStage,instructStage,cometStage,astronautStage,instructStage];
     gameStagesNoInstruct = [assemblyStage,colorStage,blastOffStage,asteroidStage,cometStage,astronautStage,instructStage]
-    gameStages = [startStage,assemblyStage,astronautStage];
+    //gameStages = [startStage,assemblyStage,astronautStage];
 
     // setup event listeners for screen flow
     stage.addEventListener("onStageComplete", onStageComplete, true);

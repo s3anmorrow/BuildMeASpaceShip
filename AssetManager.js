@@ -61,8 +61,8 @@ var AssetManager = function() {
     var progress = 0;
     // array of spritesheet objects
     var spriteSheets = [];
-    // array of cordova media objects (sound)
-    var cordovaSounds = [];
+    // array of paths to sound effects for cordova media plugin
+    var cordovaSoundPaths = [];
     // array of JSON for each spritesheet
     var spriteSheetsJSON = [];
     // LoadQueue object
@@ -107,16 +107,40 @@ var AssetManager = function() {
             case createjs.LoadQueue.SOUND:
                 // sound loaded
                 if (mobile) {
-                    /*
                     // get id and source from manifest of currently loaded soiund
                     var id = e.item.id;
                     var src = e.item.src;
-                    // construct cordova media plugin object and store in array
-                    var media = new Media("/android_asset/www/" + src);
-                    cordovaSounds[id] = media;
+                    cordovaSoundPaths[id] = "/android_asset/www/" + src;
+
+                    /*
+                    // ALTHOUGH THIS APPROACH IS BETTER FOR MEMORY - sound effects don't always play
+                    // get id and source from manifest of currently loaded soiund
+                    var id = e.item.id;
+                    var src = e.item.src;
+
+                    // caching 4 copies of media objects for each sound
+                    cordovaSounds[id] = [];
+
+                    for (var n=0; n<4; n++) {
+                        // construct cordova media plugin object
+                        var media = new Media("/android_asset/www/" + src,
+                            function onSuccess() {
+                                media.release(); // release the media resource once finished playing
+                            },
+                            function onError(error) {
+                                console.log(">> ERROR : Cordova media plugin error " + error);
+                            },
+                            function onMediaStatus(s) {
+                                if (s === Media.MEDIA_STOPPED) media.playing = false;
+                                else if (s === Media.MEDIA_STARTING) media.playing = true;
+                            }
+                        );
+                        media.playing = false;
+                        // add to array
+                        cordovaSounds[id][n] = media;
+                    }
                     */
                 }
-
                 break;
         }
 
@@ -162,25 +186,29 @@ var AssetManager = function() {
 
     this.getSound = function(soundID) {
         if (mobile) {
-
-            /*
-            // force sound to stop if already playing
-            cordovaSounds[soundID].stop();
-            return cordovaSounds[soundID];
-            */
-
-            var media = new Media("/android_asset/www/lib/" + soundID + ".mp3",
-                function onSuccess(e) {
-
-                    console.log("cordova played sound succesfully!");
-
+            // return cordova media plugin media object for sound playing on mobile
+            var media = new Media(cordovaSoundPaths[soundID],
+                function onSuccess() {
                     media.release(); // release the media resource once finished playing
-                },
-                function onError(error) {
-                    console.log(">> ERROR : Cordova media plugin error " + error);
-                });
+                }
+            );
             return media;
 
+            /*
+            // ALTHOUGH THIS APPROACH IS BETTER FOR MEMORY - sound effects don't always play
+            // find available media object
+            var media = null;
+            for (var n=0; n<4; n++) {
+
+                console.log("free sound? " + soundID + " index: " + n + " : " + cordovaSounds[soundID][n].playing);
+
+                if (!cordovaSounds[soundID][n].playing) {
+                    media = cordovaSounds[soundID][n];
+                    break;
+                }
+            }
+            return media;
+            */
 
         } else {
             return createjs.Sound.createInstance(soundID);

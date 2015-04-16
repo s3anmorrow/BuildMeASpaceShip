@@ -109,10 +109,8 @@ var CometStage = function() {
         comet.y = -150;
 
         // random horizontal positioning
-        var which = randomMe(1,3);
-        if (which === 1) comet.x = 150 + randomMe(-20,20);
-        else if (which === 2) comet.x = 300 + randomMe(-20,20);
-        else comet.x = 450 + randomMe(-20,20);
+        comet.x = randomMe(130,470);
+
         // setting comet properties
         comet.speed = COMET_SPEED;
         comet.active = true;

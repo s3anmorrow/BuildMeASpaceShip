@@ -193,8 +193,15 @@ var SpaceShip = function() {
 
     this.toggleCockpit = function(which) {
         var cockpit = parts.cockpit;
-        if (which) cockpit.play();
-        else cockpit.gotoAndPlay(cockpit.currentAnimation + "Close");
+
+        // store frame labels for later (only once)
+        if (cockpit.openFrame === undefined) {
+            cockpit.openFrame = cockpit.currentAnimation;
+            cockpit.closeFrame = cockpit.currentAnimation + "Close";
+        }
+
+        if (which) cockpit.gotoAndPlay(cockpit.openFrame);
+        else cockpit.gotoAndPlay(cockpit.closeFrame);
         cockpit.on("animationend", function(e){
             e.target.stop();
         }, null, true);
