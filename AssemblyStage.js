@@ -16,6 +16,7 @@ var AssemblyStage = function() {
     var partsOnTheLine = null;
     // the array index of current part
     var partIndex = 0;
+    var partCount = 0;
     // the index of the current assemblyLine (fuselages, wings, tail)
     var assemblyLineIndex = 0;
     // the spaceship container for dimensions
@@ -78,11 +79,12 @@ var AssemblyStage = function() {
 
     // ------------------------------------------------- private methods
     function swipeLeft() {
-        if (partIndex === 4) return;
+        if (partIndex === (partCount - 1)) return;
         partIndex++;
         var destX = 235 - partsOnTheLine[partIndex].x;
         // tween to new X destination over 250ms
         createjs.Tween.get(assemblyLine).to({x:destX}, 250);
+        assetManager.getSound("slideLeft").play();
     }
 
     function swipeRight() {
@@ -90,6 +92,7 @@ var AssemblyStage = function() {
         partIndex--;
         var destX = 235 - partsOnTheLine[partIndex].x;
         createjs.Tween.get(assemblyLine).to({x:destX}, 250);
+        assetManager.getSound("slideRight").play();
     }
 
     function assemblyLineSetup() {
@@ -124,6 +127,9 @@ var AssemblyStage = function() {
             return;
         }
 
+        // save number of parts on the line
+        partCount = partsOnTheLine.length;
+
         // add new parts to assemblyLine
         var spacer = 60;
         var dropX = 0;
@@ -138,8 +144,6 @@ var AssemblyStage = function() {
         }
     }
 
-
-
     // ------------------------------------------------- public methods
     this.showMe = function(){
         background.addEventListener("mousedown", onStartSwipe);
@@ -150,6 +154,7 @@ var AssemblyStage = function() {
         assemblyLineSetup();
 
         // moving effect for astronaut
+        astronaut.y = 70;
         createjs.Tween.get(astronaut,{loop:true}).to({y:astronaut.y - 10}, 4000).to({y:astronaut.y}, 4000);
 
         // add assembly line container overtop
@@ -181,15 +186,9 @@ var AssemblyStage = function() {
         var diffX = downX - upX;
 
         // is difference negative or positive?
-        if (diffX < 0) {
-            console.log("RIGHT (neg or 0): " + diffX + " downX: " + downX + " upX: " + upX);
-            swipeRight();
-            assetManager.getSound("slideRight").play();
-        } else {
-            console.log("LEFT (pos): " + diffX + " downX: " + downX + " upX: " + upX);
-            swipeLeft();
-            assetManager.getSound("slideLeft").play();
-        }
+        if (diffX < 0) swipeRight();
+        else swipeLeft();
+
         // reset values
         downX = null;
     }

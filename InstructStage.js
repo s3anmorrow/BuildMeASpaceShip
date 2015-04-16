@@ -82,8 +82,8 @@ var InstructStage = function() {
                 spaceShip.toggleThrust(true);
                 spaceShip.showMeOn(screen,235,970);
                 spaceShip.flyOnStage();
-                instructBubble.x = 100;
-                instructBubble.y = 40;
+                instructBubble.x = 70;
+                instructBubble.y = 35;
                 instructBubble.gotoAndStop("instructBubble4");
                 btnOk.x = 255;
                 btnOk.y = 235;
@@ -92,6 +92,7 @@ var InstructStage = function() {
                 break;
             default:
                 instructSetCount = 1;
+                if (expertMode) instructSetCount = 4;
                 this.showMe();
                 return;
         }
@@ -115,7 +116,9 @@ var InstructStage = function() {
     };
 
     this.setExpertMode = function(value){
-        expertMode = true;
+        // only show the final instructions in expertmode
+        instructSetCount = 4;
+        expertMode = value;
     };
 
     // ------------------------------------------------- event handler

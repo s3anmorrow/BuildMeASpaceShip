@@ -2,9 +2,8 @@ var AsteroidStage = function() {
 
     // game stage constants
     var ASTEROID_SPEED = 4;
-    //var ASTEROID_COUNT = 10;
-    var ASTEROID_COUNT = 2;
-    var ASTEROID_MAX = 2
+    var ASTEROID_MAX = 10;
+    var ASTEROID_POOL_MAX = 3;
 
     // local references to important globals
     var assetManager = window.assetManager;
@@ -22,6 +21,7 @@ var AsteroidStage = function() {
     // timer for asteroids to drop
     var asteroidTimer = null;
     var asteroidFreq = 1500;
+    var asteroidCount = 0;
     // kill counter
     var killCount = 0;
 
@@ -33,9 +33,10 @@ var AsteroidStage = function() {
 
     // create pool of asteroids
     var asteroids = [];
-    for (var n=0; n<ASTEROID_MAX; n++) {
+    for (var n=0; n<ASTEROID_POOL_MAX; n++) {
         var asteroid = assetManager.getSprite("assets","asteroid1");
         asteroid.bitmapText = new createjs.BitmapText("",assetManager.getSpriteSheet("assets"));
+        asteroid.bitmapText.letterSpacing = 2;
         asteroid.active = false;
         asteroid.moving = false;
         asteroids.push(asteroid);
@@ -53,6 +54,7 @@ var AsteroidStage = function() {
 
         // game stage initialization
         killCount = 0;
+        asteroidCount = 0;
 
         // add laser and asteroid layer on top of spaceship
         screen.addChild(asteroidLayer);
@@ -65,7 +67,7 @@ var AsteroidStage = function() {
         ready = false;
         window.clearInterval(asteroidTimer);
         spaceShip.toggleTurret(false);
-        for (var n=0; n<ASTEROID_MAX; n++) {
+        for (var n=0; n<ASTEROID_POOL_MAX; n++) {
             var asteroid = asteroids[n];
             asteroid.active = false;
             asteroid.removeAllEventListeners();
@@ -85,7 +87,7 @@ var AsteroidStage = function() {
     this.updateMe = function() {
         if (ready) {
             // loop through all asteroids in pool
-            for (var n=0; n<ASTEROID_MAX; n++) {
+            for (var n=0; n<ASTEROID_POOL_MAX; n++) {
                 if (asteroids[n].moving) {
                     var asteroid = asteroids[n];
                     asteroid.y += ASTEROID_SPEED;
@@ -95,6 +97,7 @@ var AsteroidStage = function() {
                         asteroid.moving = false;
                         asteroid.removeAllEventListeners();
                         asteroidLayer.removeChild(asteroid);
+                        asteroidCount--;
                     }
                 }
             }
@@ -104,8 +107,11 @@ var AsteroidStage = function() {
     // ------------------------------------------------- event handler
     function onDropAsteroid(e) {
 
+        // if at the max then don't drop anymore
+        if (asteroidCount >= ASTEROID_MAX) return;
+
         // find free asteroid that isn't currently active
-        for (var n=0; n<ASTEROID_MAX; n++) {
+        for (var n=0; n<ASTEROID_POOL_MAX; n++) {
             if (!asteroids[n].active) {
                 var asteroid = asteroids[n];
                 asteroid.gotoAndPlay("asteroid" + randomMe(1,3));
@@ -120,6 +126,7 @@ var AsteroidStage = function() {
                 asteroid.moving = true;
                 asteroid.addEventListener("mousedown", onFireLaser);
                 asteroidLayer.addChild(asteroid);
+                asteroidCount++;
 
                 // random rotation direction
                 var dir = 1;
@@ -164,10 +171,10 @@ var AsteroidStage = function() {
         asteroidLayer.removeChild(e.target);
         e.target.active = false;
         // end of stage?
-        if (killCount >= ASTEROID_COUNT) {
+        if (killCount >= ASTEROID_MAX) {
             window.clearInterval(asteroidTimer);
             // kill all listeners so user can't shoot an asteroid while flying off stage
-            for (var n=0; n<ASTEROID_MAX; n++) asteroids[n].removeAllEventListeners();
+            for (var n=0; n<ASTEROID_POOL_MAX; n++) asteroids[n].removeAllEventListeners();
             spaceShip.flyOffStage(onComplete);
         }
     }

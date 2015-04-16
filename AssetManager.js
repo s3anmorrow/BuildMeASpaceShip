@@ -107,12 +107,14 @@ var AssetManager = function() {
             case createjs.LoadQueue.SOUND:
                 // sound loaded
                 if (mobile) {
+                    /*
                     // get id and source from manifest of currently loaded soiund
                     var id = e.item.id;
                     var src = e.item.src;
                     // construct cordova media plugin object and store in array
                     var media = new Media("/android_asset/www/" + src);
                     cordovaSounds[id] = media;
+                    */
                 }
 
                 break;
@@ -160,9 +162,26 @@ var AssetManager = function() {
 
     this.getSound = function(soundID) {
         if (mobile) {
+
+            /*
             // force sound to stop if already playing
             cordovaSounds[soundID].stop();
             return cordovaSounds[soundID];
+            */
+
+            var media = new Media("/android_asset/www/lib/" + soundID + ".mp3",
+                function onSuccess(e) {
+
+                    console.log("cordova played sound succesfully!");
+
+                    media.release(); // release the media resource once finished playing
+                },
+                function onError(error) {
+                    console.log(">> ERROR : Cordova media plugin error " + error);
+                });
+            return media;
+
+
         } else {
             return createjs.Sound.createInstance(soundID);
         }
@@ -176,14 +195,11 @@ var AssetManager = function() {
 		return spriteSheets[id];
 	};
 
-
-    var mobile = window.mobile;
-
     this.loadAssets = function(myManifest) {
         // setup manifest
         manifest = myManifest;
 
-        if ((!mobile) || (mobileOS === "android 5")) {
+        if (!mobile) {
             // if browser doesn't suppot the ogg it will attempt to look for an mp3
             createjs.Sound.registerPlugins([createjs.WebAudioPlugin, createjs.HTMLAudioPlugin]);
             //createjs.Sound.registerPlugins([createjs.CordovaAudioPlugin,createjs.WebAudioPlugin, createjs.HTMLAudioPlugin]);

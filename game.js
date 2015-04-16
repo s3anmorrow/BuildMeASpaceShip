@@ -4,15 +4,18 @@
 
 // TODO expert mode where you can color the ship outside the lines
 // TODO build system so that stage.update() only happens when it needs to be
-// TODO problem with astronaut entering cockpit
 // TODO add quit button
-// TODO Sound effect list
 // TODO remove annonymous functions
-// TODO get rid of extra asteroid
+// TODO run PNG through tiny_png
+// TODO add instruction toggle
 
-// TODO test release version of APK
+// TODO replace sounds that don't work
 
-// TODO fix issue with cordova media not working on android 5+
+// TODO sliver on all fuselages / top of wings
+// TODO investigate cockpit not opening
+// TODO adjust assetmanager so cordova sounds aren't constructed each time?
+
+// TODO other optimization
 
 // the base width and height of game that graphics are designed for (pre-resizing for android screens)
 var BASE_HEIGHT = 960;
@@ -23,7 +26,7 @@ var mobile = false;
 var mobileOS = null;
 
 // flag to mark a stage update is needed
-var stageUpdateReq = true;
+//var stageUpdateReq = true;
 
 // game variables
 var stage = null;
@@ -53,6 +56,17 @@ var gameStages = [];
 var gameStagesNoInstruct = [];
 var gameStageIndex = 0;
 
+// is this a mobile device and what type?
+var ua = navigator.userAgent.toLowerCase();
+if (ua.match(/(android)/)) {
+//if (ua.match(/(iphone|ipod|ipad|android)/)) {
+    mobile = true;
+    console.log(">> device info: " + ua);
+    // collect data about device OS
+    if (ua.match(/android/)) mobileOS = "android";
+    else mobileOS = "iOS";
+}
+
 // ----------------------------------------------------------- private methods
 function randomMe(low, high) {
     // returns a random number
@@ -62,15 +76,6 @@ function randomMe(low, high) {
 // ------------------------------------------------------------ event handlers
 function onInit(e) {
     console.log(">> initializing");
-
-    // we need to sniff out Android and iOS
-    // so that we can hide the address bar in
-    // our resize function
-    /*
-    var ua = navigator.userAgent.toLowerCase();
-    android = ua.indexOf("android") > -1 ? true : false;
-    ios = ( ua.indexOf("iphone") > -1 || ua.indexOf("ipad") > -1  ) ? true : false;
-    */
 
     // get reference to canvas
     canvas = document.getElementById("stage");
@@ -82,23 +87,10 @@ function onInit(e) {
         console.log(">> touch device detected");
         createjs.Touch.enable(stage,true,false);
     }
-    // is this a mobile device and what type?
-    var ua = navigator.userAgent.toLowerCase();
-    if (ua.match(/(android)/)) {
-    //if (ua.match(/(iphone|ipod|ipad|android)/)) {
-        mobile = true;
-        console.log(">> device info: " + ua);
-        // collect data about device OS
-        if (ua.match(/android 5/)) mobileOS = "android 5";
-        else if (ua.match(/android 4/)) mobileOS = "android 4";
-        else mobileOS = "iOS";
-    }
 
     // construct root container - this one is scaled to fit mobile device screen
     root = new createjs.Container();
     stage.addChild(root);
-
-
 
     // construct preloader object to load spritesheet and sound assets
     assetManager = new AssetManager();
@@ -185,9 +177,9 @@ function onSetup(e) {
     cometStage = new CometStage();
     astronautStage = new AstronautStage();
     // populate gameStages array
-    gameStages = [startStage,instructStage,assemblyStage,colorStage,blastOffStage,instructStage,asteroidStage,instructStage,cometStage,astronautStage,instructStage];
+    //gameStages = [startStage,instructStage,assemblyStage,colorStage,blastOffStage,instructStage,asteroidStage,instructStage,cometStage,astronautStage,instructStage];
     gameStagesNoInstruct = [assemblyStage,colorStage,blastOffStage,asteroidStage,cometStage,astronautStage,instructStage]
-    //gameStages = [startStage,assemblyStage,astronautStage];
+    gameStages = [startStage,assemblyStage,astronautStage];
 
     // setup event listeners for screen flow
     stage.addEventListener("onStageComplete", onStageComplete, true);
@@ -226,6 +218,7 @@ function onStageComplete(e) {
         spaceShip.resetMe();
         // modify screen flow for remainder games
         gameStages = gameStagesNoInstruct;
+        instructStage.setExpertMode(true);
         // play game again!
         gameStages[gameStageIndex].showMe();
 
@@ -243,7 +236,7 @@ function onStageComplete(e) {
 
 function onTick(e) {
     // TESTING FPS
-    document.getElementById("fps").innerHTML = Math.floor(createjs.Ticker.getMeasuredFPS());
+    document.getElementById("fps").innerHTML = Math.ceil(createjs.Ticker.getMeasuredFPS());
 
     // update any objects that need to know when a tick has occurred
     background.updateMe();
@@ -251,12 +244,12 @@ function onTick(e) {
     cometStage.updateMe();
     astronautStage.updateMe();
 
-    if (stageUpdateReq) {
+    //if (stageUpdateReq) {
         // update the stage!
         stage.update();
         // reset flag till next update required
         //stageUpdateReq = false;
-    }
+    //}
 }
 
 // ------------------------------------------------------ game entry point

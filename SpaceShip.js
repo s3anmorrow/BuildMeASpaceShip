@@ -72,9 +72,9 @@ var SpaceShip = function() {
 
     // collection of laser turret placements
     var laserCoord = {};
-    laserCoord.laser1 = new createjs.Point(89,65);
-    laserCoord.laser2 = new createjs.Point(89,145);
-    laserCoord.laser3 = new createjs.Point(89,255);
+    laserCoord.laser1 = new createjs.Point(88,30);
+    laserCoord.laser2 = new createjs.Point(88,257);
+    laserCoord.laser3 = new createjs.Point(88,357);
 
     // add containers to shipContainer
     shipContainer.addChild(containers.wings);
@@ -91,7 +91,7 @@ var SpaceShip = function() {
     //var scorchSmoke = assetManager.getSprite("assets","scorchSmoke");
     var turretTween = null;
     // comet scorch settings
-    var scorchWidth = 24;
+    var scorchWidth = 36;
     var scorchColor = "#000000";
 
     // ------------------------------------------------- public methods

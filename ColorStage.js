@@ -93,9 +93,15 @@ var ColorStage = function() {
         // setup current color
         brushColor = "#990000";
         instructions.gotoAndStop("btnRedInstruct");
-        btnRed.dispatchEvent(new createjs.Event("click"));
+        btnGreen.gotoAndStop("btnGreenUp");
+        btnYellow.gotoAndStop("btnYellowUp");
+        btnBlue.gotoAndStop("btnBlueUp");
+        btnPurple.gotoAndStop("btnPurpleUp");
+        btnOrange.gotoAndStop("btnOrangeUp");
+        btnRed.gotoAndStop("btnRedDown");
 
         // moving effect for astronaut
+        astronaut.y = 380;
         createjs.Tween.get(astronaut,{loop:true}).to({y:astronaut.y - 10}, 4000).to({y:astronaut.y}, 4000);
 
         // positioning and showing spaceship
@@ -151,6 +157,8 @@ var ColorStage = function() {
         btnOrange.gotoAndStop("btnOrangeUp");
         e.target.gotoAndStop(e.target.label + "Down");
         instructions.gotoAndStop(e.target.label + "Instruct");
+
+        assetManager.getSound("colorChange").play();
     }
 
     function onStartColoring(e) {

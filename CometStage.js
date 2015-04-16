@@ -43,7 +43,7 @@ var CometStage = function() {
         spaceShip.toggleTurret(false);
 
         // initialize touchX
-        touchX = stageWidth/2;
+        touchX = (192 * stageWidth) / baseWidth;
 
         // set background to move
         background.setMoving(true);

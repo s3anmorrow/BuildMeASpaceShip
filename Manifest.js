@@ -17,5 +17,7 @@ var manifest = [
     {src:"lib/instructions.mp3", id:"instructions", data:4},
     {src:"lib/burn.mp3", id:"burn", data:4},
     {src:"lib/slideLeft.mp3", id:"slideLeft", data:4},
-    {src:"lib/slideRight.mp3", id:"slideRight", data:4}
+    {src:"lib/slideRight.mp3", id:"slideRight", data:4},
+    {src:"lib/colorChange.mp3", id:"colorChange", data:4},
+    {src:"lib/saveAstronaut.mp3", id:"saveAstronaut", data:4}
 ];

@@ -33,11 +33,12 @@ var AstronautStage = function() {
 
         // add astronaut to screen (off top)
         astronaut.x = 337;
-        astronaut.y = -100;
+        astronaut.y = 150;
         astronaut.gotoAndPlay("astronautWaving");
         screen.addChild(astronaut);
+
         // hard code touch on screen so astronaut is moved in automatically
-        touchY = 100;
+        touchY = (astronaut.y * stageHeight) / baseHeight;
 
         // animate astronaut hovering in space
         createjs.Tween.get(astronaut,{loop:true}).to({x:astronaut.x - 20}, 4000).to({x:astronaut.x}, 4000);
@@ -79,6 +80,7 @@ var AstronautStage = function() {
                 screen.removeChild(astronaut);
                 spaceShip.toggleThrust(true);
                 spaceShip.flyOffStage(onComplete);
+                backgroundSprite.removeEventListener("mousedown", onStartMoveAstronaut);
                 backgroundSprite.removeEventListener("pressmove", onMoveAstronaut);
                 ready = false;
             }
@@ -86,6 +88,10 @@ var AstronautStage = function() {
     };
 
     // ------------------------------------------------- event handler
+    function onStartMoveAstronaut(e) {
+        assetManager.getSound("saveAstronaut").play();
+    }
+
     function onMoveAstronaut(e) {
         touchY = e.stageY;
         screen.removeChild(instructions);
@@ -104,6 +110,7 @@ var AstronautStage = function() {
         cockpitY = ((spaceShip.getCockpitLocation() - 10)/stageHeight) * baseHeight;
 
         // wire up event listener
+        backgroundSprite.addEventListener("mousedown", onStartMoveAstronaut);
         backgroundSprite.addEventListener("pressmove", onMoveAstronaut);
     }
 
