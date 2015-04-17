@@ -274,7 +274,7 @@ var SpaceShip = function() {
         var cometPoint = targetLayer.localToLocal(comet.x, comet.y, shipContainer);
 
         // only draw scorch marks if comet actually on fuselage
-        if ((cometPoint.y < 0) || (cometPoint.y > 400) || (cometPoint.x < 0) || (cometPoint.x > 160)) return;
+        if ((cometPoint.y < 0) || (cometPoint.y > 400) || (cometPoint.x < -36) || (cometPoint.x > 212)) return;
         if (!comet.soundPlayed) {
             assetManager.getSound("burn").play();
             comet.soundPlayed = true;

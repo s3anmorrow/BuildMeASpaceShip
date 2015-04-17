@@ -8,6 +8,8 @@
 // TODO remove annonymous functions
 // TODO run PNG through tiny_png
 // TODO other optimization
+// TODO stop astronaut from being dragged to top of screen
+// TODO finish confix.xml description
 
 // the base width and height of game that graphics are designed for (pre-resizing for android screens)
 var BASE_HEIGHT = 960;

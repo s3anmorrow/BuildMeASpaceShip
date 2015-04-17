@@ -2,7 +2,7 @@ var ColorStage = function() {
     // local references to important globals
     var assetManager = window.assetManager;
     var root = window.root;
-    var scaleRatio = window.scaleRatio;
+    var backgroundSprite = window.background.getSprite();
     var spaceShip = window.spaceShip;
 
     // event to be dispatched when this stage is complete
@@ -82,8 +82,8 @@ var ColorStage = function() {
     // ------------------------------------------------- public methods
     this.showMe = function(){
         // setup event listeners
-        screen.addEventListener("mousedown", onStartColoring);
-        screen.addEventListener("pressmove", onColoring);
+        backgroundSprite.addEventListener("mousedown", onStartColoring);
+        backgroundSprite.addEventListener("pressmove", onColoring);
 
         // setup canvas to fuselage (default) and alpha all other parts to focus
         partsIndex = 0;
@@ -113,8 +113,8 @@ var ColorStage = function() {
     };
 
     this.hideMe = function(){
-        screen.removeEventListener("mousedown", onStartColoring);
-        screen.removeEventListener("pressmove", onColoring);
+        backgroundSprite.removeEventListener("mousedown", onStartColoring);
+        backgroundSprite.removeEventListener("pressmove", onColoring);
 
         root.removeChild(screen);
     };
@@ -144,7 +144,7 @@ var ColorStage = function() {
 
     // ------------------------------------------------- event handlers
     function onChangeColor(e) {
-        console.log("color change to " + e.target.label);
+        if (brushColor === e.target.color) return;
 
         // set brush color and adjust button
         brushColor = e.target.color;
