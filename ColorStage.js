@@ -115,6 +115,7 @@ var ColorStage = function() {
     this.hideMe = function(){
         backgroundSprite.removeEventListener("mousedown", onStartColoring);
         backgroundSprite.removeEventListener("pressmove", onColoring);
+        createjs.Tween.removeAllTweens();
 
         root.removeChild(screen);
     };

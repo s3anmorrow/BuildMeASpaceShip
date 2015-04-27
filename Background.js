@@ -39,7 +39,7 @@ var Background = function(){
         twinkleStars[n] = star;
     }
 
-    screen.addChild(backgroundLayer);
+    screen.addChild(background);
     screen.addChild(starFieldLayer);
     screen.addChild(twinkleLayer);
 

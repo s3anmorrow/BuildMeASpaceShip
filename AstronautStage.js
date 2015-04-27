@@ -55,6 +55,7 @@ var AstronautStage = function() {
         astronaut.stop();
         touchY = 0;
         cockpitY = 0;
+        createjs.Tween.removeAllTweens();
 
         root.removeChild(screen);
     };

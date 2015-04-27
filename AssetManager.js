@@ -66,7 +66,7 @@ var AssetManager = function() {
     // array of JSON for each spritesheet
     var spriteSheetsJSON = [];
     // LoadQueue object
-    preloader = new createjs.LoadQueue();
+    var preloader = new createjs.LoadQueue();
 
     // construct custom event object and initialize it
     var eventAssetLoaded = new createjs.Event("onAssetLoaded");

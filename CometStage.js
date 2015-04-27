@@ -52,7 +52,7 @@ var CometStage = function() {
         backgroundSprite.addEventListener("mousedown", onMoving);
         backgroundSprite.addEventListener("pressmove", onMoving);
 
-        // add laser and comet layer on top of spaceship
+        // add comet layer on top of spaceship
         screen.addChild(cometLayer);
 
         root.addChild(screen);
@@ -79,7 +79,7 @@ var CometStage = function() {
                 if ((createjs.Ticker.getTicks() % 4) == 0) spaceShip.scorchMe(comet, cometLayer);
 
                 // has the comet gone off the bottom of the screen?
-                if (comet.y > baseHeight + 110) {
+                if (comet.y > baseHeight + 220) {
                     comet.active = false;
                     screen.removeChild(comet);
 

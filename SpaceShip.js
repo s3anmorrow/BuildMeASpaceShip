@@ -66,7 +66,7 @@ var SpaceShip = function() {
     cacheCoord.wings5 = new createjs.Rectangle(-84,215,340,85);
     cacheCoord.tail1 = new createjs.Rectangle(-2,348,180,64);
     cacheCoord.tail2 = new createjs.Rectangle(1,359,174,90);
-    cacheCoord.tail3 = new createjs.Rectangle(-6,352,186,94);
+    cacheCoord.tail3 = new createjs.Rectangle(-6,352,185,94);
     cacheCoord.tail4 = new createjs.Rectangle(-12,342,199,107);
     cacheCoord.tail5 = new createjs.Rectangle(-22,370,220,60);
 
@@ -153,10 +153,7 @@ var SpaceShip = function() {
 
     this.toggleTurret = function(which) {
         if (which) {
-            // randomly pick direction and start tween
-            var dir = 1;
-            //if (randomMe(0,1) === 1) dir = -1;
-            createjs.Tween.get(laserTurret,{loop:true}).to({rotation: ((laserTurret.rotation + 360) * dir)}, 17000);
+            createjs.Tween.get(laserTurret,{loop:true}).to({rotation: (laserTurret.rotation + 360)}, 17000);
         } else {
             createjs.Tween.removeTweens(laserTurret);
         }
@@ -254,17 +251,12 @@ var SpaceShip = function() {
         if (callback != undefined) createjs.Tween.get(shipContainer).to({y:-(shipContainer.getBounds().height + 10)}, 1500, createjs.Ease.cubicIn).call(callback);
         else createjs.Tween.get(shipContainer).to({y:-(shipContainer.getBounds().height + 10)}, 1500, createjs.Ease.cubicIn);
 
-        //createjs.Tween.get(shipContainer).to({y:-(shipContainer.getBounds().height + 10)}, 500, createjs.Ease.cubicIn).call(callback);
-
         assetManager.getSound("thrust").play();
-
     };
 
     this.flyOnStage = function(callback) {
         if (callback != undefined) createjs.Tween.get(shipContainer).to({y:400}, 1500, createjs.Ease.cubicOut).call(callback);
         else createjs.Tween.get(shipContainer).to({y:400}, 1500, createjs.Ease.cubicOut);
-
-        //createjs.Tween.get(shipContainer).to({y:400}, 500, createjs.Ease.cubicOut).call(callback);
 
         assetManager.getSound("thrust").play();
     };
@@ -302,8 +294,6 @@ var SpaceShip = function() {
 		colorCanvas.updateCache("source-overlay");
         // because the vector paint drop has been drawn to the cache clear it out
 		colorCanvas.graphics.clear();
-
-        //assetManager.getSound("burn").play();
     };
 
     this.assembleMe = function(newPart) {

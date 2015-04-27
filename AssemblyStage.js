@@ -168,6 +168,7 @@ var AssemblyStage = function() {
     this.hideMe = function(){
         background.removeEventListener("mousedown", onStartSwipe);
         background.removeEventListener("pressmove", onSwiping);
+        createjs.Tween.removeAllTweens();
 
         root.removeChild(screen);
     };

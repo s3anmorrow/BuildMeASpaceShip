@@ -6,10 +6,10 @@
 // TODO build system so that stage.update() only happens when it needs to be
 // TODO add quit button
 // TODO remove annonymous functions
-// TODO run PNG through tiny_png
 // TODO other optimization
-// TODO stop astronaut from being dragged to top of screen
 // TODO finish confix.xml description
+
+// TODO move all event listeners to showMe
 
 // the base width and height of game that graphics are designed for (pre-resizing for android screens)
 var BASE_HEIGHT = 960;
@@ -20,7 +20,7 @@ var mobile = false;
 var mobileOS = null;
 
 // flag to mark a stage update is needed
-//var stageUpdateReq = true;
+//var stageUpdateReq = false;
 
 // game variables
 var stage = null;
@@ -59,6 +59,14 @@ if (ua.match(/(android)/)) {
     // collect data about device OS
     if (ua.match(/android/)) mobileOS = "android";
     else mobileOS = "iOS";
+}
+
+// loading Cordova Media Plugin JS if OS is Android (to play sound effects)
+if (mobileOS === "android") {
+    var js = document.createElement("script");
+    js.type = "text/javascript";
+    js.src = "cordova.js";
+    document.body.appendChild(js);
 }
 
 // ----------------------------------------------------------- private methods
@@ -120,15 +128,6 @@ function onResize(e) {
         canvas.width = BASE_WIDTH * scaleRatio;
         canvas.height = BASE_HEIGHT * scaleRatio;
     }
-
-    /*
-    // we use a timeout here because some mobile
-    // browsers don't fire if there is not
-    // a short delay
-    window.setTimeout(function() {
-            window.scrollTo(0,1);
-    }, 1);
-    */
 }
 
 function onPause(e) {
@@ -173,7 +172,7 @@ function onSetup(e) {
     // populate gameStages array
     gameStages = [startStage,instructStage,assemblyStage,colorStage,blastOffStage,instructStage,asteroidStage,instructStage,cometStage,astronautStage,instructStage];
     gameStagesNoInstruct = [assemblyStage,colorStage,blastOffStage,asteroidStage,cometStage,astronautStage,instructStage]
-    //gameStages = [startStage,assemblyStage,astronautStage];
+    //gameStages = [startStage,instructStage,instructStage,instructStage];
 
     // setup event listeners for screen flow
     stage.addEventListener("onStageComplete", onStageComplete, true);
@@ -230,7 +229,7 @@ function onStageComplete(e) {
 
 function onTick(e) {
     // TESTING FPS
-    document.getElementById("fps").innerHTML = Math.ceil(createjs.Ticker.getMeasuredFPS());
+    //document.getElementById("fps").innerHTML = Math.ceil(createjs.Ticker.getMeasuredFPS());
 
     // update any objects that need to know when a tick has occurred
     background.updateMe();
