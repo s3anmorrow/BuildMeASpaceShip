@@ -266,18 +266,31 @@ var SpaceShip = function() {
         var cometPoint = targetLayer.localToLocal(comet.x, comet.y, shipContainer);
 
         // only draw scorch marks if comet actually on fuselage
-        if ((cometPoint.y < 0) || (cometPoint.y > 400) || (cometPoint.x < -36) || (cometPoint.x > 212)) return;
+        //if ((cometPoint.y < 0) || (cometPoint.y > 400) || (cometPoint.x < -36) || (cometPoint.x > 212)) return;
+        if ((cometPoint.y < 0) || (cometPoint.y > 420) || (cometPoint.x < -74) || (cometPoint.x > 250)) return;
         if (!comet.soundPlayed) {
             assetManager.getSound("burn").play();
             comet.soundPlayed = true;
         }
 
         // draw scorch mark on fuselage
-        var colorCanvas = colorCanvases.fuselage;
-        colorCanvas.graphics.beginFill("rgba(0,0,0,0.5)");
-        colorCanvas.graphics.drawCircle(cometPoint.x, cometPoint.y, scorchWidth);
-        colorCanvas.graphics.beginFill("rgba(0,0,0,1)");
-        colorCanvas.graphics.drawCircle(cometPoint.x, cometPoint.y, scorchWidth - 6);
+        var fuselageColorCanvas = colorCanvases.fuselage;
+        fuselageColorCanvas.graphics.beginFill("rgba(0,0,0,0.5)");
+        fuselageColorCanvas.graphics.drawCircle(cometPoint.x, cometPoint.y, scorchWidth);
+        fuselageColorCanvas.graphics.beginFill("rgba(0,0,0,1)");
+        fuselageColorCanvas.graphics.drawCircle(cometPoint.x, cometPoint.y, scorchWidth - 6);
+
+        var wingColorCanvas = colorCanvases.wings;
+        wingColorCanvas.graphics.beginFill("rgba(0,0,0,0.5)");
+        wingColorCanvas.graphics.drawCircle(cometPoint.x, cometPoint.y, scorchWidth);
+        wingColorCanvas.graphics.beginFill("rgba(0,0,0,1)");
+        wingColorCanvas.graphics.drawCircle(cometPoint.x, cometPoint.y, scorchWidth - 6);
+
+        var tailColorCanvas = colorCanvases.tail;
+        tailColorCanvas.graphics.beginFill("rgba(0,0,0,0.5)");
+        tailColorCanvas.graphics.drawCircle(cometPoint.x, cometPoint.y, scorchWidth);
+        tailColorCanvas.graphics.beginFill("rgba(0,0,0,1)");
+        tailColorCanvas.graphics.drawCircle(cometPoint.x, cometPoint.y, scorchWidth - 6);
 
         // drawing smoke (fades away)
         var scorchSmoke = assetManager.getSprite("assets","scorchSmoke");
@@ -291,9 +304,15 @@ var SpaceShip = function() {
         shipContainer.addChild(scorchSmoke);
 
         // draw the new vector onto the existing cache, compositing it with the "source-overlay" composite operation:
-		colorCanvas.updateCache("source-overlay");
+		fuselageColorCanvas.updateCache("source-overlay");
         // because the vector paint drop has been drawn to the cache clear it out
-		colorCanvas.graphics.clear();
+		fuselageColorCanvas.graphics.clear();
+
+        wingColorCanvas.updateCache("source-overlay");
+        wingColorCanvas.graphics.clear();
+
+        tailColorCanvas.updateCache("source-overlay");
+        tailColorCanvas.graphics.clear();
     };
 
     this.assembleMe = function(newPart) {

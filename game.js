@@ -7,9 +7,12 @@
 // TODO add quit button
 // TODO remove annonymous functions
 // TODO other optimization
-// TODO finish confix.xml description
-
 // TODO move all event listeners to showMe
+
+// TODO get proguard actually working
+// TODO fix issue with permissions not being taken out of AndroidManifest.xml
+// TODO figure out why app doesn't qualify for designed for tablets in google play
+// TODO switch over FLA to CS3 jigsaw version
 
 // the base width and height of game that graphics are designed for (pre-resizing for android screens)
 var BASE_HEIGHT = 960;
@@ -172,7 +175,7 @@ function onSetup(e) {
     // populate gameStages array
     gameStages = [startStage,instructStage,assemblyStage,colorStage,blastOffStage,instructStage,asteroidStage,instructStage,cometStage,astronautStage,instructStage];
     gameStagesNoInstruct = [assemblyStage,colorStage,blastOffStage,asteroidStage,cometStage,astronautStage,instructStage]
-    //gameStages = [startStage,instructStage,instructStage,instructStage];
+    //gameStages = [startStage,assemblyStage,colorStage,blastOffStage];
 
     // setup event listeners for screen flow
     stage.addEventListener("onStageComplete", onStageComplete, true);
@@ -203,8 +206,6 @@ function onStageComplete(e) {
     console.log(">> stage complete");
 
     if (gameStageIndex === (gameStages.length - 1)) {
-        console.log("END OF GAME");
-
         // cleanup and resets
         gameStages[gameStageIndex].hideMe();
         gameStageIndex = 0;
@@ -214,9 +215,7 @@ function onStageComplete(e) {
         instructStage.setExpertMode(true);
         // play game again!
         gameStages[gameStageIndex].showMe();
-
     } else {
-
         // hide last stage screen
         gameStages[gameStageIndex].hideMe();
         // show next stage screen
