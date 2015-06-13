@@ -228,7 +228,7 @@ var AssetManager = function() {
         manifest = myManifest;
 
         if (!mobile) {
-            // if browser doesn't suppot the ogg it will attempt to look for an mp3
+            // if browser doesn't support the ogg it will attempt to look for an mp3
             createjs.Sound.registerPlugins([createjs.WebAudioPlugin, createjs.HTMLAudioPlugin]);
             //createjs.Sound.registerPlugins([createjs.CordovaAudioPlugin,createjs.WebAudioPlugin, createjs.HTMLAudioPlugin]);
             createjs.Sound.alternateExtensions = ["ogg"];
@@ -240,7 +240,7 @@ var AssetManager = function() {
         preloader.addEventListener("progress", onProgress);
         preloader.addEventListener("error", onError);
         preloader.addEventListener("complete", onComplete);
-        preloader.setMaxConnections(5);
+        preloader.setMaxConnections(1);
         // load first spritesheet to start preloading process
         preloader.loadManifest(manifest);
     };
