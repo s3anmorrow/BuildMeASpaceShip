@@ -92,7 +92,7 @@ function onInit(e) {
         console.log(">> touch device detected");
         createjs.Touch.enable(stage,true,false);
     }
-
+ 
     // construct root container - this one is scaled to fit mobile device screen
     root = new createjs.Container();
     stage.addChild(root);
