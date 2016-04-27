@@ -11,7 +11,7 @@
       Hope your kids enjoy the game as much as mine :)
       Sharing is a form of expression - pass it on!
     </description>
-    <author email="support@paddyjumpup.com" href="">
+    <author email="paddyjumpup@gmail.com" href="">
         PaddyJumpUp
     </author>
     <content src="index.html" />
@@ -51,19 +51,19 @@
     <gap:plugin name="org.apache.cordova.splashscreen" />
     <gap:plugin name="org.apache.cordova.vibration" />
 
-	<icon gap:platform="android" gap:qualifier="ldpi" gap:density="ldpi" src="assets/icon/icon-36.png" />
-    <icon gap:platform="android" gap:qualifier="mdpi" gap:density="mdpi" src="assets/icon/icon-48.png" />
-    <icon gap:platform="android" gap:qualifier="hdpi" gap:density="hdpi" src="assets/icon/icon-72.png" />
-    <icon gap:platform="android" gap:qualifier="xhdpi" gap:density="xhdpi" src="assets/icon/icon-96.png" />
-	<icon gap:platform="android" gap:qualifier="xxhdpi" gap:density="xxhdpi" src="assets/icon/icon-144.png" />
-	<icon gap:platform="android" gap:qualifier="xxxhdpi" gap:density="xxxhdpi" src="assets/icon/icon-192.png" />
+	<icon gap:platform="android" gap:qualifier="ldpi" gap:density="ldpi" src="lib/icon/icon-36.png" />
+    <icon gap:platform="android" gap:qualifier="mdpi" gap:density="mdpi" src="lib/icon/icon-48.png" />
+    <icon gap:platform="android" gap:qualifier="hdpi" gap:density="hdpi" src="lib/icon/icon-72.png" />
+    <icon gap:platform="android" gap:qualifier="xhdpi" gap:density="xhdpi" src="lib/icon/icon-96.png" />
+	<icon gap:platform="android" gap:qualifier="xxhdpi" gap:density="xxhdpi" src="lib/icon/icon-144.png" />
+	<icon gap:platform="android" gap:qualifier="xxxhdpi" gap:density="xxxhdpi" src="lib/icon/icon-192.png" />
 
-	<splash gap:platform="android" gap:qualifier="ldpi" gap:density="ldpi" width="240" height="320" src="assets/splash/screen-ldpi.9.png" />
-    <splash gap:platform="android" gap:qualifier="mdpi" gap:density="mdpi" width="320" height="480" src="assets/splash/screen-mdpi.9.png" />
-    <splash gap:platform="android" gap:qualifier="hdpi" gap:density="hdpi"  width="480" height="800" src="assets/splash/screen-hdpi.9.png" />
-	<splash gap:platform="android" gap:qualifier="xhdpi" gap:density="xhdpi" width="640" height="960" src="assets/splash/screen-xhdpi.9.png" />
-	<splash gap:platform="android" gap:qualifier="xxhdpi" gap:density="xxhdpi" width="960" height="1440" src="assets/splash/screen-xxhdpi.9.png" />
-	<splash gap:platform="android" gap:qualifier="xxxhdpi" gap:density="xxxhdpi" width="1280" height="1920" src="assets/splash/screen-xxxhdpi.9.png" />
+	<splash gap:platform="android" gap:qualifier="ldpi" gap:density="ldpi" width="240" height="320" src="lib/splash/screen-ldpi.9.png" />
+    <splash gap:platform="android" gap:qualifier="mdpi" gap:density="mdpi" width="320" height="480" src="lib/splash/screen-mdpi.9.png" />
+    <splash gap:platform="android" gap:qualifier="hdpi" gap:density="hdpi"  width="480" height="800" src="lib/splash/screen-hdpi.9.png" />
+	<splash gap:platform="android" gap:qualifier="xhdpi" gap:density="xhdpi" width="640" height="960" src="lib/splash/screen-xhdpi.9.png" />
+	<splash gap:platform="android" gap:qualifier="xxhdpi" gap:density="xxhdpi" width="960" height="1440" src="lib/splash/screen-xxhdpi.9.png" />
+	<splash gap:platform="android" gap:qualifier="xxxhdpi" gap:density="xxxhdpi" width="1280" height="1920" src="lib/splash/screen-xxxhdpi.9.png" />
 
     <access origin="*" />
 </widget>
