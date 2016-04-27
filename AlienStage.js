@@ -97,30 +97,26 @@ var AlienStage = function() {
                     if (alien.direction === 1) {
                         alien.y += ALIEN_SPEED;
                         // is the alien off the bottom/top of the screen?
-                        if (alien.y > baseHeight + 110) {
-                            alien.active = false;
-                            alien.moving = false;
-                            alien.direction = -1;
-                            alien.removeAllEventListeners();
-                            alienLayer.removeChild(alien);
-                            alienCount--;
-                        }
+                        if (alien.y > baseHeight + 110) removeAlien(alien);
                     } else {
                         alien.y -= ALIEN_SPEED;
                         // is the alien off the bottom/top of the screen?
-                        if (alien.y < -110) {
-                            alien.active = false;
-                            alien.moving = false;
-                            alien.direction = -1;
-                            alien.removeAllEventListeners();
-                            alienLayer.removeChild(alien);
-                            alienCount--;
-                        }
+                        if (alien.y < -110) removeAlien(alien);
                     }
                 }
             }
         }
     };
+    
+    // ------------------------------------------------- private methods
+    function removeAlien(alien){
+        alien.active = false;
+        alien.moving = false;
+        alien.direction = 1;
+        alien.removeAllEventListeners();
+        alienLayer.removeChild(alien);
+        alienCount--;
+    }
 
     // ------------------------------------------------- event handler
     function onDropAlien(e) {
@@ -174,7 +170,9 @@ var AlienStage = function() {
         // setup bitmapText
         killCount++;
         var bitmapText = alien.bitmapText;
-        bitmapText.text = String(killCount);
+        if (alien.direction === 1) bitmapText.text = "d";
+        else bitmapText.text = "u";
+        
         bitmapText.alpha = 1;
         bitmapText.x = alien.x - (bitmapText.getBounds().width / 2) - 4;
         bitmapText.y = alien.y - 44;
