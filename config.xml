@@ -51,19 +51,21 @@
     <gap:plugin name="org.apache.cordova.splashscreen" />
     <gap:plugin name="org.apache.cordova.vibration" />
 
-	<icon gap:platform="android" gap:qualifier="ldpi" gap:density="ldpi" src="lib/icon/icon-36.png" />
-    <icon gap:platform="android" gap:qualifier="mdpi" gap:density="mdpi" src="lib/icon/icon-48.png" />
-    <icon gap:platform="android" gap:qualifier="hdpi" gap:density="hdpi" src="lib/icon/icon-72.png" />
-    <icon gap:platform="android" gap:qualifier="xhdpi" gap:density="xhdpi" src="lib/icon/icon-96.png" />
-	<icon gap:platform="android" gap:qualifier="xxhdpi" gap:density="xxhdpi" src="lib/icon/icon-144.png" />
-	<icon gap:platform="android" gap:qualifier="xxxhdpi" gap:density="xxxhdpi" src="lib/icon/icon-192.png" />
+    <platform name="android">
+      <icon platform="android" qualifier="ldpi" src="lib/icon/icon-36.png" />
+      <icon platform="android" qualifier="mdpi" src="lib/icon/icon-48.png" />
+      <icon platform="android" qualifier="hdpi" src="lib/icon/icon-72.png" />
+      <icon platform="android" qualifier="xhdpi" src="lib/icon/icon-96.png" />
+      <icon platform="android" qualifier="xxhdpi" src="lib/icon/icon-144.png" />
+      <icon platform="android" qualifier="xxxhdpi" src="lib/icon/icon-192.png" />
 
-	<splash gap:platform="android" gap:qualifier="ldpi" gap:density="ldpi" width="240" height="320" src="lib/splash/screen-ldpi.9.png" />
-    <splash gap:platform="android" gap:qualifier="mdpi" gap:density="mdpi" width="320" height="480" src="lib/splash/screen-mdpi.9.png" />
-    <splash gap:platform="android" gap:qualifier="hdpi" gap:density="hdpi"  width="480" height="800" src="lib/splash/screen-hdpi.9.png" />
-	<splash gap:platform="android" gap:qualifier="xhdpi" gap:density="xhdpi" width="640" height="960" src="lib/splash/screen-xhdpi.9.png" />
-	<splash gap:platform="android" gap:qualifier="xxhdpi" gap:density="xxhdpi" width="960" height="1440" src="lib/splash/screen-xxhdpi.9.png" />
-	<splash gap:platform="android" gap:qualifier="xxxhdpi" gap:density="xxxhdpi" width="1280" height="1920" src="lib/splash/screen-xxxhdpi.9.png" />
+      <splash platform="android" qualifier="ldpi" width="240" height="320" src="lib/splash/screen-ldpi.9.png" />
+      <splash platform="android" qualifier="mdpi" width="320" height="480" src="lib/splash/screen-mdpi.9.png" />
+      <splash platform="android" qualifier="hdpi" width="480" height="800" src="lib/splash/screen-hdpi.9.png" />
+      <splash platform="android" qualifier="xhdpi" width="640" height="960" src="lib/splash/screen-xhdpi.9.png" />
+      <splash platform="android" qualifier="xxhdpi" width="960" height="1440" src="lib/splash/screen-xxhdpi.9.png" />
+      <splash platform="android" qualifier="xxxhdpi" width="1280" height="1920" src="lib/splash/screen-xxxhdpi.9.png" />
+    </platform>
 
     <access origin="*" />
 </widget>
