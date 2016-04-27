@@ -3,6 +3,7 @@ var AsteroidStage = function() {
     // game stage constants
     var ASTEROID_SPEED = 4;
     var ASTEROID_MAX = 10;
+    //var ASTEROID_MAX = 1;
     var ASTEROID_POOL_MAX = 3;
 
     // local references to important globals
@@ -150,9 +151,8 @@ var AsteroidStage = function() {
         asteroid.moving = false;
 
         // setup bitmapText
-        killCount++;
         var bitmapText = asteroid.bitmapText;
-        bitmapText.text = String(killCount);
+        bitmapText.text = String(killCount + 1);
         bitmapText.alpha = 1;
         bitmapText.x = asteroid.x - (bitmapText.getBounds().width / 2) - 4;
         bitmapText.y = asteroid.y - 44;
@@ -165,6 +165,7 @@ var AsteroidStage = function() {
     }
 
     function onAsteroidKilled(e) {
+        killCount++;
         e.target.stop();
         e.target.removeAllEventListeners();
         createjs.Tween.removeTweens(e.target);

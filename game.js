@@ -47,6 +47,7 @@ var blastOffStage = null;
 var asteroidStage = null;
 var cometStage = null;
 var astronautStage = null;
+var alienStage = null;
 
 // screen flow control - populated when game loaded
 var gameStages = [];
@@ -136,6 +137,7 @@ function onResize(e) {
 function onPause(e) {
     background.pauseMe();
     asteroidStage.pauseMe();
+    alienStage.pauseMe();
     createjs.Touch.disable(stage);
 
     // pauses all tweens
@@ -146,6 +148,7 @@ function onPause(e) {
 function onResume(e) {
     background.unPauseMe();
     asteroidStage.unPauseMe();
+    alienStage.unPauseMe();
     createjs.Touch.enable(stage,true,false);
 
     createjs.Ticker.setPaused(false);
@@ -171,11 +174,12 @@ function onSetup(e) {
     blastOffStage = new BlastOffStage();
     asteroidStage = new AsteroidStage();
     cometStage = new CometStage();
+    alienStage = new AlienStage();
     astronautStage = new AstronautStage();
     // populate gameStages array
-    gameStages = [startStage,instructStage,assemblyStage,colorStage,blastOffStage,instructStage,asteroidStage,instructStage,cometStage,astronautStage,instructStage];
-    gameStagesNoInstruct = [assemblyStage,colorStage,blastOffStage,asteroidStage,cometStage,astronautStage,instructStage]
-    //gameStages = [startStage,assemblyStage,colorStage,blastOffStage];
+    gameStages = [startStage,instructStage,assemblyStage,colorStage,blastOffStage,instructStage,asteroidStage,instructStage,cometStage,instructStage,alienStage,astronautStage,instructStage];
+    gameStagesNoInstruct = [assemblyStage,colorStage,blastOffStage,asteroidStage,cometStage,alienStage,astronautStage,instructStage];
+    //gameStages = [startStage,assemblyStage,colorStage,alienStage];
 
     // setup event listeners for screen flow
     stage.addEventListener("onStageComplete", onStageComplete, true);
@@ -233,6 +237,7 @@ function onTick(e) {
     // update any objects that need to know when a tick has occurred
     background.updateMe();
     asteroidStage.updateMe();
+    alienStage.updateMe();
     cometStage.updateMe();
     astronautStage.updateMe();
 
