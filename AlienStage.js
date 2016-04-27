@@ -163,8 +163,8 @@ var AlienStage = function() {
         spaceShip.fireMe(alien, alienLayer);
 
         // play killed animation
-        alien.gotoAndPlay(alien.currentAnimation + "Killed");
-        alien.addEventListener("animationend", onAsteroidKilled);
+        alien.gotoAndPlay("alienKilled");
+        alien.addEventListener("animationend", onAlienKilled);
         alien.moving = false;
 
         // setup bitmapText
@@ -181,10 +181,10 @@ var AlienStage = function() {
         createjs.Tween.get(bitmapText).wait(500).to({alpha:0}, 500).call(onTextFaded);
 
         assetManager.getSound("laser").play();
-        assetManager.getSound("alienExplode").play();
+        assetManager.getSound("asteroidExplode").play();
     }
 
-    function onAsteroidKilled(e) {
+    function onAlienKilled(e) {
         e.target.stop();
         e.target.removeAllEventListeners();
         createjs.Tween.removeTweens(e.target);
