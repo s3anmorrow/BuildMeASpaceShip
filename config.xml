@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="ca.seanmorrow.buildmeaspaceship" version="1.0.1" versionCode="1" xmlns:android="http://schemas.android.com/apk/res/android" xmlns="http://www.w3.org/ns/widgets" xmlns:gap="http://phonegap.com/ns/1.0">
+<widget id="ca.seanmorrow.buildmeaspaceship" version="1.1.0" versionCode="1" xmlns:android="http://schemas.android.com/apk/res/android" xmlns="http://www.w3.org/ns/widgets" xmlns:gap="http://phonegap.com/ns/1.0">
     <name>Build Me A Spaceship! for kids</name>
     <description>
       Start by building your spaceship part by part. Color it so it looks really awesome and then launch it into outer space. Blast asteroids and dodge comets on your journey to help a stranded astronaut.
@@ -30,8 +30,8 @@
     <preference name="disable-cursor" value="false" />
     <preference name="android-minSdkVersion" value="19" />
     <preference name="android-installLocation" value="auto" />
-	<preference name="SplashScreen" value="screen" />
-	<preference name="SplashScreenDelay" value="3000" />
+    <preference name="SplashScreen" value="screen" />
+    <preference name="SplashScreenDelay" value="3000" />
     <gap:plugin name="org.apache.cordova.battery-status" />
     <gap:plugin name="org.apache.cordova.camera" />
     <gap:plugin name="org.apache.cordova.media-capture" />
@@ -52,19 +52,19 @@
     <gap:plugin name="org.apache.cordova.vibration" />
 
     <platform name="android">
-      <icon platform="android" qualifier="ldpi" src="lib/icon/icon-36.png" />
-      <icon platform="android" qualifier="mdpi" src="lib/icon/icon-48.png" />
-      <icon platform="android" qualifier="hdpi" src="lib/icon/icon-72.png" />
-      <icon platform="android" qualifier="xhdpi" src="lib/icon/icon-96.png" />
-      <icon platform="android" qualifier="xxhdpi" src="lib/icon/icon-144.png" />
-      <icon platform="android" qualifier="xxxhdpi" src="lib/icon/icon-192.png" />
+      <icon platform="android" qualifier="ldpi" src="www/lib/icon/icon.png" />
+      <icon platform="android" qualifier="mdpi" src="www/lib/icon/icon-48.png" />
+      <icon platform="android" qualifier="hdpi" src="www/lib/icon/icon-72.png" />
+      <icon platform="android" qualifier="xhdpi" src="www/lib/icon/icon-96.png" />
+      <icon platform="android" qualifier="xxhdpi" src="www/lib/icon/icon-144.png" />
+      <icon platform="android" qualifier="xxxhdpi" src="www/lib/icon/icon-192.png" />
 
-      <splash platform="android" qualifier="ldpi" width="240" height="320" src="lib/splash/screen-ldpi.9.png" />
-      <splash platform="android" qualifier="mdpi" width="320" height="480" src="lib/splash/screen-mdpi.9.png" />
-      <splash platform="android" qualifier="hdpi" width="480" height="800" src="lib/splash/screen-hdpi.9.png" />
-      <splash platform="android" qualifier="xhdpi" width="640" height="960" src="lib/splash/screen-xhdpi.9.png" />
-      <splash platform="android" qualifier="xxhdpi" width="960" height="1440" src="lib/splash/screen-xxhdpi.9.png" />
-      <splash platform="android" qualifier="xxxhdpi" width="1280" height="1920" src="lib/splash/screen-xxxhdpi.9.png" />
+      <splash platform="android" qualifier="ldpi" width="240" height="320" src="www/lib/splash/screen-ldpi.9.png" />
+      <splash platform="android" qualifier="mdpi" width="320" height="480" src="www/lib/splash/screen-mdpi.9.png" />
+      <splash platform="android" qualifier="hdpi" width="480" height="800" src="www/lib/splash/screen-hdpi.9.png" />
+      <splash platform="android" qualifier="xhdpi" width="640" height="960" src="www/lib/splash/screen-xhdpi.9.png" />
+      <splash platform="android" qualifier="xxhdpi" width="960" height="1440" src="www/lib/splash/screen-xxhdpi.9.png" />
+      <splash platform="android" qualifier="xxxhdpi" width="1280" height="1920" src="www/lib/splash/screen-xxxhdpi.9.png" />
     </platform>
 
     <access origin="*" />
