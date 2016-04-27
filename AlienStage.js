@@ -2,7 +2,8 @@ var AlienStage = function() {
 
     // game stage constants
     var ALIEN_SPEED = 4;
-    var ALIEN_MAX = 10;
+    //var ALIEN_MAX = 10;
+    var ALIEN_MAX = 3;
     var ALIEN_POOL_MAX = 3;
 
     // local references to important globals
@@ -61,9 +62,6 @@ var AlienStage = function() {
         screen.addChild(alienLayer);
 
         root.addChild(screen);
-        
-        console.log("showing alien stage!");
-        
     };
 
     this.hideMe = function(){
@@ -131,13 +129,13 @@ var AlienStage = function() {
                 
                 // random direction - moving down by default
                 alien.direction = 1;
-                alien.y = -85;
+                alien.y = -50;
                 alien.gotoAndPlay("alienDown");
                 if (randomMe(0,1) === 1) {
                     // moving up
                     alien.gotoAndPlay("alienUp");
                     alien.direction = -1;
-                    alien.y = stage.canvas.height + 85;
+                    alien.y = stage.canvas.height + 50;
                 }
 
                 // ??????????????????????? adjust this to avoid overlap
@@ -168,10 +166,9 @@ var AlienStage = function() {
         alien.moving = false;
 
         // setup bitmapText
-        killCount++;
         var bitmapText = alien.bitmapText;
-        if (alien.direction === 1) bitmapText.text = "d";
-        else bitmapText.text = "u";
+        if (alien.y < (stage.canvas.height/2)) bitmapText.text = "u";
+        else bitmapText.text = "d";
         
         bitmapText.alpha = 1;
         bitmapText.x = alien.x - (bitmapText.getBounds().width / 2) - 4;
@@ -185,6 +182,8 @@ var AlienStage = function() {
     }
 
     function onAlienKilled(e) {
+        killCount++;
+        assetManager.getSound("alienDie").play();
         e.target.stop();
         e.target.removeAllEventListeners();
         createjs.Tween.removeTweens(e.target);

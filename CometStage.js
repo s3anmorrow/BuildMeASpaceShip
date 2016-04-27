@@ -2,7 +2,8 @@ var CometStage = function() {
 
     // game stage constants
     var COMET_SPEED = 8;
-    var COMET_COUNT = 5;
+    //var COMET_COUNT = 5;
+    var COMET_COUNT = 1;
 
     // local references to important globals
     var assetManager = window.assetManager;

@@ -9,6 +9,7 @@ var manifest = [
         id:"assets"
     },
     {src:"lib/beep.mp3", id:"beep", data:4},
+    {src:"lib/alienDie.mp3", id:"alienDie", data:4},
     {src:"lib/countdown.mp3", id:"countdown", data:4},
     {src:"lib/laser.mp3", id:"laser", data:4},
     {src:"lib/asteroidExplode.mp3", id:"asteroidExplode", data:4},

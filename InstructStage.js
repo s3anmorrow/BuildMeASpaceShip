@@ -131,7 +131,7 @@ var InstructStage = function() {
 
     this.setExpertMode = function(value){
         // only show the final instructions in expertmode
-        instructSetCount = 4;
+        instructSetCount = 5;
         expertMode = value;
     };
 
@@ -144,7 +144,7 @@ var InstructStage = function() {
         } else {
             btnOk.gotoAndStop("btnOkUp");
 
-            if (instructSetCount === 5) {
+            if (instructSetCount === 6) {
                 // fly spaceship off stage
                 screen.removeChild(btnOk);
                 spaceShip.flyOffStage(onShipOffStage);
