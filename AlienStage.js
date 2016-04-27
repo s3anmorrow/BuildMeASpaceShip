@@ -2,8 +2,8 @@ var AlienStage = function() {
 
     // game stage constants
     var ALIEN_SPEED = 4;
-    //var ALIEN_MAX = 10;
-    var ALIEN_MAX = 3;
+    var ALIEN_MAX = 10;
+    //var ALIEN_MAX = 3;
     var ALIEN_POOL_MAX = 3;
 
     // local references to important globals
