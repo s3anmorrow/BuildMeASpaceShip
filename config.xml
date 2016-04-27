@@ -1,0 +1,69 @@
+<?xml version='1.0' encoding='utf-8'?>
+<widget id="ca.seanmorrow.buildmeaspaceship" version="1.0.1" versionCode="1" xmlns:android="http://schemas.android.com/apk/res/android" xmlns="http://www.w3.org/ns/widgets" xmlns:gap="http://phonegap.com/ns/1.0">
+    <name>Build Me A Spaceship! for kids</name>
+    <description>
+      Start by building your spaceship part by part. Color it so it looks really awesome and then launch it into outer space. Blast asteroids and dodge comets on your journey to help a stranded astronaut.
+      This simple kids game will engage your little ones with some counting and color names thrown in - tried and tested on my own two kids and it works great (they are tough critics).
+      The game consists of a circular game flow which can be played indefinitely, but more important there are NO ADS for them to click accidentally. Great for both guided and solo play with your kids.
+      Runs well enough on older phones (two years old - Dual Core 1.7Ghz minimum), but obviously newer phones provide a smoother experience. Is great on a tablet, especially for younger kids.
+      The game can lag when your phone is performing data fetches, updates, etc.
+      Did I mention that this game is free and not riddled with ads?
+      Hope your kids enjoy the game as much as mine :)
+      Sharing is a form of expression - pass it on!
+    </description>
+    <author email="support@paddyjumpup.com" href="">
+        PaddyJumpUp
+    </author>
+    <content src="index.html" />
+    <preference name="permissions" value="none" />
+    <preference name="orientation" value="portrait" />
+    <preference name="target-device" value="universal" />
+    <preference name="fullscreen" value="true" />
+    <preference name="webviewbounce" value="true" />
+    <preference name="prerendered-icon" value="true" />
+    <preference name="stay-in-webview" value="false" />
+    <preference name="ios-statusbarstyle" value="black-opaque" />
+    <preference name="detect-data-types" value="true" />
+    <preference name="exit-on-suspend" value="false" />
+    <preference name="show-splash-screen-spinner" value="false" />
+    <preference name="auto-hide-splash-screen" value="true" />
+    <preference name="disable-cursor" value="false" />
+    <preference name="android-minSdkVersion" value="19" />
+    <preference name="android-installLocation" value="auto" />
+	<preference name="SplashScreen" value="screen" />
+	<preference name="SplashScreenDelay" value="3000" />
+    <gap:plugin name="org.apache.cordova.battery-status" />
+    <gap:plugin name="org.apache.cordova.camera" />
+    <gap:plugin name="org.apache.cordova.media-capture" />
+    <gap:plugin name="org.apache.cordova.console" />
+    <gap:plugin name="org.apache.cordova.contacts" />
+    <gap:plugin name="org.apache.cordova.device" />
+    <gap:plugin name="org.apache.cordova.device-motion" />
+    <gap:plugin name="org.apache.cordova.device-orientation" />
+    <gap:plugin name="org.apache.cordova.dialogs" />
+    <gap:plugin name="org.apache.cordova.file" />
+    <gap:plugin name="org.apache.cordova.file-transfer" />
+    <gap:plugin name="org.apache.cordova.geolocation" />
+    <gap:plugin name="org.apache.cordova.globalization" />
+    <gap:plugin name="org.apache.cordova.inappbrowser" />
+    <gap:plugin name="org.apache.cordova.media" />
+    <gap:plugin name="org.apache.cordova.network-information" />
+    <gap:plugin name="org.apache.cordova.splashscreen" />
+    <gap:plugin name="org.apache.cordova.vibration" />
+
+	<icon gap:platform="android" gap:qualifier="ldpi" gap:density="ldpi" src="assets/icon/icon-36.png" />
+    <icon gap:platform="android" gap:qualifier="mdpi" gap:density="mdpi" src="assets/icon/icon-48.png" />
+    <icon gap:platform="android" gap:qualifier="hdpi" gap:density="hdpi" src="assets/icon/icon-72.png" />
+    <icon gap:platform="android" gap:qualifier="xhdpi" gap:density="xhdpi" src="assets/icon/icon-96.png" />
+	<icon gap:platform="android" gap:qualifier="xxhdpi" gap:density="xxhdpi" src="assets/icon/icon-144.png" />
+	<icon gap:platform="android" gap:qualifier="xxxhdpi" gap:density="xxxhdpi" src="assets/icon/icon-192.png" />
+
+	<splash gap:platform="android" gap:qualifier="ldpi" gap:density="ldpi" width="240" height="320" src="assets/splash/screen-ldpi.9.png" />
+    <splash gap:platform="android" gap:qualifier="mdpi" gap:density="mdpi" width="320" height="480" src="assets/splash/screen-mdpi.9.png" />
+    <splash gap:platform="android" gap:qualifier="hdpi" gap:density="hdpi"  width="480" height="800" src="assets/splash/screen-hdpi.9.png" />
+	<splash gap:platform="android" gap:qualifier="xhdpi" gap:density="xhdpi" width="640" height="960" src="assets/splash/screen-xhdpi.9.png" />
+	<splash gap:platform="android" gap:qualifier="xxhdpi" gap:density="xxhdpi" width="960" height="1440" src="assets/splash/screen-xxhdpi.9.png" />
+	<splash gap:platform="android" gap:qualifier="xxxhdpi" gap:density="xxxhdpi" width="1280" height="1920" src="assets/splash/screen-xxxhdpi.9.png" />
+
+    <access origin="*" />
+</widget>
