@@ -12,8 +12,9 @@ var AlienStage = function() {
     var spaceShip = window.spaceShip;
     var randomMe = window.randomMe;
     var background = window.background;
+    
     var baseHeight = window.BASE_HEIGHT;
-    var stageHeight = canvas.height;
+    var stageHeight = stage.canvas.height;
 
     // event to be dispatched when this stage is complete
     var completeEvent = new createjs.Event("onStageComplete", true);
@@ -136,11 +137,13 @@ var AlienStage = function() {
                     // moving up
                     alien.gotoAndPlay("alienUp");
                     alien.direction = -1;
-                    alien.y = stageHeight + 50;
+                    alien.y = ((canvas.height/stageHeight) * baseHeight);
                 }
                 
-                console.log("stageHeight: " + stageHeight);
-                console.log("alien dropped at: " + alien.y);
+                //console.log("stageHeight: " + stageHeight);
+                console.log("canvas.height: " + canvas.height);
+                console.log("alien.y: " + alien.y);
+                
 
                 // ??????????????????????? adjust this to avoid overlap
                 if ((n % 2) === 0) alien.x = randomMe(100,200);
