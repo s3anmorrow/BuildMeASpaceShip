@@ -13,6 +13,8 @@ var AlienStage = function() {
     var randomMe = window.randomMe;
     var background = window.background;
     var baseHeight = window.BASE_HEIGHT;
+    var stageHeight = stage.canvas.height;
+    var cockpitY = 0;
 
     // event to be dispatched when this stage is complete
     var completeEvent = new createjs.Event("onStageComplete", true);
@@ -152,7 +154,6 @@ var AlienStage = function() {
                 break;
             }
         }
-
     }
 
     function onFireLaser(e) {
@@ -165,9 +166,10 @@ var AlienStage = function() {
         alien.addEventListener("animationend", onAlienKilled);
         alien.moving = false;
 
-        // setup bitmapText
+        // setup bitmapText and display up or down message according to where alien is in relation to cockpit
         var bitmapText = alien.bitmapText;
-        if (alien.y < (baseHeight/2)) bitmapText.text = "u";
+        var alienY = (alien.y * stageHeight) / baseHeight;
+        if (alienY < cockpitY) bitmapText.text = "u";
         else bitmapText.text = "d";
         
         bitmapText.alpha = 1;
@@ -207,6 +209,8 @@ var AlienStage = function() {
         ready = true;
         // start timer to drop aliens now that spaceship has flown onto screen
         alienTimer = window.setInterval(onDropAlien, alienFreq);
+        // get Y position of cockpit
+        cockpitY = ((spaceShip.getCockpitLocation() - 10)/stageHeight) * baseHeight;
         // drop alien right away
         onDropAlien();
     }
