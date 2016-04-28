@@ -138,6 +138,9 @@ var AlienStage = function() {
                     alien.direction = -1;
                     alien.y = stageHeight + 50;
                 }
+                
+                console.log("stageHeight: " + stageHeight);
+                console.log("alien dropped at: " + alien.y);
 
                 // ??????????????????????? adjust this to avoid overlap
                 if ((n % 2) === 0) alien.x = randomMe(100,200);
