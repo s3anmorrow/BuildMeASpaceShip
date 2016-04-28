@@ -13,7 +13,7 @@ var AlienStage = function() {
     var randomMe = window.randomMe;
     var background = window.background;
     var baseHeight = window.BASE_HEIGHT;
-    var stageHeight = stage.canvas.height;
+    var stageHeight = canvas.height;
 
     // event to be dispatched when this stage is complete
     var completeEvent = new createjs.Event("onStageComplete", true);
