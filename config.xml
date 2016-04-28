@@ -60,6 +60,7 @@
       <icon platform="android" qualifier="xxhdpi" src="icon-144.png" />
       <icon platform="android" qualifier="xxxhdpi" src="icon-192.png" />
 
+      <splash src="splash.png" />
       <splash platform="android" qualifier="ldpi" width="240" height="320" src="screen-ldpi.9.png" />
       <splash platform="android" qualifier="mdpi" width="320" height="480" src="screen-mdpi.9.png" />
       <splash platform="android" qualifier="hdpi" width="480" height="800" src="screen-hdpi.9.png" />
