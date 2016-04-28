@@ -73,6 +73,8 @@ if (mobileOS === "android") {
     document.body.appendChild(js);
 }
 
+document.getElementById("fps").innerHTML = "GAME.JS IS RUNNING! " + mobile;
+
 // ----------------------------------------------------------- private methods
 function randomMe(low, high) {
     // returns a random number
@@ -255,5 +257,3 @@ if (mobile) {
 } else {
     window.addEventListener("load", onInit, false);
 }
-
-document.getElementById("fps").innerHTML = "GAME.JS IS RUNNING!";
