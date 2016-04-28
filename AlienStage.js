@@ -137,11 +137,10 @@ var AlienStage = function() {
                     // moving up
                     alien.gotoAndPlay("alienUp");
                     alien.direction = -1;
-                    alien.y = ((canvas.height/stageHeight) * baseHeight);
+                    alien.y = baseHeight + 110;
                 }
                 
                 //console.log("stageHeight: " + stageHeight);
-                console.log("canvas.height: " + canvas.height);
                 console.log("alien.y: " + alien.y);
                 
 
