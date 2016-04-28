@@ -12,7 +12,6 @@
 // TODO get proguard actually working
 // TODO fix issue with permissions not being taken out of AndroidManifest.xml
 // TODO figure out why app doesn't qualify for designed for tablets in google play
-// TODO switch over FLA to CS3 jigsaw version
 
 // the base width and height of game that graphics are designed for (pre-resizing for android screens)
 var BASE_HEIGHT = 960;
