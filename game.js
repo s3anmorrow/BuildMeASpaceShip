@@ -250,11 +250,10 @@ function onTick(e) {
 }
 
 // ------------------------------------------------------ game entry point
-/*
 if (mobile) {
     document.addEventListener("deviceready", onInit, false);
 } else {
     window.addEventListener("load", onInit, false);
 }
-*/
-document.addEventListener("deviceready", onInit, false);
+
+document.getElementById("fps").innerHTML = "GAME.JS IS RUNNING!";
