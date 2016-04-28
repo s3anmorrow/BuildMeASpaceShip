@@ -13,6 +13,7 @@ var AlienStage = function() {
     var randomMe = window.randomMe;
     var background = window.background;
     var baseHeight = window.BASE_HEIGHT;
+    var stageHeight = stage.canvas.height;
 
     // event to be dispatched when this stage is complete
     var completeEvent = new createjs.Event("onStageComplete", true);
@@ -135,7 +136,7 @@ var AlienStage = function() {
                     // moving up
                     alien.gotoAndPlay("alienUp");
                     alien.direction = -1;
-                    alien.y = stage.canvas.height + 50;
+                    alien.y = stageHeight + 50;
                 }
 
                 // ??????????????????????? adjust this to avoid overlap
@@ -167,7 +168,7 @@ var AlienStage = function() {
 
         // setup bitmapText
         var bitmapText = alien.bitmapText;
-        if (alien.y < (stage.canvas.height/2)) bitmapText.text = "u";
+        if (alien.y < (stageHeight/2)) bitmapText.text = "u";
         else bitmapText.text = "d";
         
         bitmapText.alpha = 1;
