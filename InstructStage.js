@@ -81,7 +81,7 @@ var InstructStage = function() {
                 astronautHead.y = 500;
                 astronautHead.rotation = 45;
                 screen.addChild(astronautHead);
-                instructBubble.x = 50;
+                instructBubble.x = 40;
                 instructBubble.y = 50;
                 instructBubble.gotoAndStop("instructBubble11");
                 btnOk.x = 255;
