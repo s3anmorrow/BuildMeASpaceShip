@@ -61,8 +61,6 @@ var AssetManager = function() {
     var progress = 0;
     // array of spritesheet objects
     var spriteSheets = [];
-    // array of paths to sound effects for cordova media plugin
-    var cordovaSoundPaths = [];
     // array of JSON for each spritesheet
     var spriteSheetsJSON = [];
     // LoadQueue object
@@ -110,36 +108,8 @@ var AssetManager = function() {
                     // get id and source from manifest of currently loaded soiund
                     var id = e.item.id;
                     var src = e.item.src;
-                    cordovaSoundPaths[id] = "/android_asset/www/" + src;
-
-                    /*
-                    // ALTHOUGH THIS APPROACH IS BETTER FOR MEMORY - sound effects don't always play
-                    // get id and source from manifest of currently loaded soiund
-                    var id = e.item.id;
-                    var src = e.item.src;
-
-                    // caching 4 copies of media objects for each sound
-                    cordovaSounds[id] = [];
-
-                    for (var n=0; n<4; n++) {
-                        // construct cordova media plugin object
-                        var media = new Media("/android_asset/www/" + src,
-                            function onSuccess() {
-                                media.release(); // release the media resource once finished playing
-                            },
-                            function onError(error) {
-                                console.log(">> ERROR : Cordova media plugin error " + error);
-                            },
-                            function onMediaStatus(s) {
-                                if (s === Media.MEDIA_STOPPED) media.playing = false;
-                                else if (s === Media.MEDIA_STARTING) media.playing = true;
-                            }
-                        );
-                        media.playing = false;
-                        // add to array
-                        cordovaSounds[id][n] = media;
-                    }
-                    */
+                    // for cocoonJS you have to manually register the sound effects
+                    createjs.Sound.registerSound(src,id, 4); 
                 }
                 break;
         }
@@ -185,34 +155,7 @@ var AssetManager = function() {
     };
 
     this.getSound = function(soundID) {
-        if (mobile) {
-            // return cordova media plugin media object for sound playing on mobile
-            var media = new Media(cordovaSoundPaths[soundID],
-                function onSuccess() {
-                    media.release(); // release the media resource once finished playing
-                }
-            );
-            return media;
-
-            /*
-            // ALTHOUGH THIS APPROACH IS BETTER FOR MEMORY - sound effects don't always play
-            // find available media object
-            var media = null;
-            for (var n=0; n<4; n++) {
-
-                console.log("free sound? " + soundID + " index: " + n + " : " + cordovaSounds[soundID][n].playing);
-
-                if (!cordovaSounds[soundID][n].playing) {
-                    media = cordovaSounds[soundID][n];
-                    break;
-                }
-            }
-            return media;
-            */
-
-        } else {
-            return createjs.Sound.createInstance(soundID);
-        }
+        return createjs.Sound.createInstance(soundID);
     };
 
     this.getProgress = function() {
@@ -229,9 +172,8 @@ var AssetManager = function() {
 
         if (!mobile) {
             // if browser doesn't support the ogg it will attempt to look for an mp3
-            createjs.Sound.registerPlugins([createjs.WebAudioPlugin, createjs.HTMLAudioPlugin]);
-            //createjs.Sound.registerPlugins([createjs.CordovaAudioPlugin,createjs.WebAudioPlugin, createjs.HTMLAudioPlugin]);
-            createjs.Sound.alternateExtensions = ["ogg"];
+            createjs.Sound.registerPlugins([createjs.CocoonJSAudioPlugin, createjs.WebAudioPlugin, createjs.HTMLAudioPlugin]);
+            createjs.Sound.alternateExtensions = ["mp3"];
             // registers the PreloadJS object with SoundJS - will automatically have access to all sound assets
             preloader.installPlugin(createjs.Sound);
         }

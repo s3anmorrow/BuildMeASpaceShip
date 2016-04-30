@@ -111,9 +111,8 @@ function onResize(e) {
     var w = window.innerWidth;
     var h = window.innerHeight;
 
-    var bestFit = false;
+    var bestFit = true;
     if (bestFit) {
-        // !!!!!!!!!!!!! probably drop this bestfit approach since it stretches things bad
         // scale to exact fit
         stage.scaleX = w / BASE_WIDTH;
         stage.scaleY = h / BASE_HEIGHT;
@@ -176,9 +175,9 @@ function onSetup(e) {
     alienStage = new AlienStage();
     astronautStage = new AstronautStage();
     // populate gameStages array
-    //gameStages = [startStage,instructStage,assemblyStage,colorStage,blastOffStage,instructStage,asteroidStage,instructStage,cometStage,instructStage,alienStage,astronautStage,instructStage];
+    gameStages = [startStage,instructStage,assemblyStage,colorStage,blastOffStage,instructStage,asteroidStage,instructStage,cometStage,instructStage,alienStage,astronautStage,instructStage];
     gameStagesNoInstruct = [assemblyStage,colorStage,blastOffStage,asteroidStage,cometStage,alienStage,astronautStage,instructStage];
-    gameStages = [startStage,assemblyStage,colorStage,alienStage];
+    //gameStages = [startStage,assemblyStage,colorStage,alienStage];
 
     // setup event listeners for screen flow
     stage.addEventListener("onStageComplete", onStageComplete, true);

@@ -33,26 +33,5 @@
     <preference name="SplashScreen" value="screen" />
     <preference name="SplashScreenDelay" value="3000" />
 
-    <gap:plugin name="org.apache.cordova.file" />
-    <gap:plugin name="org.apache.cordova.media" />
-    <gap:plugin name="org.apache.cordova.splashscreen" />
-
-    <platform name="android">
-      <icon platform="android" qualifier="ldpi" src="icon-36.png" />
-      <icon platform="android" qualifier="mdpi" src="icon-48.png" />
-      <icon platform="android" qualifier="hdpi" src="icon-72.png" />
-      <icon platform="android" qualifier="xhdpi" src="icon-96.png" />
-      <icon platform="android" qualifier="xxhdpi" src="icon-144.png" />
-      <icon platform="android" qualifier="xxxhdpi" src="icon-192.png" />
-
-      <splash src="splash.png" />
-      <splash platform="android" qualifier="ldpi" width="240" height="320" src="screen-ldpi.9.png" />
-      <splash platform="android" qualifier="mdpi" width="320" height="480" src="screen-mdpi.9.png" />
-      <splash platform="android" qualifier="hdpi" width="480" height="800" src="screen-hdpi.9.png" />
-      <splash platform="android" qualifier="xhdpi" width="640" height="960" src="screen-xhdpi.9.png" />
-      <splash platform="android" qualifier="xxhdpi" width="960" height="1440" src="screen-xxhdpi.9.png" />
-      <splash platform="android" qualifier="xxxhdpi" width="1280" height="1920" src="screen-xxxhdpi.9.png" />
-    </platform>
-
     <access origin="*" />
 </widget>
