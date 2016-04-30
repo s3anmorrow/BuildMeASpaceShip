@@ -111,7 +111,7 @@ function onResize(e) {
     var w = window.innerWidth;
     var h = window.innerHeight;
 
-    var bestFit = false;
+    var bestFit = true;
     if (bestFit) {
         // !!!!!!!!!!!!! probably drop this bestfit approach since it stretches things bad
         // scale to exact fit
