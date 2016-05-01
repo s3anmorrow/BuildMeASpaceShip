@@ -2,19 +2,19 @@
 var manifest = [
     {
         src:"lib/interface.json",
-        spritesheet:"assets"
+        spritesheet:"interface"
     },
         {
         src:"lib/screens.json",
-        spritesheet:"assets"
+        spritesheet:"screens"
     },
     {
         src:"lib/spaceship.json",
-        spritesheet:"assets"
+        spritesheet:"spaceship"
     },
     {
         src:"lib/spacestuff.json",
-        spritesheet:"assets"
+        spritesheet:"spacestuff"
     },
     {
         src:"lib/interface.png",

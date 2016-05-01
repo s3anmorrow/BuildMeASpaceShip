@@ -32,7 +32,7 @@ var Background = function(){
     // twinkle stars only when background not moving
     var twinkleStars = [];
     for (var n=0; n<10; n++) {
-        var star = assetManager.getSprite("screens","star");
+        var star = assetManager.getSprite("interface","star");
         star.x = randomMe(10,630);
         star.y = randomMe(10,950);
         twinkleLayer.addChild(star);
