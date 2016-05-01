@@ -26,17 +26,17 @@ var AssemblyStage = function() {
     var screen = new createjs.Container();
     screen.snapToPixelEnabled = true;
 
-    var constructionBar2 = assetManager.getSprite("assets","constructionBar",0,150,false);
+    var constructionBar2 = assetManager.getSprite("interface","constructionBar",0,150,false);
     screen.addChild(constructionBar2);
-    var constructionBar1 = assetManager.getSprite("assets","constructionBar",0,720,false);
+    var constructionBar1 = assetManager.getSprite("interface","constructionBar",0,720,false);
     screen.addChild(constructionBar1);
-    var astronaut = assetManager.getSprite("assets","astronautWaving",50,70);
+    var astronaut = assetManager.getSprite("interface","astronautWaving",50,70);
     astronaut.rotation = 45;
     screen.addChild(astronaut);
-    var instructions = assetManager.getSprite("assets","instructBubble5",130,30,false);
+    var instructions = assetManager.getSprite("interface","instructBubble5",130,30,false);
     screen.addChild(instructions);
 
-    var btnOk = assetManager.getSprite("assets","btnOkUp",255,795,false);
+    var btnOk = assetManager.getSprite("interface","btnOkUp",255,795,false);
     btnOk.addEventListener("mousedown", onOk);
     btnOk.addEventListener("pressup", onOk);
     screen.addChild(btnOk);
@@ -46,31 +46,31 @@ var AssemblyStage = function() {
 
     var fuselages = [];
     for (var n=0; n<5; n++) {
-        fuselages[n] = assetManager.getSprite("assets","fuselage" + (n + 1),0,0,false);
+        fuselages[n] = assetManager.getSprite("spaceship","fuselage" + (n + 1),0,0,false);
         fuselages[n].type = "fuselage";
     }
 
     var wings = [];
     for (n=0; n<5; n++) {
-        wings[n] = assetManager.getSprite("assets","wings" + (n + 1),0,0,false);
+        wings[n] = assetManager.getSprite("spaceship","wings" + (n + 1),0,0,false);
         wings[n].type = "wings";
     }
 
     var tails = [];
     for (n=0; n<5; n++) {
-        tails[n] = assetManager.getSprite("assets","tail" + (n + 1),0,0,false);
+        tails[n] = assetManager.getSprite("spaceship","tail" + (n + 1),0,0,false);
         tails[n].type = "tail";
     }
 
     var cockpits = [];
     for (n=0; n<4; n++) {
-        cockpits[n] = assetManager.getSprite("assets","cockpit" + (n + 1));
+        cockpits[n] = assetManager.getSprite("spaceship","cockpit" + (n + 1));
         cockpits[n].type = "cockpit";
     }
 
     var lasers = [];
     for (n=0; n<3; n++) {
-        lasers[n] = assetManager.getSprite("assets","laser" + (n + 1),0,0,false);
+        lasers[n] = assetManager.getSprite("spaceship","laser" + (n + 1),0,0,false);
         lasers[n].type = "laser";
     }
 

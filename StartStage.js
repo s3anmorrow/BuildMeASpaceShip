@@ -10,7 +10,7 @@ var StartStage = function() {
     // master container for this stage's screen
     var screen = new createjs.Container();
     screen.snapToPixelEnabled = true;
-    var title = assetManager.getSprite("assets","screenStart",0,130,false);
+    var title = assetManager.getSprite("screens","screenStart",0,130,false);
     screen.addChild(title);
 
     // ------------------------------------------------- public methods

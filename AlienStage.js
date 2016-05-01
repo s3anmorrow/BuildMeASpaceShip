@@ -36,8 +36,8 @@ var AlienStage = function() {
     // create pool of aliens
     var aliens = [];
     for (var n=0; n<ALIEN_POOL_MAX; n++) {
-        var alien = assetManager.getSprite("assets","alienUp");
-        alien.bitmapText = new createjs.BitmapText("",assetManager.getSpriteSheet("assets"));
+        var alien = assetManager.getSprite("spacestuff","alienUp");
+        alien.bitmapText = new createjs.BitmapText("",assetManager.getSpriteSheet("interface"));
         alien.bitmapText.letterSpacing = 2;
         alien.active = false;
         alien.moving = false;

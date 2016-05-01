@@ -18,12 +18,12 @@ var Background = function(){
     var starFieldLayer = new createjs.Container();
     var twinkleLayer = new createjs.Container();
 
-    var background = assetManager.getSprite("assets","background",0,0,false);
+    var background = assetManager.getSprite("screens","background",0,0,false);
     backgroundLayer.addChild(background);
     backgroundLayer.cache(0, 0, BASE_WIDTH, BASE_HEIGHT);
 
-    var starField1 = assetManager.getSprite("assets","starField",0,0,false);
-    var starField2 = assetManager.getSprite("assets","starField",0,0,false);
+    var starField1 = assetManager.getSprite("screens","starField",0,0,false);
+    var starField2 = assetManager.getSprite("screens","starField",0,0,false);
     starField1.y = -960;
     starFieldLayer.addChild(starField1);
     starFieldLayer.addChild(starField2);
@@ -32,7 +32,7 @@ var Background = function(){
     // twinkle stars only when background not moving
     var twinkleStars = [];
     for (var n=0; n<10; n++) {
-        var star = assetManager.getSprite("assets","star");
+        var star = assetManager.getSprite("interface","star");
         star.x = randomMe(10,630);
         star.y = randomMe(10,950);
         twinkleLayer.addChild(star);

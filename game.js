@@ -111,8 +111,7 @@ function onResize(e) {
     var w = window.innerWidth;
     var h = window.innerHeight;
 
-    var bestFit = true;
-    if (bestFit) {
+    if (mobile) {
         // scale to exact fit
         stage.scaleX = w / BASE_WIDTH;
         stage.scaleY = h / BASE_HEIGHT;
