@@ -16,14 +16,14 @@ var InstructStage = function() {
     var screen = new createjs.Container();
     screen.snapToPixelEnabled = true;
 
-    var btnOk = assetManager.getSprite("assets", "btnOkUp", 0, 0, false);
+    var btnOk = assetManager.getSprite("interface", "btnOkUp", 0, 0, false);
     btnOk.addEventListener("mousedown", onOk);
     btnOk.addEventListener("pressup", onOk);
     screen.addChild(btnOk);
 
-    var astronautHead = assetManager.getSprite("assets","astronautHead",0,0,false);
-    var astronautWaving = assetManager.getSprite("assets","astronautWaving");
-    var instructBubble = assetManager.getSprite("assets","instructBubble1",0,0,false);
+    var astronautHead = assetManager.getSprite("interface","astronautHead",0,0,false);
+    var astronautWaving = assetManager.getSprite("interface","astronautWaving");
+    var instructBubble = assetManager.getSprite("interface","instructBubble1",0,0,false);
 
     // ------------------------------------------------- public methods
     this.showMe = function(){

@@ -33,7 +33,7 @@ var CometStage = function() {
     var cometLayer = new createjs.Container();
 
     // construct comet sprite
-    var comet = assetManager.getSprite("assets","comet1");
+    var comet = assetManager.getSprite("spacestuff","comet1");
     comet.active = false;
 
     // ------------------------------------------------- public methods

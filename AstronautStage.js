@@ -22,8 +22,8 @@ var AstronautStage = function() {
     screen.snapToPixelEnabled = true;
 
     // screen sprites
-    var astronaut = assetManager.getSprite("assets","astronautWaving");
-    var instructions = assetManager.getSprite("assets","instructBubble10",50,150,false);
+    var astronaut = assetManager.getSprite("interface","astronautWaving");
+    var instructions = assetManager.getSprite("interface","instructBubble10",50,150,false);
 
     // ------------------------------------------------- public methods
     this.showMe = function(){

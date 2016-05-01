@@ -1,0 +1,14 @@
+{
+"framerate":24,
+"images":["screens.png"],
+"frames":[
+    [2, 2, 640, 960, 0, 0, 0],
+    [646, 2, 584, 868, 0, -22, -37],
+    [1234, 2, 544, 634, 0, -46, -13]
+],
+"animations":{
+    "screenStart": {"frames": [2], "speed": 1},
+    "starField": {"frames": [1], "speed": 1},
+    "background": {"frames": [0], "speed": 1}
+}
+}

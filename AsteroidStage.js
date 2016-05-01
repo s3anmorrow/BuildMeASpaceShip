@@ -35,7 +35,7 @@ var AsteroidStage = function() {
     // create pool of asteroids
     var asteroids = [];
     for (var n=0; n<ASTEROID_POOL_MAX; n++) {
-        var asteroid = assetManager.getSprite("assets","asteroid1");
+        var asteroid = assetManager.getSprite("spacestuff","asteroid1");
         asteroid.bitmapText = new createjs.BitmapText("",assetManager.getSpriteSheet("assets"));
         asteroid.bitmapText.letterSpacing = 2;
         asteroid.active = false;

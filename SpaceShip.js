@@ -48,9 +48,9 @@ var SpaceShip = function() {
 
     // collection of sprites to act as masks for coloring on shapes
     var colorMasks = {};
-    colorMasks.fuselage = assetManager.getSprite("assets");
-    colorMasks.wings = assetManager.getSprite("assets");
-    colorMasks.tail = assetManager.getSprite("assets");
+    colorMasks.fuselage = assetManager.getSprite("spaceship");
+    colorMasks.wings = assetManager.getSprite("spaceship");
+    colorMasks.tail = assetManager.getSprite("spaceship");
 
     // collection of the rectangle coordinates of what area to be cached for each part
     var cacheCoord = {};
@@ -85,10 +85,10 @@ var SpaceShip = function() {
     shipContainer.addChild(containers.laser);
 
     // other spaceship parts and effects
-    var laserTurret = assetManager.getSprite("assets","laserTurret");
-    var thrust = assetManager.getSprite("assets", "thrust");
-    var smoke = assetManager.getSprite("assets","smoke");
-    //var scorchSmoke = assetManager.getSprite("assets","scorchSmoke");
+    var laserTurret = assetManager.getSprite("spaceship","laserTurret");
+    var thrust = assetManager.getSprite("spaceship", "thrust");
+    var smoke = assetManager.getSprite("spaceship","smoke");
+    //var scorchSmoke = assetManager.getSprite("spacestuff","scorchSmoke");
     var turretTween = null;
     // comet scorch settings
     var scorchWidth = 36;
@@ -293,7 +293,7 @@ var SpaceShip = function() {
         tailColorCanvas.graphics.drawCircle(cometPoint.x, cometPoint.y, scorchWidth - 6);
 
         // drawing smoke (fades away)
-        var scorchSmoke = assetManager.getSprite("assets","scorchSmoke");
+        var scorchSmoke = assetManager.getSprite("spacestuff","scorchSmoke");
         scorchSmoke.x = cometPoint.x;
         scorchSmoke.y = cometPoint.y;
         scorchSmoke.on("animationend", function(e){

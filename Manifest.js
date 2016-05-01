@@ -1,12 +1,36 @@
 // manifest of asset information
 var manifest = [
     {
-        src:"lib/assets.json",
+        src:"lib/interface.json",
+        spritesheet:"assets"
+    },
+        {
+        src:"lib/screens.json",
         spritesheet:"assets"
     },
     {
-        src:"lib/assets.png",
-        id:"assets"
+        src:"lib/spaceship.json",
+        spritesheet:"assets"
+    },
+    {
+        src:"lib/spacestuff.json",
+        spritesheet:"assets"
+    },
+    {
+        src:"lib/interface.png",
+        id:"interface"
+    },
+    {
+        src:"lib/screens.png",
+        id:"screens"
+    },
+    {
+        src:"lib/spaceship.png",
+        id:"spaceship"
+    },
+    {
+        src:"lib/spacestuff.png",
+        id:"spacestuff"
     },
     {src:"lib/beep.ogg", id:"beep", data:4},
     {src:"lib/alienDie.ogg", id:"alienDie", data:4},
