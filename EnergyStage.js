@@ -74,11 +74,10 @@ var EnergyStage = function() {
             // update energy on the screen if active
             if (energy.active) {
                 energy.y += energy.speed;
+                energy.rotation++;
 
-                /*
-                // draw scorch marks on every fourth tick
-                if ((createjs.Ticker.getTicks() % 4) == 0) spaceShip.scorchMe(energy, energyLayer);
-                */
+                // check for pickup on every fourth tick
+                if ((createjs.Ticker.getTicks() % 4) == 0) spaceShip.pickupMe(energy, energyLayer);
 
                 // has the energy gone off the bottom of the screen?
                 if (energy.y > baseHeight + 220) {

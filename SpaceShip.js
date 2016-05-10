@@ -314,6 +314,25 @@ var SpaceShip = function() {
         tailColorCanvas.updateCache("source-overlay");
         tailColorCanvas.graphics.clear();
     };
+    
+    this.pickupMe = function(pickup, targetLayer){
+        // convert pickup x,y relative to shipContainer
+        var pickupPoint = targetLayer.localToLocal(pickup.x, pickup.y, shipContainer);
+
+        // only if pickup actually on fuselage
+        if ((pickupPoint.y < 0) || (pickupPoint.y > 400) || (pickupPoint.x < -36) || (pickupPoint.x > 212)) return;
+        /*
+        if (!comet.soundPlayed) {
+            // ?????????
+            //assetManager.getSound("burn").play();
+            comet.soundPlayed = true;
+        }
+        */
+        
+        console.log("pickup!");
+
+
+    };
 
     this.assembleMe = function(newPart) {
         // get name of frame of part (part name)
