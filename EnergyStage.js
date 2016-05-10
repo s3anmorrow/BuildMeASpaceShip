@@ -2,7 +2,7 @@ var EnergyStage = function() {
 
     // game stage constants
     var PICKUP_SPEED = 8;
-    var PICKUP_MAX = 3;
+    var PICKUP_MAX = 5;
 
     // local references to important globals
     var assetManager = window.assetManager;
@@ -37,7 +37,7 @@ var EnergyStage = function() {
     pickup.bitmapText.letterSpacing = 2;
     pickup.active = false;
     // construct label sprite
-    var label = assetManager.getSprite("interface","yellow");
+    var label = assetManager.getSprite("interface","energy1Label");
 
     // ------------------------------------------------- public methods
     this.showMe = function(){
@@ -89,35 +89,22 @@ var EnergyStage = function() {
                     if ((pickupPoint.y > 0) && (pickupPoint.y < 400) && (pickupPoint.x > -36) && (pickupPoint.x < 212)) {
                         console.log("pickup!");  
                         
-                        // play killed animation
-                        //pickup.gotoAndPlay(pickup.currentAnimation + "Killed");
-                        //pickup.addEventListener("animationend", onPickupKilled);
-                        //pickup.moving = false;
-                        
-                        /*
-                        // setup bitmapText
-                        var bitmapText = asteroid.bitmapText;
-                        // ???????????
-                        bitmapText.text = "";
-                        bitmapText.alpha = 1;
-                        bitmapText.x = asteroid.x - (bitmapText.getBounds().width / 2) - 4;
-                        bitmapText.y = asteroid.y - 44;
-                        asteroidLayer.addChild(bitmapText);
+                        // display label
+                        label.gotoAndStop(pickup.currentAnimation + "Label");
+                        label.alpha = 1;
+                        label.x = pickup.x - (label.getBounds().width / 2) - 4;
+                        label.y = pickup.y - 44;
+                        pickupLayer.addChild(label);
                         // tween bitmapText fading away
-                        createjs.Tween.get(bitmapText).wait(500).to({alpha:0}, 500).call(onTextFaded);
+                        createjs.Tween.get(label).wait(500).to({alpha:0}, 500).call(onTextFaded);
+                        
+                        // play killed animation
+                        pickup.gotoAndPlay(pickup.currentAnimation + "Killed");
+                        pickup.addEventListener("animationend", onPickupKilled);
+                        pickup.active = false;
 
                         assetManager.getSound("asteroidExplode").play();
-                        */
-                        
-                    }
-                    /*
-                    if (!comet.soundPlayed) {
-                        // ?????????
-                        //assetManager.getSound("burn").play();
-                        comet.soundPlayed = true;
-                    }
-                    */
-                    
+                    }                    
                 }
 
                 // has the pickup gone off the bottom of the screen?
@@ -125,7 +112,7 @@ var EnergyStage = function() {
                     pickup.active = false;
                     screen.removeChild(pickup);
                     // time to drop another pickup?
-                    if (pickupCount < PICKUP_MAX) dropComet();
+                    if (pickupCount < PICKUP_MAX) dropPickup();
                 }
             }
             // moving spaceship if required
@@ -138,7 +125,7 @@ var EnergyStage = function() {
         touchX = e.stageX;
     }
 
-    function dropComet(e) {
+    function dropPickup(e) {
         // setup pickup
         pickup.gotoAndPlay("energy" + randomMe(1,3));
         pickup.y = -150;
@@ -154,25 +141,32 @@ var EnergyStage = function() {
         //assetManager.getSound("pickup").play();
     }
     
+    function onTextFaded(e) {
+        // remove label from screen
+        pickupLayer.removeChild(e.target);
+    }    
+    
     function onPickupKilled(e) {
         pickupCount++;
         e.target.stop();
         e.target.removeAllEventListeners();
         createjs.Tween.removeTweens(e.target);
-        asteroidLayer.removeChild(e.target);
-        e.target.active = false;
+        pickupLayer.removeChild(e.target);
+        //e.target.active = false;
         // end of stage?
         if (pickupCount >= PICKUP_MAX) {
             backgroundSprite.removeEventListener("mousedown", onMoving);
             backgroundSprite.removeEventListener("pressmove", onMoving);
             spaceShip.flyOffStage(onComplete);
+        } else {
+            dropPickup();
         }
     }    
 
     function onReady(e) {
         ready = true;
         // drop pickup right away
-        dropComet();
+        dropPickup();
     }
 
     function onComplete(e) {
