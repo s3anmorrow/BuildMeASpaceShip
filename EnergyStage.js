@@ -11,6 +11,7 @@ var EnergyStage = function() {
     var randomMe = window.randomMe;
     var baseWidth = window.BASE_WIDTH;
     var baseHeight = window.BASE_HEIGHT;
+    var background = window.background;
     var backgroundSprite = window.background.getSprite();
     // width of stage on device
     var stageWidth = stage.canvas.width;
@@ -36,6 +37,7 @@ var EnergyStage = function() {
     pickup.bitmapText = new createjs.BitmapText("",assetManager.getSpriteSheet("interface"));
     pickup.bitmapText.letterSpacing = 2;
     pickup.active = false;
+    pickup.color = 0;
     // construct label sprite
     var label = assetManager.getSprite("interface","energy1Label");
 
@@ -100,8 +102,14 @@ var EnergyStage = function() {
                         pickup.gotoAndPlay(pickup.currentAnimation + "Killed");
                         pickup.addEventListener("animationend", onPickupKilled);
                         pickup.active = false;
-
-                        assetManager.getSound("pickup").play();
+                        
+                        // change color of spaceship thrust
+                        spaceShip.toggleThrust(true, pickup.color);
+                        assetManager.getSound("thrust").play();
+                        background.speedUp();
+                        
+                        // play sound effect
+                        assetManager.getSound("pickupDrop").play();
                     }                    
                 }
 
@@ -125,7 +133,8 @@ var EnergyStage = function() {
 
     function dropPickup(e) {
         // setup pickup
-        pickup.gotoAndPlay("energy" + randomMe(1,3));
+        pickup.color = randomMe(1,3);
+        pickup.gotoAndPlay("energy" + pickup.color);
         pickup.y = -150;
 
         // random horizontal positioning
@@ -136,7 +145,6 @@ var EnergyStage = function() {
         pickup.active = true;
         pickup.soundPlayed = false;
         screen.addChild(pickup);
-        assetManager.getSound("pickupDrop").play();
     }
     
     function onTextFaded(e) {
@@ -150,7 +158,6 @@ var EnergyStage = function() {
         e.target.removeAllEventListeners();
         createjs.Tween.removeTweens(e.target);
         pickupLayer.removeChild(e.target);
-        //e.target.active = false;
         // end of stage?
         if (pickupCount >= PICKUP_MAX) {
             backgroundSprite.removeEventListener("mousedown", onMoving);
@@ -168,6 +175,8 @@ var EnergyStage = function() {
     }
 
     function onComplete(e) {
+        // reset the background speed
+        background.resetSpeed();
         // stage is complete
         screen.dispatchEvent(completeEvent);
     }

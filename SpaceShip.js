@@ -159,7 +159,9 @@ var SpaceShip = function() {
         }
     };
 
-    this.toggleThrust = function(which) {
+    this.toggleThrust = function(which, color) {
+        if (color == undefined) thrust.gotoAndStop("thrust");
+        else thrust.gotoAndStop("thrust" + color);
         if (!which) {
             thrust.stop();
             shipContainer.removeChild(thrust);
