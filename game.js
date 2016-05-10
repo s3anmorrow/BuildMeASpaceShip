@@ -45,6 +45,7 @@ var colorStage = null;
 var blastOffStage = null;
 var asteroidStage = null;
 var cometStage = null;
+var energyStage = null;
 var astronautStage = null;
 var alienStage = null;
 
@@ -171,12 +172,27 @@ function onSetup(e) {
     blastOffStage = new BlastOffStage();
     asteroidStage = new AsteroidStage();
     cometStage = new CometStage();
+    energyStage = new EnergyStage();
     alienStage = new AlienStage();
     astronautStage = new AstronautStage();
     // populate gameStages array
-    gameStages = [startStage,instructStage,assemblyStage,colorStage,blastOffStage,instructStage,asteroidStage,instructStage,cometStage,instructStage,alienStage,astronautStage,instructStage];
-    gameStagesNoInstruct = [assemblyStage,colorStage,blastOffStage,asteroidStage,cometStage,alienStage,astronautStage,instructStage];
-    //gameStages = [startStage,assemblyStage,colorStage,alienStage];
+    gameStages = [startStage,
+                  instructStage,
+                  assemblyStage,
+                  colorStage,
+                  blastOffStage,
+                  instructStage,
+                  asteroidStage,
+                  instructStage,
+                  cometStage,
+                  instructStage,
+                  alienStage,
+                  instructStage,
+                  energyStage,
+                  astronautStage,
+                  instructStage];
+    gameStagesNoInstruct = [assemblyStage,colorStage,blastOffStage,asteroidStage,cometStage,alienStage,energyStage,astronautStage,instructStage];
+    //gameStages = [startStage,assemblyStage,colorStage,instructStage,instructStage,instructStage,instructStage,instructStage,energyStage];
 
     // setup event listeners for screen flow
     stage.addEventListener("onStageComplete", onStageComplete, true);
@@ -236,6 +252,7 @@ function onTick(e) {
     asteroidStage.updateMe();
     alienStage.updateMe();
     cometStage.updateMe();
+    energyStage.updateMe();
     astronautStage.updateMe();
 
     //if (stageUpdateReq) {

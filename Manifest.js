@@ -13,8 +13,12 @@ var manifest = [
         spritesheet:"spaceship"
     },
     {
-        src:"lib/spacestuff.json",
-        spritesheet:"spacestuff"
+        src:"lib/spacestuff1.json",
+        spritesheet:"spacestuff1"
+    },
+    {
+        src:"lib/spacestuff2.json",
+        spritesheet:"spacestuff2"
     },
     {
         src:"lib/interface.png",
@@ -29,8 +33,12 @@ var manifest = [
         id:"spaceship"
     },
     {
-        src:"lib/spacestuff.png",
-        id:"spacestuff"
+        src:"lib/spacestuff1.png",
+        id:"spacestuff1"
+    },
+    {
+        src:"lib/spacestuff2.png",
+        id:"spacestuff2"
     },
     {src:"lib/beep.ogg", id:"beep", data:4},
     {src:"lib/alienDie.ogg", id:"alienDie", data:4},
@@ -44,5 +52,7 @@ var manifest = [
     {src:"lib/slideLeft.ogg", id:"slideLeft", data:4},
     {src:"lib/slideRight.ogg", id:"slideRight", data:4},
     {src:"lib/colorChange.ogg", id:"colorChange", data:4},
+    {src:"lib/pickup.ogg", id:"pickup", data:4},
+    {src:"lib/pickupDrop.ogg", id:"pickupDrop", data:4},
     {src:"lib/saveAstronaut.ogg", id:"saveAstronaut", data:4}
 ];

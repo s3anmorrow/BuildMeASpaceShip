@@ -10,6 +10,8 @@ var Background = function(){
     var twinkleFreq = 0;
     // whether stars are moving
     var moving = false;
+    // speed the stars are moving
+    var speed = 2;
 
     // master container for this stage's screen
     var screen = new createjs.Container();
@@ -78,11 +80,19 @@ var Background = function(){
     this.unPauseMe = function() {
         twinkleTimer = window.setInterval(onTwinkle, 200);
     };
+    
+    this.speedUp = function() {
+        speed++;
+    };
+    
+    this.resetSpeed = function() {
+        speed = 2;  
+    };
 
     this.updateMe = function() {
         if (moving) {
             // moving starfield down stage
-            starFieldLayer.y+=2;
+            starFieldLayer.y+=speed;
             if (starFieldLayer.y >= 960) {
                 starFieldLayer.y = 0;
             }

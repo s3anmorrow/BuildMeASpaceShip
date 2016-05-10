@@ -88,7 +88,7 @@ var SpaceShip = function() {
     var laserTurret = assetManager.getSprite("spaceship","laserTurret");
     var thrust = assetManager.getSprite("spaceship", "thrust");
     var smoke = assetManager.getSprite("spaceship","smoke");
-    //var scorchSmoke = assetManager.getSprite("spacestuff","scorchSmoke");
+    //var scorchSmoke = assetManager.getSprite("spacestuff1","scorchSmoke");
     var turretTween = null;
     // comet scorch settings
     var scorchWidth = 36;
@@ -159,7 +159,9 @@ var SpaceShip = function() {
         }
     };
 
-    this.toggleThrust = function(which) {
+    this.toggleThrust = function(which, color) {
+        if (color == undefined) thrust.gotoAndStop("thrust");
+        else thrust.gotoAndStop("thrust" + color);
         if (!which) {
             thrust.stop();
             shipContainer.removeChild(thrust);
@@ -293,7 +295,7 @@ var SpaceShip = function() {
         tailColorCanvas.graphics.drawCircle(cometPoint.x, cometPoint.y, scorchWidth - 6);
 
         // drawing smoke (fades away)
-        var scorchSmoke = assetManager.getSprite("spacestuff","scorchSmoke");
+        var scorchSmoke = assetManager.getSprite("spacestuff1","scorchSmoke");
         scorchSmoke.x = cometPoint.x;
         scorchSmoke.y = cometPoint.y;
         scorchSmoke.on("animationend", function(e){
@@ -314,7 +316,7 @@ var SpaceShip = function() {
         tailColorCanvas.updateCache("source-overlay");
         tailColorCanvas.graphics.clear();
     };
-
+    
     this.assembleMe = function(newPart) {
         // get name of frame of part (part name)
         var partType = newPart.type;

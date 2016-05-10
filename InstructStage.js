@@ -91,6 +91,20 @@ var InstructStage = function() {
 
                 break;
             case 5:
+                astronautHead.x = 500;
+                astronautHead.y = 150;
+                astronautHead.rotation = 220;
+                screen.addChild(astronautHead);
+                instructBubble.x = 25;
+                instructBubble.y = 450;
+                instructBubble.gotoAndStop("instructBubble12");
+                btnOk.x = 255;
+                btnOk.y = 795;
+                screen.addChild(instructBubble);
+                createjs.Tween.get(astronautHead,{loop:true}).to({y:astronautHead.y + 20}, 3000).to({y:astronautHead.y}, 3000);
+
+                break;
+            case 6:
                 background.setMoving(true);
                 spaceShip.toggleTurret(true);
                 spaceShip.toggleThrust(true);
@@ -131,7 +145,7 @@ var InstructStage = function() {
 
     this.setExpertMode = function(value){
         // only show the final instructions in expertmode
-        instructSetCount = 5;
+        instructSetCount = 6;
         expertMode = value;
     };
 
@@ -144,7 +158,7 @@ var InstructStage = function() {
         } else {
             btnOk.gotoAndStop("btnOkUp");
 
-            if (instructSetCount === 6) {
+            if (instructSetCount === 7) {
                 // fly spaceship off stage
                 screen.removeChild(btnOk);
                 spaceShip.flyOffStage(onShipOffStage);
