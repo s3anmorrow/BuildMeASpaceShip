@@ -52,5 +52,7 @@ var manifest = [
     {src:"lib/slideLeft.ogg", id:"slideLeft", data:4},
     {src:"lib/slideRight.ogg", id:"slideRight", data:4},
     {src:"lib/colorChange.ogg", id:"colorChange", data:4},
+    {src:"lib/pickup.ogg", id:"pickup", data:4},
+    {src:"lib/pickupDrop.ogg", id:"pickupDrop", data:4},
     {src:"lib/saveAstronaut.ogg", id:"saveAstronaut", data:4}
 ];

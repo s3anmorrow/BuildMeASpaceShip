@@ -87,8 +87,6 @@ var EnergyStage = function() {
 
                     // only if pickup actually on fuselage
                     if ((pickupPoint.y > 0) && (pickupPoint.y < 400) && (pickupPoint.x > -36) && (pickupPoint.x < 212)) {
-                        console.log("pickup!");  
-                        
                         // display label
                         label.gotoAndStop(pickup.currentAnimation + "Label");
                         label.alpha = 1;
@@ -103,7 +101,7 @@ var EnergyStage = function() {
                         pickup.addEventListener("animationend", onPickupKilled);
                         pickup.active = false;
 
-                        assetManager.getSound("asteroidExplode").play();
+                        assetManager.getSound("pickup").play();
                     }                    
                 }
 
@@ -138,7 +136,7 @@ var EnergyStage = function() {
         pickup.active = true;
         pickup.soundPlayed = false;
         screen.addChild(pickup);
-        //assetManager.getSound("pickup").play();
+        assetManager.getSound("pickupDrop").play();
     }
     
     function onTextFaded(e) {
