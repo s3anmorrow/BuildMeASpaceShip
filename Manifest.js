@@ -13,8 +13,12 @@ var manifest = [
         spritesheet:"spaceship"
     },
     {
-        src:"lib/spacestuff.json",
+        src:"lib/spacestuff1.json",
         spritesheet:"spacestuff1"
+    },
+    {
+        src:"lib/spacestuff2.json",
+        spritesheet:"spacestuff2"
     },
     {
         src:"lib/interface.png",
@@ -29,8 +33,12 @@ var manifest = [
         id:"spaceship"
     },
     {
-        src:"lib/spacestuff.png",
+        src:"lib/spacestuff1.png",
         id:"spacestuff1"
+    },
+    {
+        src:"lib/spacestuff2.png",
+        id:"spacestuff2"
     },
     {src:"lib/beep.ogg", id:"beep", data:4},
     {src:"lib/alienDie.ogg", id:"alienDie", data:4},
