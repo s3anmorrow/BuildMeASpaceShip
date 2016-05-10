@@ -88,7 +88,7 @@ var SpaceShip = function() {
     var laserTurret = assetManager.getSprite("spaceship","laserTurret");
     var thrust = assetManager.getSprite("spaceship", "thrust");
     var smoke = assetManager.getSprite("spaceship","smoke");
-    //var scorchSmoke = assetManager.getSprite("spacestuff","scorchSmoke");
+    //var scorchSmoke = assetManager.getSprite("spacestuff1","scorchSmoke");
     var turretTween = null;
     // comet scorch settings
     var scorchWidth = 36;
@@ -293,7 +293,7 @@ var SpaceShip = function() {
         tailColorCanvas.graphics.drawCircle(cometPoint.x, cometPoint.y, scorchWidth - 6);
 
         // drawing smoke (fades away)
-        var scorchSmoke = assetManager.getSprite("spacestuff","scorchSmoke");
+        var scorchSmoke = assetManager.getSprite("spacestuff1","scorchSmoke");
         scorchSmoke.x = cometPoint.x;
         scorchSmoke.y = cometPoint.y;
         scorchSmoke.on("animationend", function(e){

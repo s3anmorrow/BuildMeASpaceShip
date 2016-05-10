@@ -14,7 +14,7 @@ var manifest = [
     },
     {
         src:"lib/spacestuff.json",
-        spritesheet:"spacestuff"
+        spritesheet:"spacestuff1"
     },
     {
         src:"lib/interface.png",
@@ -30,7 +30,7 @@ var manifest = [
     },
     {
         src:"lib/spacestuff.png",
-        id:"spacestuff"
+        id:"spacestuff1"
     },
     {src:"lib/beep.ogg", id:"beep", data:4},
     {src:"lib/alienDie.ogg", id:"alienDie", data:4},
