@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="ca.seanmorrow.buildmeaspaceship" version="1.1.0" versionCode="2" xmlns:android="http://schemas.android.com/apk/res/android" xmlns="http://www.w3.org/ns/widgets" xmlns:gap="http://phonegap.com/ns/1.0">
+<widget id="ca.seanmorrow.buildmeaspaceship" version="1.2.0" versionCode="3" xmlns:android="http://schemas.android.com/apk/res/android" xmlns="http://www.w3.org/ns/widgets" xmlns:gap="http://phonegap.com/ns/1.0">
     <name>Build Me A Spaceship! for kids</name>
     <description>
       Start by building your spaceship part by part. Color it so it looks really awesome and then launch it into outer space. Blast asteroids and dodge comets on your journey to help a stranded astronaut.
