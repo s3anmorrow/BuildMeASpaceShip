@@ -1,0 +1,52 @@
+<?xml version='1.0' encoding='utf-8'?>
+<widget android-versionCode="102026" id="ca.seanmorrow.buildmeaspaceship" version="1.3.1" versionCode="6" xmlns="http://www.w3.org/ns/widgets" xmlns:android="http://schemas.android.com/apk/res/android" xmlns:cdv="http://cordova.apache.org/ns/1.0" xmlns:cocoon="http://cocoon.io/ns/1.0" xmlns:gap="http://phonegap.com/ns/1.0">
+    <feature name="SplashScreen">
+        <param name="android-package" value="org.apache.cordova.splashscreen.SplashScreen" />
+        <param name="onload" value="true" />
+    </feature>
+    <name>Build Me A Spaceship! for kids</name>
+    <description>Start by building your spaceship part by part. Color it so it looks really awesome and then launch it into outer space. Blast asteroids and dodge comets on your journey to help a stranded astronaut.
+		
+		This simple kids game will engage your little ones with some counting and color names thrown in - tried and tested on my own two kids and it works great (they are tough critics).
+		
+		The game consists of a circular game flow which can be played indefinitely, but more important there are NO ADS for them to click accidentally. Great for both guided and solo play with your kids.
+		
+		Runs well enough on older phones (two years old - Dual Core 1.7Ghz minimum), but obviously newer phones provide a smoother experience. Is great on a tablet, especially for younger kids.
+		
+		The game can lag when your phone is performing data fetches, updates, etc.
+		
+		Did I mention that this game is free and not riddled with ads?
+		
+		Hope your kids enjoy the game as much as mine :)
+		
+		Sharing is a form of expression - pass it on!</description>
+    <author email="paddyjumpup@gmail.com" href="">PaddyJumpUp</author>
+    <content src="index.html" />
+    <access origin="*" />
+    <icon src="icon.png" />
+    <splash density="port-ldpi" src="splash-ldpi.png" />
+    <splash density="port-mdpi" src="splash-mdpi.png" />
+    <splash density="port-hdpi" src="splash-hdpi.png" />
+    <splash density="port-xhdpi" src="splash-xhdpi.png" />
+    <splash density="port-xxhdpi" src="splash-xxhdpi.png" />
+    <splash density="port-xxxhdpi" src="splash-xxxhdpi.png" />
+    <preference name="loglevel" value="DEBUG" />
+    <preference name="permissions" value="none" />
+    <preference name="orientation" value="portrait" />
+    <preference name="target-device" value="universal" />
+    <preference name="Fullscreen" value="true" />
+    <preference name="webviewbounce" value="true" />
+    <preference name="prerendered-icon" value="true" />
+    <preference name="stay-in-webview" value="false" />
+    <preference name="detect-data-types" value="true" />
+    <preference name="exit-on-suspend" value="false" />
+    <preference name="disable-cursor" value="false" />
+    <preference name="android-minSdkVersion" value="19" />
+    <preference name="android-targetSdkVersion" value="26" />
+    <preference name="android-installLocation" value="auto" />
+    <preference name="SplashScreen" value="screen" />
+    <preference name="AutoHideSplashScreen" value="true" />
+    <preference name="SplashScreenDelay" value="3000" />
+    <preference name="ShowSplashScreenSpinner" value="false" />
+    <preference name="enabled" value="true" />
+</widget>

@@ -1,0 +1,19 @@
+body {
+	margin: 0px;
+	padding: 0px;
+	overflow: hidden;
+	background: #000000;
+	font-family: verdana,arial,helvetica,sans-serif;
+	font-size: 11px;
+	color: #FFFFFF;
+    -webkit-user-select: none; /* webkit (safari, chrome) browsers */
+    -moz-user-select: none; /* mozilla browsers */
+    -khtml-user-select: none; /* webkit (konqueror) browsers */
+    -ms-user-select: none; /* IE10+ */
+}
+
+#stage {
+    margin:auto;
+    position:absolute;
+    top:0;left:0;right:0;bottom:0;
+}
